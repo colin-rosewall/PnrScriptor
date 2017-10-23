@@ -1,0 +1,38 @@
+Commands need to be resolved before they can be submitted.
+Commands can contain string literals, '&', function calls.
+
+'Must Have' Command Examples
+Sabre
+	AddAdult -> -WALKER/JOHN MR
+	AddChild -> -HUG/TIM*CHD
+	AddInfant -> -I/SIMPSON/OLIVE MISS
+	AssociateInfantWithAdult -> 3OSI YY INF HUG ANNA
+	AddAirlineFlight -> 119DECSYDCBR+QF
+	AddTicketingDate -> 7TAW25oct/
+	AddAddress -> W-BNE ADDRESS
+	AddReceived -> 6COLIN
+	EndAndRetrieve -> ER
+	ReDisplay -> *R
+	AddFOPField -> FOPCASH
+	AddPax1SFPD -> 3DOCS/DB/12JUL66/M/SMITH/JAMES-1.1
+Apollo
+	AddAdult -> N:Almighty/BruceMr
+	AddChild -> N:Almighty/BruceMstr*p-c09
+	AddInfant -> N:I/Almighty/BruceMstr*12JAN11
+	AddAirlineFlight -> A23JULFRAROM+LH
+
+Scripts
+	List Of Sequence
+		Sequence
+			- Description
+			- List of Commands
+				Command -> String
+
+Commands Xml File Structure
+
+
+Functionality
+	Create, change and delete commands
+	Load and Save scripts and default values to a Xml file
+	Create, re-arrange and delete groups for scripts
+	Execute 1 or more scripts, saving errors and created pnrs
