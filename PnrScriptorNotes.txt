@@ -32,7 +32,30 @@ Commands Xml File Structure
 
 
 Functionality
-	Create, change and delete commands
-	Load and Save scripts and default values to a Xml file
-	Create, re-arrange and delete groups for scripts
+	Create a new GDS command
+	Change an existing GDS command
+	Delete an existing GDS command
+	Re-order an existing GDS command within the same group
+	Move an existing GDS command to a different subgroup
+	Copy an existing GDS command
+	Paste a GDS command
+	Create a command subgroup
+	Rename a command subgroup
+	Delete a command subgroup
+	
+	Create a new Pnr Script
+	Rename an existing Pnr Script
+	Delete an existing Pnr Script
+	Move an existing Pnr Script
+	Copy an existing Pnr Script
+	Paste a Pnr Script
+	Create a Pnr Script subgroup
+	Rename a Pnr Script subgroup
+	Delete a Pnr Script subgroup
+	
+	Load GDS Commands
+	Save GDS Commands 
+	Load Pnr Scripts
+	Save Pnr Scripts
+	
 	Execute 1 or more scripts, saving errors and created pnrs
