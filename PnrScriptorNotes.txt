@@ -28,8 +28,29 @@ Scripts
 			- List of Commands
 				Command -> String
 
-Commands Xml File Structure
+GDS Commands Treeview
+	- default node 'Root' will be automatically provided.
+	- the user can add commands or sub groups under root
 
+GDS Commands File Structure example
+<Root>
+	<AddAdult nodeType="item">
+	</AddAdult>
+	<Sabre nodeType="subgroup">
+		<AddAdult nodeType="item"> 
+		</AddAdult>
+	</Sabre>
+</Root>
+
+
+
+Business Objects
+
+GDSCommand
+	- Description as String
+	- CommandLines as List Of(String)
+	- Parent as pointer to GDSCommand
+	- Children as SortableObservableCollection of GDSCommand
 
 Functionality
 	Create a new GDS command
@@ -37,6 +58,8 @@ Functionality
 	Delete an existing GDS command
 	Re-order an existing GDS command within the same group
 	Move an existing GDS command to a different subgroup
+	Select multiple GDS command
+	Move multiple existing GDS command to a different subgroup
 	Copy an existing GDS command
 	Paste a GDS command
 	Create a command subgroup
@@ -47,6 +70,8 @@ Functionality
 	Rename an existing Pnr Script
 	Delete an existing Pnr Script
 	Move an existing Pnr Script
+	Select multiple Pnr Scripts
+	Move multiple existing Pnr Scripts
 	Copy an existing Pnr Script
 	Paste a Pnr Script
 	Create a Pnr Script subgroup
