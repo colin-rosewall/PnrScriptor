@@ -32,7 +32,7 @@ GDS Commands Treeview
 	- default node 'Root' will be automatically provided.
 	- the user can add commands or sub groups under root
 
-GDS Commands File Structure example
+Example of GDS Commands File Structure 
 <Root>
 	<AddAdult nodeType="item">
 	</AddAdult>
