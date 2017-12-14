@@ -15,9 +15,13 @@ namespace TestSortableObservableCollection.ViewModels
     {
         private ObservableCollection<IGDSCommandItemViewModel> _root = null;
         private ICommand _addSubgroupCommand = null;
+        private ICommand _selectedItemChangedCommand = null;
+        private IGDSCommandItemViewModel _currentlySelectedItem { get; set; }
+
         public GDSCommandTreeViewModel()
         {
-            _addSubgroupCommand = new RelayCommand<object>(ShowMessage, p => this.CanExecute());
+            _addSubgroupCommand = new RelayCommand<object>(AddSubgroup_Executed);
+            _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
             IGDSCommandSubgroupViewModel rootItem = new GDSCommandSubgroupViewModel(null, "Root");
@@ -55,14 +59,40 @@ namespace TestSortableObservableCollection.ViewModels
                 _addSubgroupCommand = value;
             }
         }
-        public void ShowMessage(object obj)
+
+        public ICommand SelectedItemChangedCommand
         {
-            MessageBox.Show("You did it");
+            get
+            {
+                return _selectedItemChangedCommand;
+            }
+            set
+            {
+                _selectedItemChangedCommand = value;
+            }
+        }
+        public void AddSubgroup_Executed(object obj)
+        {
+            IGDSCommandItemViewModel item = obj as IGDSCommandItemViewModel;
+
+            if (item != null)
+            {
+                SubgroupItemWindow w = new SubgroupItemWindow();
+                w.txtField1.Text = item.Description;
+                w.ShowDialog();
+            }
+                
+            else
+                MessageBox.Show("It is null");
         }
 
-        public bool CanExecute()
+        public void SelectedItemChanged(object obj)
         {
-            return true;
+            if (obj is IGDSCommandItemViewModel == false)
+                return;
+
+            var item = obj as IGDSCommandItemViewModel;
+            _currentlySelectedItem = item;
         }
     }
 }

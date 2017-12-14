@@ -27,5 +27,19 @@ namespace TestSortableObservableCollection
             DataContext = new GDSCommandTreeViewModel();
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var p = DataContext as GDSCommandTreeViewModel;
+            if (p != null)
+            {
+                var sel = p.Root.FirstOrDefault(i => i.IsItemSelected);
+                if (sel == null)
+                {
+                    //sel = p.Root
+                }
+            }
+
+        }
     }
 }
