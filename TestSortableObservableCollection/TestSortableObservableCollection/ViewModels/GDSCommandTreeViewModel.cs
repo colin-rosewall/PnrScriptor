@@ -78,7 +78,7 @@ namespace TestSortableObservableCollection.ViewModels
             if (item != null)
             {
                 SubgroupItemWindow w = new SubgroupItemWindow();
-                w.txtField1.Text = item.Description;
+                w.SetAddMode(item);
                 w.ShowDialog();
             }
                 

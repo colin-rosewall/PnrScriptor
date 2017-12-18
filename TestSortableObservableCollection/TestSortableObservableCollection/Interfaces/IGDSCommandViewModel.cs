@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestSortableObservableCollection.Interfaces
 {
-    interface IGDSCommandViewModel : IGDSCommandItemViewModel
+    public interface IGDSCommandViewModel : IGDSCommandItemViewModel
     {
 
     }

@@ -7,7 +7,7 @@ using TestSortableObservableCollection.ViewModels;
 
 namespace TestSortableObservableCollection.Interfaces
 {
-    interface IGDSCommandItemViewModel
+    public interface IGDSCommandItemViewModel
     {
         SortableObservableCollection<IGDSCommandItemViewModel> Children { get; }
         bool IsItemExpanded { get; set; }
