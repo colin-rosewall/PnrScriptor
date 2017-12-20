@@ -17,7 +17,7 @@
                     <TextBlock Text="{Binding Description}" >
                         <TextBlock.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Add Subgroup" Command="{Binding Data.AddSubgroupCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" >
+                                <MenuItem Header="Add Subgroup" Click="AddSubgroup_Click"  >
                                     
                                 </MenuItem>
                             </ContextMenu>

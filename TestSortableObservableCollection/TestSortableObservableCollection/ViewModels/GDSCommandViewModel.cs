@@ -7,7 +7,7 @@ using TestSortableObservableCollection.Interfaces;
 
 namespace TestSortableObservableCollection.ViewModels
 {
-    class GDSCommandViewModel : Base.BaseViewModel, IGDSCommandViewModel
+    public class GDSCommandViewModel : Base.BaseViewModel, IGDSCommandViewModel
     {
         private string _description = null;
         private IGDSCommandItemViewModel _parent = null;

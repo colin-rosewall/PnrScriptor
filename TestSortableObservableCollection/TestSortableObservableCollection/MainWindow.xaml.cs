@@ -41,5 +41,17 @@ namespace TestSortableObservableCollection
             }
 
         }
+
+        private void AddSubgroup_Click(object sender, RoutedEventArgs e)
+        {
+            var p = DataContext as GDSCommandTreeViewModel;
+            if (p != null)
+            {
+                SubgroupItemWindow w = new SubgroupItemWindow(p);
+                
+                w.ShowDialog();
+
+            }
+        }
     }
 }

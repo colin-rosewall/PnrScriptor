@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace TestSortableObservableCollection.ViewModels
 {
-    class GDSCommandTreeViewModel : Base.BaseViewModel
+    public class GDSCommandTreeViewModel : Base.BaseViewModel
     {
         private ObservableCollection<IGDSCommandItemViewModel> _root = null;
         private ICommand _addSubgroupCommand = null;
@@ -73,17 +73,6 @@ namespace TestSortableObservableCollection.ViewModels
         }
         public void AddSubgroup_Executed(object obj)
         {
-            IGDSCommandItemViewModel item = obj as IGDSCommandItemViewModel;
-
-            if (item != null)
-            {
-                SubgroupItemWindow w = new SubgroupItemWindow();
-                w.SetAddMode(item);
-                w.ShowDialog();
-            }
-                
-            else
-                MessageBox.Show("It is null");
         }
 
         public void SelectedItemChanged(object obj)

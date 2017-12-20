@@ -21,29 +21,42 @@ namespace TestSortableObservableCollection
     /// </summary>
     public partial class SubgroupItemWindow : Window
     {
-        IGDSCommandItemViewModel _parent = null;
+        private IGDSCommandSubgroupViewModel _itemToWorkOn { get; set; }
 
-        public SubgroupItemWindow()
+        public SubgroupItemWindow(GDSCommandTreeViewModel tvm)
         {
             InitializeComponent();
+            _itemToWorkOn = new GDSCommandSubgroupViewModel(null, "empty");
+            DataContext = this;
         }
 
-        public void SetAddMode(IGDSCommandItemViewModel parent)
+        public IGDSCommandSubgroupViewModel ItemToWorkOn
         {
-            _parent = parent;
-            txtSubgroupDescription.Text = "";
+            get
+            {
+                return _itemToWorkOn;
+            }
+            set
+            {
+                _itemToWorkOn = value;
+            }
         }
+        //public void SetAddMode(IGDSCommandItemViewModel parent)
+        //{
+        //    //_parent = parent;
+        //    txtSubgroupDescription.Text = "";
+        //}
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            string newSubgroupDescription = txtSubgroupDescription.Text.Trim();
+            //string newSubgroupDescription = txtSubgroupDescription.Text.Trim();
 
-            if (newSubgroupDescription.Length > 0 )
-            {
-                IGDSCommandSubgroupViewModel newItem = new GDSCommandSubgroupViewModel(_parent, newSubgroupDescription);
-                _parent.Children.Add(newItem);
-                this.Close();
-            }
+            //if (newSubgroupDescription.Length > 0 )
+            //{
+            //    IGDSCommandSubgroupViewModel newItem = new GDSCommandSubgroupViewModel(_parent, newSubgroupDescription);
+            //    _parent.Children.Add(newItem);
+            //    this.Close();
+            //}
         }
     }
 }

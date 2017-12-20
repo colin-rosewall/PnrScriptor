@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace TestSortableObservableCollection.ViewModels.Base
 {
-    class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Standard event handler of the <seealso cref="INotifyPropertyChanged"/> interface

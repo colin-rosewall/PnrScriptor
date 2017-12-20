@@ -24,7 +24,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0">
             <Label x:Name="label" Content="Subgroup" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox x:Name="txtSubgroupDescription" Text=""  Width="200" Margin="20,0,20,125"/>
+            <TextBox x:Name="txtSubgroupDescription" Text="{Binding ItemToWorkOn.Description}"  Width="200" Margin="20,0,20,125"/>
         </StackPanel>
         
     </Grid>
