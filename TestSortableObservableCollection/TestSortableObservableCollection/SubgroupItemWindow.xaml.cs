@@ -23,10 +23,11 @@ namespace TestSortableObservableCollection
     {
         private IGDSCommandSubgroupViewModel _itemToWorkOn { get; set; }
 
-        public SubgroupItemWindow(GDSCommandTreeViewModel tvm)
+        public SubgroupItemWindow(GDSCommandTreeViewModel tvm, IGDSCommandSubgroupViewModel newItem)
         {
             InitializeComponent();
-            _itemToWorkOn = new GDSCommandSubgroupViewModel(null, "empty");
+            
+            _itemToWorkOn = newItem;
             DataContext = this;
         }
 

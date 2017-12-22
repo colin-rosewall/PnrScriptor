@@ -44,10 +44,11 @@ namespace TestSortableObservableCollection
 
         private void AddSubgroup_Click(object sender, RoutedEventArgs e)
         {
-            var p = DataContext as GDSCommandTreeViewModel;
-            if (p != null)
+            var tvm = DataContext as GDSCommandTreeViewModel;
+            if (tvm != null)
             {
-                SubgroupItemWindow w = new SubgroupItemWindow(p);
+                GDSCommandSubgroupViewModel q = new GDSCommandSubgroupViewModel(null, "empty");
+                SubgroupItemWindow w = new SubgroupItemWindow(tvm, q);
                 
                 w.ShowDialog();
 
