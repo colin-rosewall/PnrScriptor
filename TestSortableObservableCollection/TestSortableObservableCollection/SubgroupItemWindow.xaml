@@ -24,7 +24,23 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0">
             <Label x:Name="label" Content="Subgroup" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox x:Name="txtSubgroupDescription" Text="{Binding ItemToWorkOn.Description}"  Width="200" Margin="20,0,20,125"/>
+            <TextBox x:Name="txtSubgroupDescription" Text="{Binding ItemToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }"  Width="200" Margin="20,0,20,125" >
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="True">
+                            <!-- Placeholder for the TextBox itself -->
+                            <AdornedElementPlaceholder />
+                            <ItemsControl ItemsSource="{Binding}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ErrorContent }" Foreground="Red"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
         </StackPanel>
         
     </Grid>
