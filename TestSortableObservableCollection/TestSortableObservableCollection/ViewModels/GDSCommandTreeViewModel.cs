@@ -15,6 +15,7 @@ namespace TestSortableObservableCollection.ViewModels
     {
         private ObservableCollection<IGDSCommandItemViewModel> _root = null;
         private ICommand _saveSubgroupCommand = null;
+        private ICommand _deleteSubgroupCommand = null;
         private ICommand _selectedItemChangedCommand = null;
         private IGDSCommandItemViewModel _currentlySelectedItem { get; set; }
         private IGDSCommandSubgroupViewModel _GDSSubgroupToWorkOn = null;
@@ -24,6 +25,7 @@ namespace TestSortableObservableCollection.ViewModels
         public GDSCommandTreeViewModel()
         {
             _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
+            _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed);
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
@@ -65,6 +67,14 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        public IGDSCommandItemViewModel CurrentlySelectedItem
+        {
+            get
+            {
+                return _currentlySelectedItem;
+            }
+        }
+
         public ICommand SaveSubgroupCommand
         {
             get
@@ -74,6 +84,18 @@ namespace TestSortableObservableCollection.ViewModels
             set
             {
                 _saveSubgroupCommand = value;
+            }
+        }
+
+        public ICommand DeleteSubgroupCommand
+        {
+            get
+            {
+                return _deleteSubgroupCommand;
+            }
+            set
+            {
+                _deleteSubgroupCommand = value;
             }
         }
 
@@ -100,6 +122,11 @@ namespace TestSortableObservableCollection.ViewModels
                         _currentlySelectedItem.AddChildItem(newItem);
                         CloseSubgroupWindow();
                     }
+                    else
+                    {
+                        _currentlySelectedItem.Description = GDSSubgroupToWorkOn.Description;
+                        CloseSubgroupWindow();
+                    }
                 }
             }
         }
@@ -116,6 +143,22 @@ namespace TestSortableObservableCollection.ViewModels
             return result;
         }
 
+        public void DeleteSubgroup_Executed(object obj)
+        {
+            IGDSCommandSubgroupViewModel itemToBeDeleted = obj as IGDSCommandSubgroupViewModel;
+
+            if (itemToBeDeleted != null)
+            {
+                if (itemToBeDeleted.Children.Count == 0)
+                {
+                    if (itemToBeDeleted.Parent != null)
+                    {
+                        _currentlySelectedItem = itemToBeDeleted.Parent;
+                        _currentlySelectedItem.Children.Remove(itemToBeDeleted);
+                    }
+                }
+            }
+        }
         public void SelectedItemChanged(object obj)
         {
             if (obj is IGDSCommandItemViewModel == false)

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" WindowState="Maximized" >
     <Window.Resources>
         <local:MyBindingProxy x:Key="DataContextProxy" Data="{Binding}" />
     </Window.Resources>
@@ -17,9 +17,9 @@
                     <TextBlock Text="{Binding Description}" >
                         <TextBlock.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Add Subgroup" Click="AddSubgroup_Click"  >
-                                    
-                                </MenuItem>
+                                <MenuItem Header="Add Subgroup" Click="AddSubgroup_Click" > </MenuItem>
+                                <MenuItem Header="Rename Subgroup" Click="RenameSubgroup_Click" > </MenuItem>
+                                <MenuItem Header="Delete Subgroup" Command="{Binding Data.DeleteSubgroupCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" > </MenuItem>
                             </ContextMenu>
                         </TextBlock.ContextMenu>
                     </TextBlock>

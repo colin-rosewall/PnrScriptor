@@ -59,5 +59,25 @@ namespace TestSortableObservableCollection
                 subgroupWindow.Show();
             }
         }
+
+
+        private void RenameSubgroup_Click(object sender, RoutedEventArgs e)
+        {
+            var tvm = DataContext as GDSCommandTreeViewModel;
+            if (tvm != null)
+            {
+                if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
+                {
+                    tvm.GDSSubgroupToWorkOn = new GDSCommandSubgroupViewModel(tvm.CurrentlySelectedItem.Parent, tvm.CurrentlySelectedItem.Description);
+                    if (subgroupWindow == null)
+                    {
+                        subgroupWindow = new SubgroupItemWindow(tvm);
+                        subgroupWindow.Owner = this;
+                    }
+
+                    subgroupWindow.Show();
+                }
+            }
+        }
     }
 }
