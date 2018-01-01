@@ -58,6 +58,7 @@
     <Compile Include="Behaviours\TreeViewItemBehaviour.cs" />
     <Compile Include="Behaviours\TreeViewRightClickBehaviour.cs" />
     <Compile Include="Behaviours\TreeViewSelectionChangedBehavior.cs" />
+    <Compile Include="Behaviours\WindowCloseBehaviour.cs" />
     <Compile Include="GDSCommandItemDataTemplateSelector.cs" />
     <Compile Include="Interfaces\IGDSCommandItemViewModel.cs" />
     <Compile Include="Interfaces\IGDSCommandSubgroupViewModel.cs" />

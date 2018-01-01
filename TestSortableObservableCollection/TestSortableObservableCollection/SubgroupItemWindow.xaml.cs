@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
 
@@ -21,43 +22,17 @@ namespace TestSortableObservableCollection
     /// </summary>
     public partial class SubgroupItemWindow : Window
     {
-        private IGDSCommandSubgroupViewModel _itemToWorkOn { get; set; }
-
-        public SubgroupItemWindow(GDSCommandTreeViewModel tvm, IGDSCommandSubgroupViewModel newItem)
+        public SubgroupItemWindow(GDSCommandTreeViewModel tvm)
         {
             InitializeComponent();
-            
-            _itemToWorkOn = newItem;
-            DataContext = this;
+            DataContext = tvm;
+            if (tvm.CloseSubgroupWindow == null)
+                tvm.CloseSubgroupWindow = new Action(this.Hide);
         }
 
-        public IGDSCommandSubgroupViewModel ItemToWorkOn
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            get
-            {
-                return _itemToWorkOn;
-            }
-            set
-            {
-                _itemToWorkOn = value;
-            }
-        }
-        //public void SetAddMode(IGDSCommandItemViewModel parent)
-        //{
-        //    //_parent = parent;
-        //    txtSubgroupDescription.Text = "";
-        //}
-
-        private void OkButton_Click(object sender, RoutedEventArgs e)
-        {
-            //string newSubgroupDescription = txtSubgroupDescription.Text.Trim();
-
-            //if (newSubgroupDescription.Length > 0 )
-            //{
-            //    IGDSCommandSubgroupViewModel newItem = new GDSCommandSubgroupViewModel(_parent, newSubgroupDescription);
-            //    _parent.Children.Add(newItem);
-            //    this.Close();
-            //}
+            Hide();
         }
     }
 }

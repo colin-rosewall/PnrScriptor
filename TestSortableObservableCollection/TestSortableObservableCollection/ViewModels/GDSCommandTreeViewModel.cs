@@ -14,13 +14,16 @@ namespace TestSortableObservableCollection.ViewModels
     public class GDSCommandTreeViewModel : Base.BaseViewModel
     {
         private ObservableCollection<IGDSCommandItemViewModel> _root = null;
-        private ICommand _addSubgroupCommand = null;
+        private ICommand _saveSubgroupCommand = null;
         private ICommand _selectedItemChangedCommand = null;
         private IGDSCommandItemViewModel _currentlySelectedItem { get; set; }
+        private IGDSCommandSubgroupViewModel _GDSSubgroupToWorkOn = null;
+        public Action CloseSubgroupWindow { get; set; }
+        
 
         public GDSCommandTreeViewModel()
         {
-            _addSubgroupCommand = new RelayCommand<object>(AddSubgroup_Executed);
+            _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
@@ -48,15 +51,29 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public ICommand AddSubgroupCommand
+
+        public IGDSCommandSubgroupViewModel GDSSubgroupToWorkOn
         {
             get
             {
-                return _addSubgroupCommand;
+                return _GDSSubgroupToWorkOn;
             }
             set
             {
-                _addSubgroupCommand = value;
+                _GDSSubgroupToWorkOn = value;
+                NotifyPropertyChanged(() => GDSSubgroupToWorkOn);
+            }
+        }
+
+        public ICommand SaveSubgroupCommand
+        {
+            get
+            {
+                return _saveSubgroupCommand;
+            }
+            set
+            {
+                _saveSubgroupCommand = value;
             }
         }
 
@@ -71,8 +88,32 @@ namespace TestSortableObservableCollection.ViewModels
                 _selectedItemChangedCommand = value;
             }
         }
-        public void AddSubgroup_Executed(object obj)
+        public void SaveSubgroup_Executed(object obj)
         {
+            if (GDSSubgroupToWorkOn != null)
+            {
+                if (_currentlySelectedItem != null)
+                {
+                    if (GDSSubgroupToWorkOn.Parent == null)
+                    {
+                        IGDSCommandSubgroupViewModel newItem = new GDSCommandSubgroupViewModel(_currentlySelectedItem, GDSSubgroupToWorkOn.Description);
+                        _currentlySelectedItem.AddChildItem(newItem);
+                        CloseSubgroupWindow();
+                    }
+                }
+            }
+        }
+
+        public bool SaveSubgroup_CanExecute(object obj)
+        {
+            bool result = false;
+
+            if (_GDSSubgroupToWorkOn != null)
+            {
+                result = !(_GDSSubgroupToWorkOn.HasErrors);
+            }
+
+            return result;
         }
 
         public void SelectedItemChanged(object obj)

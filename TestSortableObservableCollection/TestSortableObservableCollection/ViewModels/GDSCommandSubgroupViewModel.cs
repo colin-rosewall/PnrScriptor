@@ -12,7 +12,7 @@ using TestSortableObservableCollection.ViewModels;
 
 namespace TestSortableObservableCollection.ViewModels
 {
-    public class GDSCommandSubgroupViewModel : Base.BaseViewModel, IGDSCommandSubgroupViewModel, INotifyDataErrorInfo
+    public class GDSCommandSubgroupViewModel : Base.BaseViewModel, IGDSCommandSubgroupViewModel
     {
         private string _description = null;
         private IGDSCommandItemViewModel _parent = null;

@@ -21,6 +21,8 @@ namespace TestSortableObservableCollection
     /// </summary>
     public partial class MainWindow : Window
     {
+        private SubgroupItemWindow subgroupWindow = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,11 +49,14 @@ namespace TestSortableObservableCollection
             var tvm = DataContext as GDSCommandTreeViewModel;
             if (tvm != null)
             {
-                GDSCommandSubgroupViewModel q = new GDSCommandSubgroupViewModel(null, "empty");
-                SubgroupItemWindow w = new SubgroupItemWindow(tvm, q);
-                
-                w.ShowDialog();
+                tvm.GDSSubgroupToWorkOn = new GDSCommandSubgroupViewModel(null, "empty");
+                if (subgroupWindow == null)
+                {
+                    subgroupWindow = new SubgroupItemWindow(tvm);
+                    subgroupWindow.Owner = this;
+                }
 
+                subgroupWindow.Show();
             }
         }
     }

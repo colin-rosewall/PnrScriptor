@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection"
+        xmlns:behav="clr-namespace:TestSortableObservableCollection.Behaviours"
         mc:Ignorable="d"
-        Title="Subgroup Item Window" Height="150" Width="350">
+        Title="Subgroup Item Window" 
+        Height="150" 
+        Width="350" 
+        WindowStyle="SingleBorderWindow"
+        behav:WindowCloseBehaviour.HideDontClose="True" >
     
     <Grid Margin="5,5,5,5">
         
@@ -22,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <Label Content="Subgroup:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox x:Name="txtSubgroupDescription" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ItemToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0"    >
+        <TextBox x:Name="txtSubgroupDescription" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GDSSubgroupToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0"    >
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <StackPanel>
@@ -40,8 +45,8 @@
             </Validation.ErrorTemplate>
         </TextBox>
 
-        <Button Name="OkButton"  Grid.Column="1" Grid.Row="2" IsDefault="True" Content="Save" Margin="10,10" Click="OkButton_Click" />
-        <Button Name="CancelButton" Grid.Column="2" Grid.Row="2" Content="Cancel" IsCancel="True"  Margin="10,10" />
+        <Button Name="OkButton"  Grid.Column="1" Grid.Row="2" IsDefault="True" Content="Save" Margin="10,10" Command="{Binding Path=SaveSubgroupCommand}" />
+        <Button Name="CancelButton" Grid.Column="2" Grid.Row="2" Content="Cancel" IsCancel="True"  Margin="10,10" Click="CancelButton_Click" />
         
     </Grid>
 </Window>
