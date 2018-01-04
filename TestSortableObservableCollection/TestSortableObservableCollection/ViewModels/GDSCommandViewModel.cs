@@ -10,15 +10,17 @@ namespace TestSortableObservableCollection.ViewModels
     public class GDSCommandViewModel : Base.BaseViewModel, IGDSCommandViewModel
     {
         private string _description = null;
+        private string _commandLines = null;
         private IGDSCommandItemViewModel _parent = null;
         private SortableObservableCollection<IGDSCommandItemViewModel> _children = null;
         private bool _IsItemExpanded = false;
         private bool _IsItemSelected = false;
 
-        public GDSCommandViewModel(IGDSCommandItemViewModel parent, string theDescription)
+        public GDSCommandViewModel(IGDSCommandItemViewModel parent, string theDescription, string theCommandLines)
         {
             _parent = parent;
             _description = theDescription;
+            _commandLines = theCommandLines;
             _children = new SortableObservableCollection<IGDSCommandItemViewModel>();
         }
 
@@ -43,6 +45,23 @@ namespace TestSortableObservableCollection.ViewModels
                 {
                     _description = value;
                     NotifyPropertyChanged(() => Description);
+                }
+            }
+        }
+
+        public string CommandLines
+        {
+            get
+            {
+                return _commandLines;
+            }
+
+            set
+            {
+                if (_commandLines != value)
+                {
+                    _commandLines = value;
+                    NotifyPropertyChanged(() => CommandLines);
                 }
             }
         }

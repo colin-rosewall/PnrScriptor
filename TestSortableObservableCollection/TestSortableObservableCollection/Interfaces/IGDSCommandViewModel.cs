@@ -8,6 +8,6 @@ namespace TestSortableObservableCollection.Interfaces
 {
     public interface IGDSCommandViewModel : IGDSCommandItemViewModel
     {
-
+        string CommandLines { get; set; }
     }
 }

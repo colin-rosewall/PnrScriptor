@@ -26,8 +26,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label Content="Subgroup:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox x:Name="txtSubgroupDescription" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GDSSubgroupToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0"    >
+        <Label Content="Subgroup:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <TextBox x:Name="txtSubgroupDescription" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GDSSubgroupToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0"    >
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <StackPanel>

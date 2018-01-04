@@ -17,18 +17,25 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _saveSubgroupCommand = null;
         private ICommand _renameSubgroupCommand = null;
         private ICommand _deleteSubgroupCommand = null;
+
+        private ICommand _saveGDSCmdCommand = null;
+
         private ICommand _selectedItemChangedCommand = null;
         private IGDSCommandItemViewModel _currentlySelectedItem { get; set; }
         private IGDSCommandSubgroupViewModel _GDSSubgroupToWorkOn = null;
+        private IGDSCommandViewModel _GDSCommandToWorkOn = null;
         public Action CloseSubgroupWindow { get; set; }
+        public Action CloseGDSCommandWindow { get; set; }
         
 
         public GDSCommandTreeViewModel()
         {
             _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
             _renameSubgroupCommand = new RelayCommand<object>(RenameSubgroup_Executed, RenameSubgroup_CanExecute);
-
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
+
+            _saveGDSCmdCommand = new RelayCommand<object>(SaveGDSCmd_Executed);
+
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
@@ -42,8 +49,8 @@ namespace TestSortableObservableCollection.ViewModels
             IGDSCommandSubgroupViewModel galileoItem = new GDSCommandSubgroupViewModel(rootItem, "Galileo");
             rootItem.AddChildItem(galileoItem);
 
-            IGDSCommandViewModel addAdult = new GDSCommandViewModel(galileoItem, "Add Gal Adult");
-            galileoItem.Children.Add(addAdult);
+            // IGDSCommandViewModel addAdult = new GDSCommandViewModel(galileoItem, "Add Gal Adult", "");
+            // galileoItem.Children.Add(addAdult);
 
             SortByDescription(rootItem);
         }
@@ -70,6 +77,19 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        public IGDSCommandViewModel GDSCommandToWorkOn
+        {
+            get
+            {
+                return _GDSCommandToWorkOn;
+            }
+            set
+            {
+                _GDSCommandToWorkOn = value;
+                NotifyPropertyChanged(() => GDSCommandToWorkOn);
+            }
+        }
+
         public IGDSCommandItemViewModel CurrentlySelectedItem
         {
             get
@@ -78,6 +98,17 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        public ICommand SaveGDSCmdCommand
+        {
+            get
+            {
+                return _saveGDSCmdCommand;
+            }
+            set
+            {
+                _saveGDSCmdCommand = value;
+            }
+        }
         public ICommand SaveSubgroupCommand
         {
             get
@@ -130,6 +161,25 @@ namespace TestSortableObservableCollection.ViewModels
         {
             parent.Children.Sort(k => k.Description);
         }
+
+        public void SaveGDSCmd_Executed(object obj)
+        {
+            if (GDSCommandToWorkOn != null)
+            {
+                if (_currentlySelectedItem != null)
+                {
+                    if (GDSCommandToWorkOn.Parent == null)
+                    {
+                        // this creates a new item
+                        IGDSCommandViewModel newItem = new GDSCommandViewModel(_currentlySelectedItem, GDSCommandToWorkOn.Description, GDSCommandToWorkOn.CommandLines);
+                        _currentlySelectedItem.AddChildItem(newItem);
+                        CloseGDSCommandWindow();
+                        SortByDescription(_currentlySelectedItem);
+                    }
+                }
+            }
+        }
+
         public void SaveSubgroup_Executed(object obj)
         {
             if (GDSSubgroupToWorkOn != null)

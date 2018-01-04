@@ -22,6 +22,7 @@ namespace TestSortableObservableCollection
     public partial class MainWindow : Window
     {
         private SubgroupItemWindow subgroupWindow = null;
+        private GDSCommandWindow _gdsCommandWindow = null;
 
         public MainWindow()
         {
@@ -77,6 +78,22 @@ namespace TestSortableObservableCollection
 
                     subgroupWindow.Show();
                 }
+            }
+        }
+
+        private void AddGDSCommand_Click(object sender, RoutedEventArgs e)
+        {
+            var tvm = DataContext as GDSCommandTreeViewModel;
+            if (tvm != null)
+            {
+                tvm.GDSCommandToWorkOn = new GDSCommandViewModel(null, "empty", "");
+                if (_gdsCommandWindow == null)
+                {
+                    _gdsCommandWindow = new GDSCommandWindow(tvm);
+                    _gdsCommandWindow.Owner = this;
+                }
+
+                _gdsCommandWindow.Show();
             }
         }
     }
