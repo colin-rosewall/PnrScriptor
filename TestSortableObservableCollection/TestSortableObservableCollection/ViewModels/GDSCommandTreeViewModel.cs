@@ -176,6 +176,20 @@ namespace TestSortableObservableCollection.ViewModels
                         CloseGDSCommandWindow();
                         SortByDescription(_currentlySelectedItem);
                     }
+                    else
+                    {
+                        var existingItem = _currentlySelectedItem as GDSCommandViewModel;
+                        if (existingItem != null)
+                        {
+                            existingItem.Description = GDSCommandToWorkOn.Description;
+                            existingItem.CommandLines = GDSCommandToWorkOn.CommandLines;
+                            CloseGDSCommandWindow();
+                            if (existingItem.Parent != null)
+                                SortByDescription(existingItem.Parent);
+                            else
+                                SortByDescription(existingItem);
+                        }
+                    }
                 }
             }
         }
