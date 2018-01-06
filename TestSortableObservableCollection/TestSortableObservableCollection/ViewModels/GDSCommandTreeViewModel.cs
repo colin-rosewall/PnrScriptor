@@ -49,8 +49,8 @@ namespace TestSortableObservableCollection.ViewModels
             IGDSCommandSubgroupViewModel galileoItem = new GDSCommandSubgroupViewModel(rootItem, "Galileo");
             rootItem.AddChildItem(galileoItem);
 
-            // IGDSCommandViewModel addAdult = new GDSCommandViewModel(galileoItem, "Add Gal Adult", "");
-            // galileoItem.Children.Add(addAdult);
+             IGDSCommandViewModel addAdult = new GDSCommandViewModel(galileoItem, "Add Gal Adult", "");
+             galileoItem.Children.Add(addAdult);
 
             SortByDescription(rootItem);
         }

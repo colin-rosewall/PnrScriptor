@@ -2,18 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml;
+using System.Xml.Serialization;
 using TestSortableObservableCollection.Interfaces;
-using TestSortableObservableCollection.ViewModels;
 
 namespace TestSortableObservableCollection.ViewModels
 {
     public class GDSCommandSubgroupViewModel : Base.BaseViewModel, IGDSCommandSubgroupViewModel
     {
+        private UInt64 _uniqueID;
         private string _description = null;
         private IGDSCommandItemViewModel _parent = null;
         private SortableObservableCollection<IGDSCommandItemViewModel> _children = null;
@@ -23,6 +26,11 @@ namespace TestSortableObservableCollection.ViewModels
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
+        public GDSCommandSubgroupViewModel()
+        {
+            // this was added to get Xml Serialization to work
+        }
+
         public GDSCommandSubgroupViewModel(IGDSCommandItemViewModel parent, string theDescription)
         {
             _parent = parent;
@@ -31,6 +39,19 @@ namespace TestSortableObservableCollection.ViewModels
             _validationErrors = new Dictionary<string, List<string>>();
         }
 
+        public UInt64 UniqueID
+        {
+            get
+            {
+                return _uniqueID;
+            }
+            set
+            {
+                _uniqueID = value;
+            }
+        }
+
+        [XmlIgnore]
         public SortableObservableCollection<IGDSCommandItemViewModel> Children
         {
             get
@@ -57,6 +78,7 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        [XmlIgnore]
         public bool IsItemExpanded
         {
             get
@@ -74,6 +96,7 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        [XmlIgnore]
         public bool IsItemSelected
         {
             get
@@ -91,6 +114,7 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        [XmlIgnore]
         public IGDSCommandItemViewModel Parent
         {
             get
@@ -99,6 +123,7 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        [XmlIgnore]
         public bool HasErrors
         {
             get
@@ -185,5 +210,35 @@ namespace TestSortableObservableCollection.ViewModels
                 RaiseErrorsChanged(memberName);
             }
         }
+
+    }
+
+    public static class TestExt
+    {
+        public static string Serialize<T>(this T toSerialize)
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+            // settings.Encoding = Encoding.UTF8;
+            settings.OmitXmlDeclaration = true;
+            settings.NamespaceHandling = NamespaceHandling.OmitDuplicates;
+
+            XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+            namespaces.Add(string.Empty, string.Empty);
+
+            XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
+            using (var stringWriter = new StringWriter())
+            {
+                using (var xmlWriter = XmlWriter.Create(stringWriter, settings))
+                {
+                    xmlSerializer.Serialize(xmlWriter, toSerialize, namespaces);
+                }
+                return stringWriter.ToString();
+
+            }
+            // StringWriter textWriter = new StringWriter();
+            // xmlSerializer.Serialize(textWriter, toSerialize);
+            // return textWriter.ToString();
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
+using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
 
 namespace TestSortableObservableCollection
@@ -36,14 +39,60 @@ namespace TestSortableObservableCollection
             var p = DataContext as GDSCommandTreeViewModel;
             if (p != null)
             {
-                var sel = p.Root.FirstOrDefault(i => i.IsItemSelected);
-                if (sel == null)
+                if (p.Root != null)
                 {
-                    //sel = p.Root
+                    foreach (var item in p.Root)
+                    {
+                        LevelOrder(item);
+                    }
                 }
             }
 
         }
+
+        private void LevelOrder(IGDSCommandItemViewModel item)
+        {
+            UInt64 uniqueID = 0;
+            Queue<Tuple<int, IGDSCommandItemViewModel>> q = new Queue<Tuple<int, IGDSCommandItemViewModel>>();
+
+            if (item != null)
+                q.Enqueue(new Tuple<int, IGDSCommandItemViewModel>(0, item));
+
+            while (q.Count > 0)
+            {
+                var queueItem = q.Dequeue();
+                int level = queueItem.Item1;
+                IGDSCommandItemViewModel currentItem = queueItem.Item2;
+                currentItem.UniqueID = uniqueID;
+
+                string xmlOutput = string.Empty;
+                if (currentItem is IGDSCommandSubgroupViewModel)
+                {
+                    var subgroup = currentItem as IGDSCommandSubgroupViewModel;
+                    if (subgroup != null)
+                    {
+                        xmlOutput = subgroup.Serialize<IGDSCommandSubgroupViewModel>();
+                    }
+                }
+                else if (currentItem is IGDSCommandViewModel)
+                {
+                    var gdsCommand = currentItem as IGDSCommandViewModel;
+                    if (gdsCommand != null)
+                    {
+                        xmlOutput = gdsCommand.Serialize<IGDSCommandViewModel>();
+                    }
+                }
+
+                txtOutput.Text += string.Format("level = {0}, parent id = {3}, xml = {4} \r\n", level, currentItem.Description, currentItem.UniqueID, (currentItem.Parent == null ? 0 : currentItem.Parent.UniqueID), xmlOutput );
+                uniqueID++;
+
+                foreach (var child in currentItem.Children)
+                {
+                    q.Enqueue(new Tuple<int, IGDSCommandItemViewModel>(level + 1, child));
+                }
+            }
+        }
+
 
         private void AddSubgroup_Click(object sender, RoutedEventArgs e)
         {

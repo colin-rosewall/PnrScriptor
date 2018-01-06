@@ -26,7 +26,24 @@
         </Grid.RowDefinitions>
 
         <Label Content="Description:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GDSCommandToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0" ></TextBox>
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GDSCommandToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0" >
+            <Validation.ErrorTemplate>
+                <ControlTemplate>
+                    <StackPanel>
+                        <!-- Placeholder for the TextBox itself -->
+                        <AdornedElementPlaceholder />
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ErrorContent }" Foreground="Red"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ControlTemplate>
+            </Validation.ErrorTemplate>
+        </TextBox>
+        
         <Label Content="Command:" Grid.Row="1" Grid.Column="0" ></Label>
         <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                  Text="{Binding GDSCommandToWorkOn.CommandLines, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
