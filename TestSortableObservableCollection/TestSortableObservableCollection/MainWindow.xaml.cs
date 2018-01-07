@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 using System.Xml.Serialization;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
@@ -66,24 +68,9 @@ namespace TestSortableObservableCollection
                 currentItem.UniqueID = uniqueID;
 
                 string xmlOutput = string.Empty;
-                if (currentItem is IGDSCommandSubgroupViewModel)
-                {
-                    var subgroup = currentItem as IGDSCommandSubgroupViewModel;
-                    if (subgroup != null)
-                    {
-                        xmlOutput = subgroup.Serialize<IGDSCommandSubgroupViewModel>();
-                    }
-                }
-                else if (currentItem is IGDSCommandViewModel)
-                {
-                    var gdsCommand = currentItem as IGDSCommandViewModel;
-                    if (gdsCommand != null)
-                    {
-                        xmlOutput = gdsCommand.Serialize<IGDSCommandViewModel>();
-                    }
-                }
+                xmlOutput = ProcessItem(level, uniqueID, currentItem);
 
-                txtOutput.Text += string.Format("level = {0}, parent id = {3}, xml = {4} \r\n", level, currentItem.Description, currentItem.UniqueID, (currentItem.Parent == null ? 0 : currentItem.Parent.UniqueID), xmlOutput );
+                txtOutput.Text += string.Format("xml = {0} \r\n", xmlOutput );
                 uniqueID++;
 
                 foreach (var child in currentItem.Children)
@@ -93,6 +80,41 @@ namespace TestSortableObservableCollection
             }
         }
 
+        private string ProcessItem(int level, UInt64 uniqueID, IGDSCommandItemViewModel currentItem)
+        {
+            string xmlOutput = string.Empty;
+
+            if (currentItem is IGDSCommandSubgroupViewModel || currentItem is IGDSCommandViewModel)
+            {
+                XmlWriterSettings xmlSettings = new XmlWriterSettings();
+                xmlSettings.OmitXmlDeclaration = true;
+
+                using (var stringWriter = new StringWriter())
+                {
+                    using (var writer = XmlWriter.Create(stringWriter, xmlSettings))
+                    {
+                        writer.WriteStartElement("Node");
+                        writer.WriteAttributeString("Type", currentItem.GetType().ToString());
+                        writer.WriteAttributeString("Level", level.ToString());
+                        writer.WriteAttributeString("UniqueID", uniqueID.ToString());
+                        writer.WriteAttributeString("ParentID", (currentItem.Parent == null ? 0.ToString() : currentItem.Parent.UniqueID.ToString()));
+                        writer.WriteElementString("Description", currentItem.Description);
+                        var gdsCommand = currentItem as IGDSCommandViewModel;
+                        if (gdsCommand != null)
+                        {
+                            writer.WriteElementString("CommandLines", gdsCommand.CommandLines);
+                        }
+                        writer.WriteEndElement();
+                        writer.Flush();
+                        writer.Close();
+
+                        xmlOutput = stringWriter.ToString();
+                    }
+                }
+            }
+
+            return xmlOutput;
+        }
 
         private void AddSubgroup_Click(object sender, RoutedEventArgs e)
         {

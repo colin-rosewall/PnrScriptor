@@ -210,35 +210,5 @@ namespace TestSortableObservableCollection.ViewModels
                 RaiseErrorsChanged(memberName);
             }
         }
-
-    }
-
-    public static class TestExt
-    {
-        public static string Serialize<T>(this T toSerialize)
-        {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            // settings.Encoding = Encoding.UTF8;
-            settings.OmitXmlDeclaration = true;
-            settings.NamespaceHandling = NamespaceHandling.OmitDuplicates;
-
-            XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-            namespaces.Add(string.Empty, string.Empty);
-
-            XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
-            using (var stringWriter = new StringWriter())
-            {
-                using (var xmlWriter = XmlWriter.Create(stringWriter, settings))
-                {
-                    xmlSerializer.Serialize(xmlWriter, toSerialize, namespaces);
-                }
-                return stringWriter.ToString();
-
-            }
-            // StringWriter textWriter = new StringWriter();
-            // xmlSerializer.Serialize(textWriter, toSerialize);
-            // return textWriter.ToString();
-        }
-
     }
 }
