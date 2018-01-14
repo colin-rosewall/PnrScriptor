@@ -13,6 +13,8 @@ namespace TestSortableObservableCollection.Models
 {
     public static class GDSCmdTreeModel
     {
+        private const string GDSCommandsFilename = "GDSCommands.txt";
+
         public static void SaveTree(GDSCommandTreeViewModel vm)
         {
             if (vm != null && vm.Root != null && vm.Root.Count > 0)
@@ -25,11 +27,44 @@ namespace TestSortableObservableCollection.Models
                 }
                 if (nodesAsXml.Length > 0)
                 {
-                    using (var writer = new StreamWriter("GDSCommands.txt", false))
+                    using (var writer = new StreamWriter(GDSCommandsFilename, false))
                     {
                         writer.Write(nodesAsXml.ToString());
                         writer.Flush();
                         writer.Close();
+                    }
+                }
+            }
+        }
+
+        public static void LoadTree()
+        {
+
+            if (File.Exists(GDSCommandsFilename))
+            {
+                using (var reader = new StreamReader(GDSCommandsFilename))
+                {
+                    //string fileContents = reader.ReadToEnd();
+                    //reader.Close();
+
+                    using (var xmlReader = XmlReader.Create(reader))
+                    {
+                        while (xmlReader.Read())
+                        {
+                            if (xmlReader.IsStartElement())
+                            {
+                                if (xmlReader.Name.ToUpper() == "NODE")
+                                {
+                                    string classType = xmlReader.GetAttribute("Type");
+                                    string level = xmlReader.GetAttribute("Level");
+                                    string uniqueID = xmlReader.GetAttribute("UniqueID");
+                                    string parentID = xmlReader.GetAttribute("ParentID");
+                                    string description = xmlReader.Value;
+                                    xmlReader.MoveToElement();
+                                    xmlReader.ReadEndElement();
+                                }
+                            }
+                        }
                     }
                 }
             }
