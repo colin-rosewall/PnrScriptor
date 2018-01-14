@@ -8,6 +8,7 @@ using TestSortableObservableCollection.Interfaces;
 using System.Windows.Input;
 using TestSortableObservableCollection.ViewModels.Base;
 using System.Windows;
+using TestSortableObservableCollection.Models;
 
 namespace TestSortableObservableCollection.ViewModels
 {
@@ -19,6 +20,7 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _deleteSubgroupCommand = null;
 
         private ICommand _saveGDSCmdCommand = null;
+        private ICommand _saveTreeCommand = null;
 
         private ICommand _selectedItemChangedCommand = null;
         private IGDSCommandItemViewModel _currentlySelectedItem { get; set; }
@@ -35,6 +37,7 @@ namespace TestSortableObservableCollection.ViewModels
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
 
             _saveGDSCmdCommand = new RelayCommand<object>(SaveGDSCmd_Executed);
+            _saveTreeCommand = new RelayCommand<object>(SaveTree_Executed, SaveTree_CanExecute);
 
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
@@ -118,6 +121,18 @@ namespace TestSortableObservableCollection.ViewModels
             set
             {
                 _saveSubgroupCommand = value;
+            }
+        }
+
+        public ICommand SaveTreeCommand
+        {
+            get
+            {
+                return _saveTreeCommand;
+            }
+            set
+            {
+                _saveTreeCommand = value;
             }
         }
 
@@ -295,5 +310,21 @@ namespace TestSortableObservableCollection.ViewModels
             var item = obj as IGDSCommandItemViewModel;
             _currentlySelectedItem = item;
         }
+
+        public void SaveTree_Executed(object obj)
+        {
+            GDSCmdTreeModel.SaveTree(this);
+        }
+
+        public bool SaveTree_CanExecute(object obj)
+        {
+            bool result = false;
+
+            if (_root != null && _root.Count > 0)
+                result = true;
+
+            return result;
+        }
     }
+
 }
