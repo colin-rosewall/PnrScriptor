@@ -21,6 +21,7 @@ namespace TestSortableObservableCollection.Models
             {
                 UInt64 uniqueID = 0;
                 StringBuilder nodesAsXml = new StringBuilder();
+
                 foreach (var item in vm.Root)
                 {
                     TraverseInLevelOrder(item, ref uniqueID, ref nodesAsXml);
@@ -29,7 +30,9 @@ namespace TestSortableObservableCollection.Models
                 {
                     using (var writer = new StreamWriter(GDSCommandsFilename, false))
                     {
+                        writer.WriteLine("<Nodes>");
                         writer.Write(nodesAsXml.ToString());
+                        writer.WriteLine("</Nodes>");
                         writer.Flush();
                         writer.Close();
                     }
@@ -44,9 +47,6 @@ namespace TestSortableObservableCollection.Models
             {
                 using (var reader = new StreamReader(GDSCommandsFilename))
                 {
-                    //string fileContents = reader.ReadToEnd();
-                    //reader.Close();
-
                     using (var xmlReader = XmlReader.Create(reader))
                     {
                         while (xmlReader.Read())
@@ -55,13 +55,78 @@ namespace TestSortableObservableCollection.Models
                             {
                                 if (xmlReader.Name.ToUpper() == "NODE")
                                 {
+                                    bool nodeParsedCorrectly = false;
                                     string classType = xmlReader.GetAttribute("Type");
                                     string level = xmlReader.GetAttribute("Level");
                                     string uniqueID = xmlReader.GetAttribute("UniqueID");
                                     string parentID = xmlReader.GetAttribute("ParentID");
-                                    string description = xmlReader.Value;
-                                    xmlReader.MoveToElement();
-                                    xmlReader.ReadEndElement();
+                                    string description = string.Empty;
+                                    string commandLines = string.Empty;
+                                    if (xmlReader.Read())
+                                    {
+                                        if (xmlReader.IsStartElement())
+                                        {
+                                            if (xmlReader.Name.ToUpper() == "DESCRIPTION")
+                                            {
+                                                if (xmlReader.Read())
+                                                {
+                                                    if (xmlReader.NodeType == XmlNodeType.Text)
+                                                    {
+                                                        if (xmlReader.HasValue)
+                                                            description = xmlReader.Value;
+                                                        if (xmlReader.Read())
+                                                        {
+                                                            if (xmlReader.NodeType == XmlNodeType.EndElement)
+                                                            {
+                                                                if (xmlReader.Name.ToUpper() == "DESCRIPTION")
+                                                                {
+                                                                    if (xmlReader.Read())
+                                                                    {
+                                                                        if (xmlReader.IsStartElement())
+                                                                        {
+                                                                            if (xmlReader.Name.ToUpper() == "COMMANDLINES")
+                                                                            {
+                                                                                if (xmlReader.Read())
+                                                                                {
+                                                                                    if (xmlReader.NodeType == XmlNodeType.Text)
+                                                                                    {
+                                                                                        if (xmlReader.HasValue)
+                                                                                            commandLines = xmlReader.Value;
+                                                                                        if (xmlReader.Read())
+                                                                                        {
+                                                                                            if (xmlReader.NodeType == XmlNodeType.EndElement)
+                                                                                            {
+                                                                                                if (xmlReader.Name.ToUpper() == "COMMANDLINES")
+                                                                                                {
+                                                                                                    xmlReader.Read();
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        if (xmlReader.NodeType == XmlNodeType.EndElement)
+                                                                        {
+                                                                            if (xmlReader.Name.ToUpper() == "NODE")
+                                                                            {
+                                                                                nodeParsedCorrectly = true;
+                                                                            }
+                                                                        }
+
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (nodeParsedCorrectly)
+                                        {
+
+                                        }
+                                    }                                    
                                 }
                             }
                         }
