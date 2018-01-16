@@ -26,16 +26,17 @@ namespace TestSortableObservableCollection.ViewModels
 
         public GDSCommandViewModel()
         {
-            // this was added to get Xml Serialization to work
+            _description = string.Empty;
+            _commandLines = string.Empty;
+            _children = new SortableObservableCollection<IGDSCommandItemViewModel>();
+            _validationErrors = new Dictionary<string, List<string>>();
         }
 
-        public GDSCommandViewModel(IGDSCommandItemViewModel parent, string theDescription, string theCommandLines)
+        public GDSCommandViewModel(IGDSCommandItemViewModel parent, string theDescription, string theCommandLines) : this()
         {
             _parent = parent;
             _description = theDescription;
             _commandLines = theCommandLines;
-            _children = new SortableObservableCollection<IGDSCommandItemViewModel>();
-            _validationErrors = new Dictionary<string, List<string>>();
         }
 
         public UInt64 UniqueID

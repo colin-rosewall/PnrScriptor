@@ -41,22 +41,23 @@ namespace TestSortableObservableCollection.ViewModels
 
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
-            GDSCmdTreeModel.LoadTree();
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
-            IGDSCommandSubgroupViewModel rootItem = new GDSCommandSubgroupViewModel(null, "Root");
+            GDSCmdTreeModel.LoadTree(this);
+            
+            //IGDSCommandSubgroupViewModel rootItem = new GDSCommandSubgroupViewModel(null, "Root");
 
-            _root.Add(rootItem);
+            //_root.Add(rootItem);
 
-            IGDSCommandSubgroupViewModel sabreItem = new GDSCommandSubgroupViewModel(rootItem, "Sabre");
-            rootItem.AddChildItem(sabreItem);
+            //IGDSCommandSubgroupViewModel sabreItem = new GDSCommandSubgroupViewModel(rootItem, "Sabre");
+            //rootItem.AddChildItem(sabreItem);
 
-            IGDSCommandSubgroupViewModel galileoItem = new GDSCommandSubgroupViewModel(rootItem, "Galileo");
-            rootItem.AddChildItem(galileoItem);
+            //IGDSCommandSubgroupViewModel galileoItem = new GDSCommandSubgroupViewModel(rootItem, "Galileo");
+            //rootItem.AddChildItem(galileoItem);
 
-            IGDSCommandViewModel addAdult = new GDSCommandViewModel(galileoItem, "Add Gal Adult", "");
-            galileoItem.Children.Add(addAdult);
+            //IGDSCommandViewModel addAdult = new GDSCommandViewModel(galileoItem, "Add Gal Adult", "");
+            //galileoItem.Children.Add(addAdult);
 
-            SortByDescription(rootItem);
+            //SortByDescription(rootItem);
         }
 
         public ObservableCollection<IGDSCommandItemViewModel> Root

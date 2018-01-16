@@ -40,80 +40,82 @@ namespace TestSortableObservableCollection.Models
             }
         }
 
-        public static void LoadTree()
+        public static void LoadTree(GDSCommandTreeViewModel vm)
         {
-
-            if (File.Exists(GDSCommandsFilename))
+            if (vm != null && vm.Root != null)
             {
-                using (var reader = new StreamReader(GDSCommandsFilename))
+                if (File.Exists(GDSCommandsFilename))
                 {
-                    using (var xmlReader = XmlReader.Create(reader))
+                    using (var reader = new StreamReader(GDSCommandsFilename))
                     {
-                        while (xmlReader.Read())
+                        using (var xmlReader = XmlReader.Create(reader))
                         {
-                            if (xmlReader.IsStartElement())
+                            while (xmlReader.Read())
                             {
-                                if (xmlReader.Name.ToUpper() == "NODE")
+                                if (xmlReader.IsStartElement())
                                 {
-                                    bool nodeParsedCorrectly = false;
-                                    string classType = xmlReader.GetAttribute("Type");
-                                    string level = xmlReader.GetAttribute("Level");
-                                    string uniqueID = xmlReader.GetAttribute("UniqueID");
-                                    string parentID = xmlReader.GetAttribute("ParentID");
-                                    string description = string.Empty;
-                                    string commandLines = string.Empty;
-                                    if (xmlReader.Read())
+                                    if (xmlReader.Name.ToUpper() == "NODE")
                                     {
-                                        if (xmlReader.IsStartElement())
+                                        bool nodeParsedCorrectly = false;
+                                        string classType = xmlReader.GetAttribute("Type");
+                                        string level = xmlReader.GetAttribute("Level");
+                                        string uniqueID = xmlReader.GetAttribute("UniqueID");
+                                        string parentID = xmlReader.GetAttribute("ParentID");
+                                        string description = string.Empty;
+                                        string commandLines = string.Empty;
+                                        if (xmlReader.Read())
                                         {
-                                            if (xmlReader.Name.ToUpper() == "DESCRIPTION")
+                                            if (xmlReader.IsStartElement())
                                             {
-                                                if (xmlReader.Read())
+                                                if (xmlReader.Name.ToUpper() == "DESCRIPTION")
                                                 {
-                                                    if (xmlReader.NodeType == XmlNodeType.Text)
+                                                    if (xmlReader.Read())
                                                     {
-                                                        if (xmlReader.HasValue)
-                                                            description = xmlReader.Value;
-                                                        if (xmlReader.Read())
+                                                        if (xmlReader.NodeType == XmlNodeType.Text)
                                                         {
-                                                            if (xmlReader.NodeType == XmlNodeType.EndElement)
+                                                            if (xmlReader.HasValue)
+                                                                description = xmlReader.Value;
+                                                            if (xmlReader.Read())
                                                             {
-                                                                if (xmlReader.Name.ToUpper() == "DESCRIPTION")
+                                                                if (xmlReader.NodeType == XmlNodeType.EndElement)
                                                                 {
-                                                                    if (xmlReader.Read())
+                                                                    if (xmlReader.Name.ToUpper() == "DESCRIPTION")
                                                                     {
-                                                                        if (xmlReader.IsStartElement())
+                                                                        if (xmlReader.Read())
                                                                         {
-                                                                            if (xmlReader.Name.ToUpper() == "COMMANDLINES")
+                                                                            if (xmlReader.IsStartElement())
                                                                             {
-                                                                                if (xmlReader.Read())
+                                                                                if (xmlReader.Name.ToUpper() == "COMMANDLINES")
                                                                                 {
-                                                                                    if (xmlReader.NodeType == XmlNodeType.Text)
+                                                                                    if (xmlReader.Read())
                                                                                     {
-                                                                                        if (xmlReader.HasValue)
-                                                                                            commandLines = xmlReader.Value;
-                                                                                        if (xmlReader.Read())
+                                                                                        if (xmlReader.NodeType == XmlNodeType.Text)
                                                                                         {
-                                                                                            if (xmlReader.NodeType == XmlNodeType.EndElement)
+                                                                                            if (xmlReader.HasValue)
+                                                                                                commandLines = xmlReader.Value;
+                                                                                            if (xmlReader.Read())
                                                                                             {
-                                                                                                if (xmlReader.Name.ToUpper() == "COMMANDLINES")
+                                                                                                if (xmlReader.NodeType == XmlNodeType.EndElement)
                                                                                                 {
-                                                                                                    xmlReader.Read();
+                                                                                                    if (xmlReader.Name.ToUpper() == "COMMANDLINES")
+                                                                                                    {
+                                                                                                        xmlReader.Read();
+                                                                                                    }
                                                                                                 }
                                                                                             }
                                                                                         }
                                                                                     }
                                                                                 }
                                                                             }
-                                                                        }
-                                                                        if (xmlReader.NodeType == XmlNodeType.EndElement)
-                                                                        {
-                                                                            if (xmlReader.Name.ToUpper() == "NODE")
+                                                                            if (xmlReader.NodeType == XmlNodeType.EndElement)
                                                                             {
-                                                                                nodeParsedCorrectly = true;
+                                                                                if (xmlReader.Name.ToUpper() == "NODE")
+                                                                                {
+                                                                                    nodeParsedCorrectly = true;
+                                                                                }
                                                                             }
-                                                                        }
 
+                                                                        }
                                                                     }
                                                                 }
                                                             }
@@ -121,12 +123,62 @@ namespace TestSortableObservableCollection.Models
                                                     }
                                                 }
                                             }
-                                        }
-                                        if (nodeParsedCorrectly)
-                                        {
+                                            if (nodeParsedCorrectly)
+                                            {
+                                                Type instanceType = Type.GetType(classType);
+                                                if (instanceType != null)
+                                                {
+                                                    IGDSCommandItemViewModel newItem = null;
+                                                    if (instanceType is GDSCommandSubgroupViewModel)
+                                                    {
+                                                        int intLevel = int.Parse(level);
+                                                        if (intLevel == 0)
+                                                        {
+                                                            newItem = new GDSCommandSubgroupViewModel(null, description);
+                                                            vm.Root.Add(newItem);
+                                                        }
+                                                        else
+                                                        {
+                                                            IGDSCommandItemViewModel parent = FindParent(vm, UInt64.Parse(parentID));
+                                                            if (parent != null)
+                                                            {
+                                                                newItem = new GDSCommandSubgroupViewModel(parent, description);
+                                                                parent.AddChildItem(newItem);
+                                                            }
+                                                        }
+                                                        if (newItem != null)
+                                                        {
+                                                            newItem.UniqueID = UInt64.Parse(uniqueID);
 
+                                                        }
+                                                    }
+                                                    else if (instanceType is GDSCommandViewModel)
+                                                    {
+                                                        int intLevel = int.Parse(level);
+                                                        if (intLevel == 0)
+                                                        {
+                                                            newItem = new GDSCommandViewModel(null, description, commandLines);
+                                                            vm.Root.Add(newItem);
+                                                        }
+                                                        else
+                                                        {
+                                                            IGDSCommandItemViewModel parent = FindParent(vm, UInt64.Parse(parentID));
+                                                            if (parent != null)
+                                                            {
+                                                                newItem = new GDSCommandViewModel(parent, description, commandLines);
+                                                                parent.AddChildItem(newItem);
+                                                            }
+                                                        }
+                                                        if (newItem != null)
+                                                        {
+                                                            newItem.UniqueID = UInt64.Parse(uniqueID);
+                                                        }
+
+                                                    }
+                                                }                                                
+                                            }
                                         }
-                                    }                                    
+                                    }
                                 }
                             }
                         }
@@ -135,6 +187,44 @@ namespace TestSortableObservableCollection.Models
             }
         }
 
+        private static IGDSCommandItemViewModel FindParent(GDSCommandTreeViewModel vm, UInt64 parentIDRequested)
+        {
+            IGDSCommandItemViewModel parent = null;
+            bool parentFound = false;
+
+            foreach (var topLevelItem in vm.Root)
+            {
+                Queue<Tuple<int, IGDSCommandItemViewModel>> q = new Queue<Tuple<int, IGDSCommandItemViewModel>>();
+                if (topLevelItem != null)
+                    q.Enqueue(new Tuple<int, IGDSCommandItemViewModel>(0, topLevelItem));
+
+                while (parentFound == false && q.Count > 0)
+                {
+                    var queueItem = q.Dequeue();
+                    int level = queueItem.Item1;
+
+                    IGDSCommandItemViewModel currentItem = queueItem.Item2;
+                    if (currentItem.UniqueID == parentIDRequested)
+                    {
+                        parentFound = true;
+                        parent = currentItem;
+                    }
+                    else
+                    {
+                        foreach (var child in currentItem.Children)
+                        {
+                            q.Enqueue(new Tuple<int, IGDSCommandItemViewModel>(level + 1, child));
+                        }
+                    }
+                }
+                if (parentFound)
+                {
+                    break;
+                }
+            }
+
+            return parent;
+        }
         private static void TraverseInLevelOrder(IGDSCommandItemViewModel item, ref UInt64 uniqueID, ref StringBuilder nodesAsXml)
         {
             Queue<Tuple<int, IGDSCommandItemViewModel>> q = new Queue<Tuple<int, IGDSCommandItemViewModel>>();
