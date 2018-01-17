@@ -43,10 +43,7 @@ namespace TestSortableObservableCollection.ViewModels
 
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
             GDSCmdTreeModel.LoadTree(this);
-            
-            //IGDSCommandSubgroupViewModel rootItem = new GDSCommandSubgroupViewModel(null, "Root");
 
-            //_root.Add(rootItem);
 
             //IGDSCommandSubgroupViewModel sabreItem = new GDSCommandSubgroupViewModel(rootItem, "Sabre");
             //rootItem.AddChildItem(sabreItem);

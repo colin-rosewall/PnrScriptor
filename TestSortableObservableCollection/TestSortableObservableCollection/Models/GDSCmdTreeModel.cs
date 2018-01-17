@@ -124,58 +124,52 @@ namespace TestSortableObservableCollection.Models
                                                 }
                                             }
                                             if (nodeParsedCorrectly)
-                                            {
-                                                Type instanceType = Type.GetType(classType);
-                                                if (instanceType != null)
+                                            {                                                
+                                                IGDSCommandItemViewModel parent = null;
+                                                IGDSCommandItemViewModel newItem = null;
+                                                int intLevel = int.Parse(level);
+                                                if (classType.Contains("GDSCommandSubgroupViewModel"))
                                                 {
-                                                    IGDSCommandItemViewModel newItem = null;
-                                                    if (instanceType is GDSCommandSubgroupViewModel)
+                                                    if (intLevel == 0)
                                                     {
-                                                        int intLevel = int.Parse(level);
-                                                        if (intLevel == 0)
+                                                        newItem = new GDSCommandSubgroupViewModel(null, description);
+                                                        vm.Root.Add(newItem);
+                                                    }
+                                                    else
+                                                    {
+                                                        parent = FindParent(vm, UInt64.Parse(parentID));
+                                                        if (parent != null)
                                                         {
-                                                            newItem = new GDSCommandSubgroupViewModel(null, description);
-                                                            vm.Root.Add(newItem);
-                                                        }
-                                                        else
-                                                        {
-                                                            IGDSCommandItemViewModel parent = FindParent(vm, UInt64.Parse(parentID));
-                                                            if (parent != null)
-                                                            {
-                                                                newItem = new GDSCommandSubgroupViewModel(parent, description);
-                                                                parent.AddChildItem(newItem);
-                                                            }
-                                                        }
-                                                        if (newItem != null)
-                                                        {
-                                                            newItem.UniqueID = UInt64.Parse(uniqueID);
-
+                                                            newItem = new GDSCommandSubgroupViewModel(parent, description);
+                                                            parent.AddChildItem(newItem);
                                                         }
                                                     }
-                                                    else if (instanceType is GDSCommandViewModel)
+                                                    if (newItem != null)
                                                     {
-                                                        int intLevel = int.Parse(level);
-                                                        if (intLevel == 0)
-                                                        {
-                                                            newItem = new GDSCommandViewModel(null, description, commandLines);
-                                                            vm.Root.Add(newItem);
-                                                        }
-                                                        else
-                                                        {
-                                                            IGDSCommandItemViewModel parent = FindParent(vm, UInt64.Parse(parentID));
-                                                            if (parent != null)
-                                                            {
-                                                                newItem = new GDSCommandViewModel(parent, description, commandLines);
-                                                                parent.AddChildItem(newItem);
-                                                            }
-                                                        }
-                                                        if (newItem != null)
-                                                        {
-                                                            newItem.UniqueID = UInt64.Parse(uniqueID);
-                                                        }
-
+                                                        newItem.UniqueID = UInt64.Parse(uniqueID);
                                                     }
-                                                }                                                
+                                                }
+                                                else if (classType.Contains("GDSCommandViewModel"))
+                                                {
+                                                    if (intLevel == 0)
+                                                    {
+                                                        newItem = new GDSCommandViewModel(null, description, commandLines);
+                                                        vm.Root.Add(newItem);
+                                                    }
+                                                    else
+                                                    {
+                                                        parent = FindParent(vm, UInt64.Parse(parentID));
+                                                        if (parent != null)
+                                                        {
+                                                            newItem = new GDSCommandViewModel(parent, description, commandLines);
+                                                            parent.AddChildItem(newItem);
+                                                        }
+                                                    }
+                                                    if (newItem != null)
+                                                    {
+                                                        newItem.UniqueID = UInt64.Parse(uniqueID);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -183,6 +177,11 @@ namespace TestSortableObservableCollection.Models
                             }
                         }
                     }
+                }
+                if (vm.Root.Count == 0)
+                {
+                    IGDSCommandSubgroupViewModel rootItem = new GDSCommandSubgroupViewModel(null, "Root");
+                    vm.Root.Add(rootItem);
                 }
             }
         }
