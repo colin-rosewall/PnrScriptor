@@ -37,6 +37,7 @@
                         <TextBlock.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Change GDS Command" Click="ChangeGDSCommand_Click"  ></MenuItem>
+                                <MenuItem Header="Delete GDS Command" Command="{Binding Data.DeleteGDSCmdCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" > </MenuItem>
                             </ContextMenu>
                         </TextBlock.ContextMenu>
                     </TextBlock>

@@ -20,6 +20,7 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _deleteSubgroupCommand = null;
 
         private ICommand _saveGDSCmdCommand = null;
+        private ICommand _deleteGDSCmdCommand = null;
         private ICommand _saveTreeCommand = null;
 
         private ICommand _selectedItemChangedCommand = null;
@@ -37,6 +38,8 @@ namespace TestSortableObservableCollection.ViewModels
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
 
             _saveGDSCmdCommand = new RelayCommand<object>(SaveGDSCmd_Executed);
+            _deleteGDSCmdCommand = new RelayCommand<object>(DeleteGDSCmd_Executed, DeleteGDSCmd_CanExecute);
+
             _saveTreeCommand = new RelayCommand<object>(SaveTree_Executed, SaveTree_CanExecute);
 
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
@@ -111,6 +114,19 @@ namespace TestSortableObservableCollection.ViewModels
                 _saveGDSCmdCommand = value;
             }
         }
+
+        public ICommand DeleteGDSCmdCommand
+        {
+            get
+            {
+                return _deleteGDSCmdCommand;
+            }
+            set
+            {
+                _deleteGDSCmdCommand = value;
+            }
+        }
+
         public ICommand SaveSubgroupCommand
         {
             get
@@ -269,6 +285,20 @@ namespace TestSortableObservableCollection.ViewModels
             return result;
         }
 
+        public void DeleteGDSCmd_Executed(object obj)
+        {
+            IGDSCommandViewModel itemToBeDeleted = obj as IGDSCommandViewModel;
+
+            if (itemToBeDeleted != null)
+            {
+                if (itemToBeDeleted.Parent != null)
+                {
+                    _currentlySelectedItem = itemToBeDeleted.Parent;
+                    _currentlySelectedItem.Children.Remove(itemToBeDeleted);
+                }
+            }
+        }
+
         public void DeleteSubgroup_Executed(object obj)
         {
             IGDSCommandSubgroupViewModel itemToBeDeleted = obj as IGDSCommandSubgroupViewModel;
@@ -289,14 +319,22 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        public bool DeleteGDSCmd_CanExecute(object obj)
+        {
+            bool result = true;
+
+            return result;
+        }
+
         public bool DeleteSubgroup_CanExecute(object obj)
         {
             bool result = false;
 
             IGDSCommandSubgroupViewModel itemToBeDeleted = obj as IGDSCommandSubgroupViewModel;
             if (itemToBeDeleted != null)
-                if (itemToBeDeleted.Children != null)
-                    result = (itemToBeDeleted.Children.Count == 0);
+                if (itemToBeDeleted.Parent != null)
+                    if (itemToBeDeleted.Children != null)
+                        result = (itemToBeDeleted.Children.Count == 0);
 
             return result;
         }
