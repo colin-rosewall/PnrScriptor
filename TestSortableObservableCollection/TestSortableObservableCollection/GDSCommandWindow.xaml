@@ -47,7 +47,7 @@
         <Label Content="Command:" Grid.Row="1" Grid.Column="0" ></Label>
         <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                  Text="{Binding GDSCommandToWorkOn.CommandLines, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  Margin="5,5,5,0" > 
+                  Margin="5,5,5,0" FontFamily="Courier New" > 
         </TextBox>
 
         <Button Name="OkButton"  Grid.Column="1" Grid.Row="2" IsDefault="True" Content="Save" Margin="10,10" Command="{Binding Path=SaveGDSCmdCommand}" />
