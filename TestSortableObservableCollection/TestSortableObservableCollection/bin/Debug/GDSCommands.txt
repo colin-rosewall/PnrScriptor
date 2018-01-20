@@ -1,0 +1,6 @@
+<Nodes>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="0" UniqueID="0" ParentID="0"><Description>Root</Description></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="1" UniqueID="1" ParentID="0"><Description>Amadeus</Description></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="1" UniqueID="2" ParentID="0"><Description>Galileo</Description></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="1" UniqueID="3" ParentID="0"><Description>Sabre</Description></Node>
+</Nodes>
