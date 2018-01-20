@@ -22,9 +22,12 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _saveGDSCmdCommand = null;
         private ICommand _deleteGDSCmdCommand = null;
         private ICommand _saveTreeCommand = null;
+        private ICommand _cutGDSCmdCommand = null;
+        private ICommand _pasteGDSCmdCommand = null;
 
         private ICommand _selectedItemChangedCommand = null;
         private IGDSCommandItemViewModel _currentlySelectedItem { get; set; }
+        private IGDSCommandViewModel _itemToCut { get; set; }
         private IGDSCommandSubgroupViewModel _GDSSubgroupToWorkOn = null;
         private IGDSCommandViewModel _GDSCommandToWorkOn = null;
         public Action CloseSubgroupWindow { get; set; }
@@ -39,6 +42,8 @@ namespace TestSortableObservableCollection.ViewModels
 
             _saveGDSCmdCommand = new RelayCommand<object>(SaveGDSCmd_Executed);
             _deleteGDSCmdCommand = new RelayCommand<object>(DeleteGDSCmd_Executed, DeleteGDSCmd_CanExecute);
+            _cutGDSCmdCommand = new RelayCommand<object>(CutGDSCmd_Executed, CutGDSCmd_CanExecute);
+            _pasteGDSCmdCommand = new RelayCommand<object>(PasteGDSCmd_Executed, PasteGDSCmd_CanExecute);
 
             _saveTreeCommand = new RelayCommand<object>(SaveTree_Executed, SaveTree_CanExecute);
 
@@ -124,6 +129,30 @@ namespace TestSortableObservableCollection.ViewModels
             set
             {
                 _deleteGDSCmdCommand = value;
+            }
+        }
+
+        public ICommand CutGDSCmdCommand
+        {
+            get
+            {
+                return _cutGDSCmdCommand;
+            }
+            set
+            {
+                _cutGDSCmdCommand = value;
+            }
+        }
+
+        public ICommand PasteGDSCmdCommand
+        {
+            get
+            {
+                return _pasteGDSCmdCommand;
+            }
+            set
+            {
+                _pasteGDSCmdCommand = value;
             }
         }
 
@@ -297,6 +326,54 @@ namespace TestSortableObservableCollection.ViewModels
                     _currentlySelectedItem.Children.Remove(itemToBeDeleted);
                 }
             }
+        }
+
+        public void CutGDSCmd_Executed(object obj)
+        {
+            IGDSCommandViewModel itemToBeCut = obj as IGDSCommandViewModel;
+
+            if (itemToBeCut != null && itemToBeCut.Parent != null)
+            {
+                _itemToCut = itemToBeCut;
+            }
+        }
+
+        public bool CutGDSCmd_CanExecute(object obj)
+        {
+            bool result = true;
+
+            return result;
+        }
+
+        public void PasteGDSCmd_Executed(object obj)
+        {
+            IGDSCommandSubgroupViewModel itemToPasteInto = obj as IGDSCommandSubgroupViewModel;
+
+            if (itemToPasteInto != null)
+            {
+                if (_itemToCut != null)
+                {
+                    IGDSCommandViewModel newItem = new GDSCommandViewModel(itemToPasteInto, _itemToCut.Description, _itemToCut.CommandLines);
+                    itemToPasteInto.AddChildItem(newItem);
+
+                    var parent = _itemToCut.Parent;
+                    if (parent != null)
+                    {
+                        parent.Children.Remove(_itemToCut);
+                        _itemToCut = null;
+                    }
+                }
+            }
+        }
+
+        public bool PasteGDSCmd_CanExecute(object obj)
+        {
+            bool result = false;
+
+            if (_itemToCut != null)
+                result = true;
+
+            return result;
         }
 
         public void DeleteSubgroup_Executed(object obj)
