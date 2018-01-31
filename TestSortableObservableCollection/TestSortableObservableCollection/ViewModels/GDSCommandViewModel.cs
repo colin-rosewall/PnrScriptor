@@ -21,6 +21,7 @@ namespace TestSortableObservableCollection.ViewModels
         private bool _IsItemExpanded = false;
         private bool _IsItemSelected = false;
         private Dictionary<string, List<string>> _validationErrors = null;
+        private string _guid = string.Empty;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -37,6 +38,18 @@ namespace TestSortableObservableCollection.ViewModels
             _parent = parent;
             _description = theDescription;
             _commandLines = theCommandLines;
+        }
+
+        public string Guid
+        {
+            get
+            {
+                return _guid;
+            }
+            set
+            {
+                _guid = value;
+            }
         }
 
         public UInt64 UniqueID

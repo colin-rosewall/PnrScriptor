@@ -18,6 +18,8 @@ namespace TestSortableObservableCollection.Interfaces
 
         IGDSCommandItemViewModel Parent { get; }
 
+        string Guid { get; set; }
+
         void AddChildItem(IGDSCommandItemViewModel item);
         object Clone();
 
