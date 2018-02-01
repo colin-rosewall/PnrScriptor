@@ -50,7 +50,7 @@ namespace TestSortableObservableCollection.ViewModels
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
-            GDSCmdTreeModel.LoadTree(this);
+            // GDSCmdTreeModel.LoadTree(this);
 
 
             //IGDSCommandSubgroupViewModel sabreItem = new GDSCommandSubgroupViewModel(rootItem, "Sabre");
@@ -427,7 +427,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         public void SaveTree_Executed(object obj)
         {
-            GDSCmdTreeModel.SaveTree(this);
+            // GDSCmdTreeModel.SaveTree(this);
         }
 
         public bool SaveTree_CanExecute(object obj)

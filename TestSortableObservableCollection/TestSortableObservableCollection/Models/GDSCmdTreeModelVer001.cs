@@ -8,108 +8,13 @@ using System.Threading.Tasks;
 using System.Xml;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
-
+using TestSortableObservableCollection.AppConstants;
 
 namespace TestSortableObservableCollection.Models
 {
-    public static class GDSCmdTreeModel
+    public class GDSCmdTreeModelVer001 : IGDSCmdTreeModel
     {
-        private const string GDSCommandsFilename = "GDSCommands.txt";
-
-        public static string Upgrade()
-        {
-            string errMsg = string.Empty;
-            bool fileNeedsUpgrade = false;
-            string fileVersion = string.Empty;
-
-            // if file exists, open file, check if file needs upgrading.  If it does, read all rows and save the file in the new format.
-            if (File.Exists(GDSCommandsFilename))
-            {
-                using (var reader = new StreamReader(GDSCommandsFilename))
-                {
-                    if (reader != null)
-                    {
-                        string line = reader.ReadLine();
-                        if (line.Length > 0)
-                        {
-                            if (line.StartsWith("<Nodes>"))
-                            {
-                                line = reader.ReadLine();
-                                if (line.StartsWith("</Nodes>") == false)
-                                {
-                                    line = line.ToUpper();
-                                    if (line.Contains("GUID=") == false)
-                                    {
-                                        if (line.Contains("TYPE=") && line.Contains("LEVEL=") && line.Contains("PARENTID=") && line.Contains("DESCRIPTION"))
-                                        {
-                                            fileVersion = "1.0";
-                                            fileNeedsUpgrade = true;
-                                        }
-                                        else
-                                        {
-                                            errMsg = string.Format("{0} - could not determine file format", GDSCommandsFilename);
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                                errMsg = string.Format("{0} - invalid first line", GDSCommandsFilename);
-                        }
-                        else
-                        {
-                            errMsg = string.Format("{0} - first line cannot be empty", GDSCommandsFilename);
-                        }
-                        reader.Close();
-                    }
-                    else
-                        errMsg = string.Format("{0} - Error creating StreamReader", GDSCommandsFilename);
-                }
-            }
-            else
-            {
-                //errMsg = string.Format("{0} - does not exist", GDSCommandsFilename);
-            }
-            
-            if (fileNeedsUpgrade && fileVersion.Length > 0)
-            {
-                //GDSCommandTreeViewModel vm = new GDSCommandTreeViewModel();
-                //LoadTree(vm);
-                //SaveTree("1.1", vm);
-            }
-
-            return errMsg;
-        }
-
-        public static void SaveTree(string fileVersion, GDSCommandTreeViewModel vm)
-        {
-            if (fileVersion == "1.1")
-            {
-                if (vm != null && vm.Root != null && vm.Root.Count > 0)
-                {
-                    UInt64 uniqueID = 0;
-                    StringBuilder nodesAsXml = new StringBuilder();
-
-                    foreach (var item in vm.Root)
-                    {
-                        TraverseInLevelOrder(item, ref uniqueID, ref nodesAsXml);
-                    }
-                    if (nodesAsXml.Length > 0)
-                    {
-                        using (var writer = new StreamWriter(GDSCommandsFilename, false))
-                        {
-                            writer.WriteLine("<Nodes>");
-                            writer.Write(nodesAsXml.ToString());
-                            writer.WriteLine("</Nodes>");
-                            writer.Flush();
-                            writer.Close();
-                        }
-                    }
-                }
-            }
-        }
-
-
-        public static void SaveTree(GDSCommandTreeViewModel vm)
+        public void SaveTree(GDSCommandTreeViewModel vm)
         {
             if (vm != null && vm.Root != null && vm.Root.Count > 0)
             {
@@ -122,7 +27,7 @@ namespace TestSortableObservableCollection.Models
                 }
                 if (nodesAsXml.Length > 0)
                 {
-                    using (var writer = new StreamWriter(GDSCommandsFilename, false))
+                    using (var writer = new StreamWriter(Constants.GDSCommandsFilename, false))
                     {
                         writer.WriteLine("<Nodes>");
                         writer.Write(nodesAsXml.ToString());
@@ -134,13 +39,13 @@ namespace TestSortableObservableCollection.Models
             }
         }
 
-        public static void LoadTree(GDSCommandTreeViewModel vm)
+        public void LoadTree(GDSCommandTreeViewModel vm)
         {
             if (vm != null && vm.Root != null)
             {
-                if (File.Exists(GDSCommandsFilename))
+                if (File.Exists(Constants.GDSCommandsFilename))
                 {
-                    using (var reader = new StreamReader(GDSCommandsFilename))
+                    using (var reader = new StreamReader(Constants.GDSCommandsFilename))
                     {
                         using (var xmlReader = XmlReader.Create(reader))
                         {
@@ -218,7 +123,7 @@ namespace TestSortableObservableCollection.Models
                                                 }
                                             }
                                             if (nodeParsedCorrectly)
-                                            {                                                
+                                            {
                                                 IGDSCommandItemViewModel parent = null;
                                                 IGDSCommandItemViewModel newItem = null;
                                                 int intLevel = int.Parse(level);
@@ -280,7 +185,7 @@ namespace TestSortableObservableCollection.Models
             }
         }
 
-        private static IGDSCommandItemViewModel FindParent(GDSCommandTreeViewModel vm, UInt64 parentIDRequested)
+        private IGDSCommandItemViewModel FindParent(GDSCommandTreeViewModel vm, UInt64 parentIDRequested)
         {
             IGDSCommandItemViewModel parent = null;
             bool parentFound = false;
@@ -318,7 +223,7 @@ namespace TestSortableObservableCollection.Models
 
             return parent;
         }
-        private static void TraverseInLevelOrder(IGDSCommandItemViewModel item, ref UInt64 uniqueID, ref StringBuilder nodesAsXml)
+        private void TraverseInLevelOrder(IGDSCommandItemViewModel item, ref UInt64 uniqueID, ref StringBuilder nodesAsXml)
         {
             Queue<Tuple<int, IGDSCommandItemViewModel>> q = new Queue<Tuple<int, IGDSCommandItemViewModel>>();
 
@@ -349,7 +254,7 @@ namespace TestSortableObservableCollection.Models
             }
         }
 
-        private static string FormatItemAsXml(int level, UInt64 uniqueID, IGDSCommandItemViewModel currentItem)
+        private string FormatItemAsXml(int level, UInt64 uniqueID, IGDSCommandItemViewModel currentItem)
         {
             string xmlOutput = string.Empty;
 
@@ -367,11 +272,6 @@ namespace TestSortableObservableCollection.Models
                         writer.WriteAttributeString("Level", level.ToString());
                         writer.WriteAttributeString("UniqueID", uniqueID.ToString());
                         writer.WriteAttributeString("ParentID", (currentItem.Parent == null ? 0.ToString() : currentItem.Parent.UniqueID.ToString()));
-                        if (currentItem.Guid.Length == 0)
-                        {
-                            currentItem.Guid = System.Guid.NewGuid().ToString();
-                        }
-                        writer.WriteAttributeString("Guid", currentItem.Guid);
                         writer.WriteElementString("Description", currentItem.Description);
                         var gdsCommand = currentItem as IGDSCommandViewModel;
                         if (gdsCommand != null)
@@ -389,6 +289,5 @@ namespace TestSortableObservableCollection.Models
 
             return xmlOutput;
         }
-
     }
 }
