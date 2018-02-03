@@ -82,6 +82,30 @@ namespace TestSortableObservableCollection.Models
 
             return parent;
         }
+
+        private void TraverseInLevelOrder(IGDSCommandItemViewModel item)
+        {
+            Queue<Tuple<int, IGDSCommandItemViewModel>> q = new Queue<Tuple<int, IGDSCommandItemViewModel>>();
+
+            if (item != null)
+                q.Enqueue(new Tuple<int, IGDSCommandItemViewModel>(0, item));
+
+            while (q.Count > 0)
+            {
+                var queueItem = q.Dequeue();
+                int level = queueItem.Item1;
+                IGDSCommandItemViewModel currentItem = queueItem.Item2;
+                IGDSCommandViewModel gdsCmdItem = currentItem as IGDSCommandViewModel;
+                if (gdsCmdItem != null && gdsCmdItem.Guid.Length == 0)
+                    gdsCmdItem.Guid = System.Guid.NewGuid().ToString();
+
+                foreach (var child in currentItem.Children)
+                {
+                    q.Enqueue(new Tuple<int, IGDSCommandItemViewModel>(level + 1, child));
+                }
+            }
+
+        }
         private void TraverseInLevelOrder(IGDSCommandItemViewModel item, ref UInt64 uniqueID, ref StringBuilder nodesAsXml)
         {
             Queue<Tuple<int, IGDSCommandItemViewModel>> q = new Queue<Tuple<int, IGDSCommandItemViewModel>>();
@@ -150,5 +174,19 @@ namespace TestSortableObservableCollection.Models
             return xmlOutput;
         }
 
+        public string Upgrade(GDSCommandTreeViewModel vm)
+        {
+            string errMsg = string.Empty;
+
+            if (vm != null && vm.Root != null && vm.Root.Count > 0)
+            {
+                foreach (var item in vm.Root)
+                {
+                    TraverseInLevelOrder(item);
+                }
+            }
+
+            return errMsg;
+        }
     }
 }

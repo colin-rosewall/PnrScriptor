@@ -10,6 +10,7 @@ using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.AppConstants;
 using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
+using System.Xml;
 
 namespace TestSortableObservableCollection
 {
@@ -24,7 +25,7 @@ namespace TestSortableObservableCollection
 
             base.OnStartup(e);
 
-            // errMsg = Upgrade();
+            errMsg = Upgrade();
             if (errMsg.Length > 0)
             {
                 MessageBox.Show(string.Format("Error starting the application - {0}", errMsg));
@@ -35,52 +36,67 @@ namespace TestSortableObservableCollection
 
         }
 
+        private void ParseNode(XmlReader xmlReader, ref bool fileNeedsUpgrade, ref string fileVersion)
+        {
+            XmlReader inner = xmlReader.ReadSubtree();
+            bool nodeParsedCorrectly = false;
+            string classType = string.Empty;
+            string guid = string.Empty;
+            bool ignoreThisNode = false;
+            bool startOfGuidFound = false;
+
+            while (xmlReader.EOF == false && ignoreThisNode == false && inner.Read())
+            {
+                if (inner.HasAttributes)
+                {
+                    classType = xmlReader.GetAttribute("Type");
+                    if (classType.Length > 0 && classType.ToUpper().Contains("GDSCOMMANDVIEWMODEL") == false)
+                    {
+                        ignoreThisNode = true;
+                    }
+                }
+                if (ignoreThisNode == false && inner.NodeType == XmlNodeType.Element)
+                {
+                    if (inner.Name.Length > 0 && inner.Name.ToUpper() == "GUID")
+                    {
+                        startOfGuidFound = true;
+                    }
+                }
+                if (ignoreThisNode == false && startOfGuidFound == true)
+                {
+                    if (inner.NodeType == XmlNodeType.Text)
+                    {
+                        guid = inner.Value;
+                        nodeParsedCorrectly = true;
+                    }
+                }
+
+            }
+            inner.Close();
+            if (nodeParsedCorrectly && guid.Length > 0)
+            {
+                fileVersion = "002";
+                fileNeedsUpgrade = false;
+            }
+            else if (ignoreThisNode == false && startOfGuidFound == false)
+            {
+                fileVersion = "001";
+                fileNeedsUpgrade = true;
+            }
+
+        }
+
         private void DetermineFileVersion(ref bool fileNeedsUpgrade, ref string fileVersion, ref string errMsg)
         {
-            bool ignoreCase = true;
-            bool fileVersionUnknown = true;
-
             using (var reader = new StreamReader(Constants.GDSCommandsFilename))
             {
-                if (reader != null)
+                using (var xmlReader = XmlReader.Create(reader))
                 {
-                    string line = string.Empty;
-                    while (reader.EndOfStream == false && errMsg.Length == 0 && fileVersionUnknown)
+                    while (xmlReader.EOF == false && fileVersion.Length == 0 && xmlReader.ReadToFollowing("Node"))
                     {
-                        line = reader.ReadLine();
-                        if (line.Length > 0)
-                        {
-                            if (line.StartsWith("<Nodes>", ignoreCase, null) || line.StartsWith("</Nodes>", ignoreCase, null))
-                            {
-                                // do nothing because the line is valid
-                            }
-                            else
-                            {
-                                line = line.ToUpper();
-                                if (line.Contains("COMMANDLINES"))
-                                {
-                                    if (line.Contains("TYPE=") && line.Contains("LEVEL=") && line.Contains("PARENTID=") && line.Contains("DESCRIPTION"))
-                                    {
-                                        if (line.Contains("GUID") == false)
-                                        {
-                                            fileVersion = "001";
-                                            fileNeedsUpgrade = true;
-                                            fileVersionUnknown = false;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        errMsg = string.Format("{0} - could not determine file format", Constants.GDSCommandsFilename);
-                                    }
-                                }
-                            }
-                        }
+                        ParseNode(xmlReader, ref fileNeedsUpgrade, ref fileVersion);
                     }
-
-                    reader.Close();
                 }
-                else
-                    errMsg = string.Format("{0} - Error creating StreamReader", Constants.GDSCommandsFilename);
             }
         }
 
@@ -107,16 +123,15 @@ namespace TestSortableObservableCollection
                     if (successorModel != null)
                     {
                         // we need to assign new guids to the gds commands in vm
-
-                        //successorModel.SaveTree(vm);
+                        errMsg = successorModel.Upgrade(vm);
+                        successorModel.SaveTree(vm);
+                        successorModel = null;
                     }
-                        
+                    model = null;
                 }
             }
 
             return errMsg;
         }
-
-
     }
 }

@@ -289,5 +289,10 @@ namespace TestSortableObservableCollection.Models
 
             return xmlOutput;
         }
+
+        public string Upgrade(GDSCommandTreeViewModel vm)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

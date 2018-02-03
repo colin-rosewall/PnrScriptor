@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Serialization;
 using TestSortableObservableCollection.Interfaces;
+using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
 
 namespace TestSortableObservableCollection
@@ -32,7 +33,11 @@ namespace TestSortableObservableCollection
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new GDSCommandTreeViewModel();
+            GDSCommandTreeViewModel vm = new GDSCommandTreeViewModel();
+            IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
+            model.LoadTree(vm);
+
+            DataContext = vm;
 
         }
 

@@ -9,8 +9,7 @@ namespace TestSortableObservableCollection.Interfaces
 {
     public interface IGDSCmdTreeModel
     {
-        
-        //string Upgrade();
+        string Upgrade(GDSCommandTreeViewModel vm);
         void SaveTree(GDSCommandTreeViewModel vm);
         void LoadTree(GDSCommandTreeViewModel vm);
     }
