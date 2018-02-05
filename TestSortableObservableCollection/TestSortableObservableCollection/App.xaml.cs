@@ -30,74 +30,12 @@ namespace TestSortableObservableCollection
             {
                 MessageBox.Show(string.Format("Error starting the application - {0}", errMsg));
             }
-
-            //Window main = new MainWindow();
-            //main.Show();
-
-        }
-
-        private void ParseNode(XmlReader xmlReader, ref bool fileNeedsUpgrade, ref string fileVersion)
-        {
-            XmlReader inner = xmlReader.ReadSubtree();
-            bool nodeParsedCorrectly = false;
-            string classType = string.Empty;
-            string guid = string.Empty;
-            bool ignoreThisNode = false;
-            bool startOfGuidFound = false;
-
-            while (xmlReader.EOF == false && ignoreThisNode == false && inner.Read())
+            else
             {
-                if (inner.HasAttributes)
-                {
-                    classType = xmlReader.GetAttribute("Type");
-                    if (classType.Length > 0 && classType.ToUpper().Contains("GDSCOMMANDVIEWMODEL") == false)
-                    {
-                        ignoreThisNode = true;
-                    }
-                }
-                if (ignoreThisNode == false && inner.NodeType == XmlNodeType.Element)
-                {
-                    if (inner.Name.Length > 0 && inner.Name.ToUpper() == "GUID")
-                    {
-                        startOfGuidFound = true;
-                    }
-                }
-                if (ignoreThisNode == false && startOfGuidFound == true)
-                {
-                    if (inner.NodeType == XmlNodeType.Text)
-                    {
-                        guid = inner.Value;
-                        nodeParsedCorrectly = true;
-                    }
-                }
-
-            }
-            inner.Close();
-            if (nodeParsedCorrectly && guid.Length > 0)
-            {
-                fileVersion = "002";
-                fileNeedsUpgrade = false;
-            }
-            else if (ignoreThisNode == false && startOfGuidFound == false)
-            {
-                fileVersion = "001";
-                fileNeedsUpgrade = true;
+                Window main = new MainWindow();
+                main.Show();
             }
 
-        }
-
-        private void DetermineFileVersion(ref bool fileNeedsUpgrade, ref string fileVersion, ref string errMsg)
-        {
-            using (var reader = new StreamReader(Constants.GDSCommandsFilename))
-            {
-                using (var xmlReader = XmlReader.Create(reader))
-                {
-                    while (xmlReader.EOF == false && fileVersion.Length == 0 && xmlReader.ReadToFollowing("Node"))
-                    {
-                        ParseNode(xmlReader, ref fileNeedsUpgrade, ref fileVersion);
-                    }
-                }
-            }
         }
 
         public string Upgrade()
@@ -106,7 +44,6 @@ namespace TestSortableObservableCollection
             bool fileNeedsUpgrade = false;
             string fileVersion = string.Empty;
 
-            // if file exists, open file, check if file needs upgrading.  If it does, read all rows and save the file in the new format.
             if (File.Exists(Constants.GDSCommandsFilename))
             {
                 DetermineFileVersion(ref fileNeedsUpgrade, ref fileVersion, ref errMsg);
@@ -132,6 +69,75 @@ namespace TestSortableObservableCollection
             }
 
             return errMsg;
+        }
+
+        private void ParseNode(XmlReader inner, ref bool fileNeedsUpgrade, ref string fileVersion)
+        {
+            bool nodeParsedCorrectly = false;
+            string classType = string.Empty;
+            string guid = string.Empty;
+            bool ignoreThisNode = false;
+            bool startOfGuidFound = false;
+
+            try
+            {
+                while (inner.EOF == false && ignoreThisNode == false && inner.Read())
+                {
+                    if (inner.HasAttributes)
+                    {
+                        classType = inner.GetAttribute("Type");
+                        if (classType.Length > 0 && classType.ToUpper().Contains("GDSCOMMANDVIEWMODEL") == false)
+                        {
+                            ignoreThisNode = true;
+                        }
+                    }
+                    if (ignoreThisNode == false && inner.NodeType == XmlNodeType.Element)
+                    {
+                        if (inner.Name.Length > 0 && inner.Name.ToUpper() == "GUID")
+                        {
+                            startOfGuidFound = true;
+                        }
+                    }
+                    if (ignoreThisNode == false && startOfGuidFound == true)
+                    {
+                        if (inner.NodeType == XmlNodeType.Text)
+                        {
+                            guid = inner.Value;
+                            nodeParsedCorrectly = true;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                inner.Close();
+            }
+            
+            if (nodeParsedCorrectly && guid.Length > 0)
+            {
+                fileVersion = "002";
+                fileNeedsUpgrade = false;
+            }
+            else if (ignoreThisNode == false && startOfGuidFound == false)
+            {
+                fileVersion = "001";
+                fileNeedsUpgrade = true;
+            }
+        }
+
+        private void DetermineFileVersion(ref bool fileNeedsUpgrade, ref string fileVersion, ref string errMsg)
+        {
+            using (var reader = new StreamReader(Constants.GDSCommandsFilename))
+            {
+                using (var xmlReader = XmlReader.Create(reader))
+                {
+                    while (xmlReader.EOF == false && fileVersion.Length == 0 && xmlReader.ReadToFollowing("Node"))
+                    {
+                        XmlReader inner = xmlReader.ReadSubtree();
+                        ParseNode(inner, ref fileNeedsUpgrade, ref fileVersion);
+                    }
+                }
+            }
         }
     }
 }

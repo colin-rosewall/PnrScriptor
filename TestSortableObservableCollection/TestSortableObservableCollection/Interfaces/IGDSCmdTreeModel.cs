@@ -11,6 +11,6 @@ namespace TestSortableObservableCollection.Interfaces
     {
         string Upgrade(GDSCommandTreeViewModel vm);
         void SaveTree(GDSCommandTreeViewModel vm);
-        void LoadTree(GDSCommandTreeViewModel vm);
+        string LoadTree(GDSCommandTreeViewModel vm);
     }
 }

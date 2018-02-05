@@ -13,10 +13,151 @@ namespace TestSortableObservableCollection.Models
 {
     public class GDSCmdTreeModelVer002 : IGDSCmdTreeModel
     {
-        public void LoadTree(GDSCommandTreeViewModel vm)
+        public string LoadTree(GDSCommandTreeViewModel vm)
         {
-            throw new NotImplementedException();
+            string errMsg = string.Empty;
+
+            if (vm != null && vm.Root != null)
+            {
+                if (File.Exists(Constants.GDSCommandsFilename))
+                {
+                    using (var reader = new StreamReader(Constants.GDSCommandsFilename))
+                    {
+                        using (var xmlReader = XmlReader.Create(reader))
+                        {
+                            while (xmlReader.EOF == false && errMsg.Length == 0 && xmlReader.ReadToFollowing("Node"))
+                            {
+                                XmlReader inner = xmlReader.ReadSubtree();
+                                errMsg = ParseNode(inner, vm);
+                            }
+                        }
+                    }
+                }
+                if (vm.Root.Count == 0)
+                {
+                    IGDSCommandSubgroupViewModel rootItem = new GDSCommandSubgroupViewModel(null, "Root");
+                    vm.Root.Add(rootItem);
+                }
+            }
+
+            return errMsg;
         }
+
+        private string ParseNode(XmlReader inner, GDSCommandTreeViewModel vm)
+        {
+            bool nodeParsedCorrectly = false;
+            string classType = string.Empty;
+            string level = string.Empty;
+            string uniqueID = string.Empty;
+            string parentID = string.Empty;
+            string description = string.Empty;
+            string commandLines = string.Empty;
+            string guid = string.Empty;
+            string elementName = string.Empty;
+            string errMsg = string.Empty;
+
+            try
+            {
+                while (inner.EOF == false && errMsg.Length == 0 && inner.Read())
+                {
+                    if (inner.HasAttributes)
+                    {
+                        classType = inner.GetAttribute("Type");
+                        level = inner.GetAttribute("Level");
+                        uniqueID = inner.GetAttribute("UniqueID");
+                        parentID = inner.GetAttribute("ParentID");
+                    }
+
+                    if (inner.NodeType == XmlNodeType.Element && inner.Name.Length > 0)
+                    {
+                        elementName = inner.Name.ToUpper();
+                    }
+                    else if (inner.NodeType == XmlNodeType.Text)
+                    {
+                        switch (elementName)
+                        {
+                            case "DESCRIPTION":
+                                description = inner.Value;
+                                break;
+
+                            case "COMMANDLINES":
+                                commandLines = inner.Value;
+                                break;
+
+                            case "GUID":
+                                guid = inner.Value;
+                                break;
+                        }
+                    }
+                }
+                nodeParsedCorrectly = (classType.Length > 0 && level.Length > 0 && uniqueID.Length > 0 && parentID.Length > 0);
+                if (classType.Contains("GDSCommandViewModel"))
+                {
+                    nodeParsedCorrectly = nodeParsedCorrectly && guid.Length > 0;
+                }
+
+                if (nodeParsedCorrectly)
+                {
+                    IGDSCommandItemViewModel parent = null;
+                    IGDSCommandItemViewModel newItem = null;
+                    int intLevel = int.Parse(level);
+                    if (classType.Contains("GDSCommandSubgroupViewModel"))
+                    {
+                        if (intLevel == 0)
+                        {
+                            newItem = new GDSCommandSubgroupViewModel(null, description);
+                            vm.Root.Add(newItem);
+                        }
+                        else
+                        {
+                            parent = FindParent(vm, UInt64.Parse(parentID));
+                            if (parent != null)
+                            {
+                                newItem = new GDSCommandSubgroupViewModel(parent, description);
+                                parent.AddChildItem(newItem);
+                            }
+                        }
+                        if (newItem != null)
+                        {
+                            newItem.UniqueID = UInt64.Parse(uniqueID);
+                        }
+                    }
+                    else if (classType.Contains("GDSCommandViewModel"))
+                    {
+                        if (intLevel == 0)
+                        {
+                            newItem = new GDSCommandViewModel(null, description, commandLines);
+                            vm.Root.Add(newItem);
+                        }
+                        else
+                        {
+                            parent = FindParent(vm, UInt64.Parse(parentID));
+                            if (parent != null)
+                            {
+                                newItem = new GDSCommandViewModel(parent, description, commandLines);
+                                parent.AddChildItem(newItem);
+                            }
+                        }
+                        if (newItem != null)
+                        {
+                            newItem.UniqueID = UInt64.Parse(uniqueID);
+                            newItem.Guid = guid;  // Only GDS Commands have a guid
+                        }
+                    }
+                }
+                else
+                {
+                    errMsg = string.Format("Invalid Node - UniqueID={0} Description={1}", uniqueID, description);
+                }
+            }
+            finally
+            {
+                inner.Close();
+            }
+
+            return errMsg;
+        }
+
 
         public void SaveTree(GDSCommandTreeViewModel vm)
         {
@@ -95,6 +236,7 @@ namespace TestSortableObservableCollection.Models
                 var queueItem = q.Dequeue();
                 int level = queueItem.Item1;
                 IGDSCommandItemViewModel currentItem = queueItem.Item2;
+
                 IGDSCommandViewModel gdsCmdItem = currentItem as IGDSCommandViewModel;
                 if (gdsCmdItem != null && gdsCmdItem.Guid.Length == 0)
                     gdsCmdItem.Guid = System.Guid.NewGuid().ToString();
@@ -176,7 +318,7 @@ namespace TestSortableObservableCollection.Models
 
         public string Upgrade(GDSCommandTreeViewModel vm)
         {
-            string errMsg = string.Empty;
+            string errMsg = string.Empty;  // todo: this is never set, is it needed?
 
             if (vm != null && vm.Root != null && vm.Root.Count > 0)
             {

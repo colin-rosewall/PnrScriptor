@@ -23,9 +23,6 @@ namespace TestSortableObservableCollection.Models
                     newItem = new GDSCmdTreeModelVer002();
                     break;
 
-                default:
-                    newItem = new GDSCmdTreeModelVer001();
-                    break;
             }
 
             return newItem;

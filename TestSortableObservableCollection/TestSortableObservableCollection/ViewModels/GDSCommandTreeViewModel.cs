@@ -427,7 +427,8 @@ namespace TestSortableObservableCollection.ViewModels
 
         public void SaveTree_Executed(object obj)
         {
-            // GDSCmdTreeModel.SaveTree(this);
+            IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
+            model.SaveTree(this);
         }
 
         public bool SaveTree_CanExecute(object obj)

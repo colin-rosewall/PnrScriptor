@@ -39,8 +39,10 @@ namespace TestSortableObservableCollection.Models
             }
         }
 
-        public void LoadTree(GDSCommandTreeViewModel vm)
+        public string LoadTree(GDSCommandTreeViewModel vm)
         {
+            string errMsg = string.Empty;
+
             if (vm != null && vm.Root != null)
             {
                 if (File.Exists(Constants.GDSCommandsFilename))
@@ -183,6 +185,8 @@ namespace TestSortableObservableCollection.Models
                     vm.Root.Add(rootItem);
                 }
             }
+
+            return errMsg;
         }
 
         private IGDSCommandItemViewModel FindParent(GDSCommandTreeViewModel vm, UInt64 parentIDRequested)

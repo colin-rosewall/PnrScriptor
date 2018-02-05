@@ -3,7 +3,7 @@
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="1" UniqueID="1" ParentID="0"><Description>Amadeus</Description></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="1" UniqueID="2" ParentID="0"><Description>Galileo</Description></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="1" UniqueID="3" ParentID="0"><Description>Sabre</Description></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="2" UniqueID="4" ParentID="3"><Description>Add T4 remark</Description><CommandLines>5B¥T4-54059/KG3I/FOP01</CommandLines></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="2" UniqueID="4" ParentID="3"><Description>Add T4 remark</Description><CommandLines>5B¥T4-54059/KG3I/FOP01</CommandLines><Guid>7a9ef586-678f-4f9b-b93c-351e818a1a1e</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="2" UniqueID="5" ParentID="3"><Description>Address</Description></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="2" UniqueID="6" ParentID="3"><Description>Email</Description></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="2" UniqueID="7" ParentID="3"><Description>Form of Payment</Description></Node>
@@ -11,10 +11,10 @@
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="2" UniqueID="9" ParentID="3"><Description>Passengers</Description></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="2" UniqueID="10" ParentID="3"><Description>Phone</Description></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandSubgroupViewModel" Level="2" UniqueID="11" ParentID="3"><Description>Ticketing Time Limit</Description></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="12" ParentID="5"><Description>Add Brisbane Address</Description><CommandLines>W-FREE STREET</CommandLines></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="13" ParentID="6"><Description>Add Email</Description><CommandLines>PE¥BOB@GMAIL.COM¥</CommandLines></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="14" ParentID="7"><Description>Add Cash</Description><CommandLines>FOPCASH</CommandLines></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="15" ParentID="7"><Description>Add Visa 4111</Description><CommandLines>FOPVI4111111111111111¥12/25</CommandLines></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="12" ParentID="5"><Description>Add Brisbane Address</Description><CommandLines>W-FREE STREET</CommandLines><Guid>bbe17de8-aa11-4a2b-ac0b-6a05ed838dcc</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="13" ParentID="6"><Description>Add Email</Description><CommandLines>PE¥BOB@GMAIL.COM¥</CommandLines><Guid>02d05ac9-9eb1-42dd-80fa-64893e7a350b</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="14" ParentID="7"><Description>Add Cash</Description><CommandLines>FOPCASH</CommandLines><Guid>683277d5-01f4-4cea-a110-7c7b6790285c</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="15" ParentID="7"><Description>Add Visa 4111</Description><CommandLines>FOPVI4111111111111111¥12/25</CommandLines><Guid>ee8bb8f3-f8c8-454a-9dc4-ca7a403bb005</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="16" ParentID="8"><Description>Add Free of Charge Reissue Mask - Credit Card</Description><CommandLines>5TMASK/DATE**12JAN..............T4**FSD
 5TDOC TYPE**REISSUE.............PSEUDO**KG3I
 5TTICKET NBR-**ALL..............PAX NBR**ALL
@@ -24,7 +24,7 @@
 5TCC TOTAL AMOUNT**0.00.........
 5TAUTH**2222
 5TOTHER INFO-**FOG..............
-5TOTHER INFO-**.................</CommandLines></Node>
+5TOTHER INFO-**.................</CommandLines><Guid>8bb3894a-fb3f-4382-885c-7c8d545430da</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="17" ParentID="8"><Description>Add Retail Mask</Description><CommandLines>5TMASK/DATE**6DEC17........T4**82345..........
 5TDOC TYPE**ET..............PSEUDO**KG3I......
 5TF/BASIS OR-**Y............TOTAL**3720.00....
@@ -32,8 +32,8 @@
 5TFARE REF---**.............SHOP REF**........
 5TFOP**001..................SECTORS**1.2......
 5TOTHER INFO-**...............................
-5TOTHER INFO-**...............................</CommandLines></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="18" ParentID="9"><Description>Add Adult</Description><CommandLines>-JAMES/ARRON</CommandLines></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="19" ParentID="10"><Description>Add Phone</Description><CommandLines>90784578457</CommandLines></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="20" ParentID="11"><Description>Add TTL</Description><CommandLines>7TAW/</CommandLines></Node>
+5TOTHER INFO-**...............................</CommandLines><Guid>b20adc24-b8a0-4e0d-9781-aed9ac2b46ec</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="18" ParentID="9"><Description>Add Adult</Description><CommandLines>-JAMES/ARRON</CommandLines><Guid>1dd4ff3b-1bef-4f94-bf1b-70fd145d22c1</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="19" ParentID="10"><Description>Add Phone</Description><CommandLines>90784578457</CommandLines><Guid>5c4bac26-469f-4ef5-a25a-74cfc5a69464</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="20" ParentID="11"><Description>Add TTL</Description><CommandLines>7TAW/</CommandLines><Guid>8e9a6ebc-8b66-4349-bae4-b28718f61153</Guid></Node>
 </Nodes>
