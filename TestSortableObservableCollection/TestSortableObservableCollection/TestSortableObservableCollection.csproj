@@ -72,6 +72,9 @@
     <Compile Include="Interfaces\IGDSCommandItemViewModel.cs" />
     <Compile Include="Interfaces\IGDSCommandSubgroupViewModel.cs" />
     <Compile Include="Interfaces\IGDSCommandViewModel.cs" />
+    <Compile Include="Interfaces\IPnrScriptBaseItemViewModel.cs" />
+    <Compile Include="Interfaces\IPnrScriptSubgroupViewModel.cs" />
+    <Compile Include="Interfaces\IPnrScriptViewModel.cs" />
     <Compile Include="Models\GDSCmdTreeModelFactory.cs" />
     <Compile Include="Models\GDSCmdTreeModelVer001.cs" />
     <Compile Include="Models\GDSCmdTreeModelVer002.cs" />
@@ -84,6 +87,7 @@
     <Compile Include="ViewModels\GDSCommandSubgroupViewModel.cs" />
     <Compile Include="ViewModels\GDSCommandTreeViewModel.cs" />
     <Compile Include="ViewModels\GDSCommandViewModel.cs" />
+    <Compile Include="ViewModels\PnrScriptSubgroupViewModel.cs" />
     <Compile Include="ViewModels\SortableObservableCollection.cs" />
     <Page Include="GDSCommandWindow.xaml">
       <SubType>Designer</SubType>
