@@ -88,6 +88,7 @@
     <Compile Include="ViewModels\GDSCommandTreeViewModel.cs" />
     <Compile Include="ViewModels\GDSCommandViewModel.cs" />
     <Compile Include="ViewModels\PnrScriptSubgroupViewModel.cs" />
+    <Compile Include="ViewModels\PnrScriptViewModel.cs" />
     <Compile Include="ViewModels\SortableObservableCollection.cs" />
     <Page Include="GDSCommandWindow.xaml">
       <SubType>Designer</SubType>

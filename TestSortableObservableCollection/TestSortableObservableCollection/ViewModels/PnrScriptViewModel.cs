@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,29 +8,31 @@ using TestSortableObservableCollection.Interfaces;
 
 namespace TestSortableObservableCollection.ViewModels
 {
-    public class PnrScriptSubgroupViewModel : Base.BaseViewModel, IPnrScriptSubgroupViewModel
+    public class PnrScriptViewModel : Base.BaseViewModel, IPnrScriptViewModel
     {
         private UInt64 _uniqueID;
         private string _description = null;
-        private IPnrScriptBaseItemViewModel _parent = null;
+        private ObservableCollection<IGDSCommandViewModel> _gdsCmds = null;
+        private IPnrScriptBaseItemViewModel _parent;
         private SortableObservableCollection<IPnrScriptBaseItemViewModel> _children = null;
         private bool _IsItemExpanded = false;
         private bool _IsItemSelected = false;
         private Dictionary<string, List<string>> _validationErrors = null;
 
         // public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
-        public PnrScriptSubgroupViewModel()
+        public PnrScriptViewModel()
         {
             _description = string.Empty;
+            _gdsCmds = new ObservableCollection<IGDSCommandViewModel>();
             _children = new SortableObservableCollection<IPnrScriptBaseItemViewModel>();
             _validationErrors = new Dictionary<string, List<string>>();
         }
 
-        public PnrScriptSubgroupViewModel(IPnrScriptBaseItemViewModel parent, string theDescription) : this()
+        public PnrScriptViewModel(IPnrScriptBaseItemViewModel parent, string theDescription) : this()
         {
             _parent = parent;
             _description = theDescription;
+            // todo: set _gdsCmds here
         }
 
         public SortableObservableCollection<IPnrScriptBaseItemViewModel> Children
@@ -55,7 +58,14 @@ namespace TestSortableObservableCollection.ViewModels
                     // ValidateDescription(_description, () => Description);
                     NotifyPropertyChanged(() => Description);
                 }
-                
+            }
+        }
+
+        public ObservableCollection<IGDSCommandViewModel> GDSCommands
+        {
+            get
+            {
+                return _gdsCmds;
             }
         }
 
@@ -101,14 +111,6 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        //public bool HasErrors
-        //{
-        //    get
-        //    {
-        //        return _validationErrors.Any();
-        //    }
-        //}
-
         public ulong UniqueID
         {
             get
@@ -121,6 +123,14 @@ namespace TestSortableObservableCollection.ViewModels
                 _uniqueID = value;
             }
         }
+
+        //public bool HasErrors
+        //{
+        //    get
+        //    {
+        //        return _validationErrors.Any();
+        //    }
+        //}
 
         public void AddChildItem(IPnrScriptBaseItemViewModel item)
         {
@@ -154,7 +164,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         //private void ValidateDescription(string newValue, Expression<Func<string>> propName)
         //{
-        //    const string descriptionMissing = "Subgroup Description cannot be empty.";
+        //    const string descriptionMissing = "GDS Command Description cannot be empty.";
 
         //    var lambda = (LambdaExpression)propName;
         //    MemberExpression memberExpression;
