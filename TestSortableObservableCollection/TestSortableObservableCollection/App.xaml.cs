@@ -11,6 +11,7 @@ using TestSortableObservableCollection.AppConstants;
 using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
 using System.Xml;
+using TestSortableObservableCollection.Views;
 
 namespace TestSortableObservableCollection
 {
