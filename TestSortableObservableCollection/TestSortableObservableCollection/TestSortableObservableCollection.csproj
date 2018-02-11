@@ -64,7 +64,7 @@
     <Compile Include="Behaviours\TreeViewSelectionChangedBehavior.cs" />
     <Compile Include="Behaviours\WindowCloseBehaviour.cs" />
     <Compile Include="Constants\AppConstants.cs" />
-    <Compile Include="GDSCommandItemDataTemplateSelector.cs" />
+    <Compile Include="Views\GDSCommandItemDataTemplateSelector.cs" />
     <Compile Include="Views\GDSCommandWindow.xaml.cs">
       <DependentUpon>GDSCommandWindow.xaml</DependentUpon>
     </Compile>
@@ -78,8 +78,8 @@
     <Compile Include="Models\GDSCmdTreeModelFactory.cs" />
     <Compile Include="Models\GDSCmdTreeModelVer001.cs" />
     <Compile Include="Models\GDSCmdTreeModelVer002.cs" />
-    <Compile Include="MyBindingProxy.cs" />
-    <Compile Include="PnrScriptItemDataTemplateSelector.cs" />
+    <Compile Include="Views\MyBindingProxy.cs" />
+    <Compile Include="Views\PnrScriptItemDataTemplateSelector.cs" />
     <Compile Include="Views\PnrScriptsWindow.xaml.cs">
       <DependentUpon>PnrScriptsWindow.xaml</DependentUpon>
     </Compile>

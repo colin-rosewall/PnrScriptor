@@ -20,6 +20,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         private ICommand _selectedItemChangedCommand = null;
         private IPnrScriptBaseItemViewModel _currentlySelectedItem { get; set; }
+        private IPnrScriptViewModel _itemToCut { get; set; }
         private IPnrScriptSubgroupViewModel _pnrScriptSubgroupToWorkOn = null;
         private IPnrScriptViewModel _pnrScriptToWorkOn = null;
         public Action CloseSubgroupWindow { get; set; }
@@ -30,6 +31,9 @@ namespace TestSortableObservableCollection.ViewModels
             _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
             _renameSubgroupCommand = new RelayCommand<object>(RenameSubgroup_Executed, RenameSubgroup_CanExecute);
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
+
+            _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
+
             _root = new ObservableCollection<IPnrScriptBaseItemViewModel>();
 
             IPnrScriptSubgroupViewModel rootItem = new PnrScriptSubgroupViewModel(null, "Root");
@@ -169,12 +173,11 @@ namespace TestSortableObservableCollection.ViewModels
 
             if (_pnrScriptSubgroupToWorkOn != null)
             {
-                // result = !(_pnrScriptSubgroupToWorkOn.HasErrors);
-                result = true;
+                result = !(_pnrScriptSubgroupToWorkOn.HasErrors);
                 if (result == true)
                 {
                     if (PnrScriptSubgroupToWorkOn.Parent != null)
-                        result = !(_currentlySelectedItem.Parent != null);
+                        result = !(_currentlySelectedItem.Parent == null);
                 }
             }
 

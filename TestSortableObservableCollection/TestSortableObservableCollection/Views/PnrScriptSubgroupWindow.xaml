@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
         xmlns:behav="clr-namespace:TestSortableObservableCollection.Behaviours"
         mc:Ignorable="d"
-        Title="PnrScriptSubgroupWindow" 
+        Title="Pnr Script Subgroup Window" 
         Height="150" 
         Width="350"
         WindowStyle="SingleBorderWindow"
         behav:WindowCloseBehaviour.HideDontClose="True" >
+    
     <Grid Margin="5,5,5,5">
 
         <Grid.ColumnDefinitions>
@@ -26,7 +27,22 @@
         </Grid.RowDefinitions>
 
         <Label Content="Subgroup:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox x:Name="txtSubgroupDescription" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PnrScriptSubgroupToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Margin="5,0"    >
+        <TextBox x:Name="txtSubgroupDescription" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PnrScriptSubgroupToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" Margin="5,0"    >
+            <Validation.ErrorTemplate>
+                <ControlTemplate>
+                    <StackPanel>
+                        <!-- Placeholder for the TextBox itself -->
+                        <AdornedElementPlaceholder />
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ErrorContent }" Foreground="Red"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ControlTemplate>
+            </Validation.ErrorTemplate>
         </TextBox>
         
         <Button Name="OkButton"  Grid.Column="1" Grid.Row="2" IsDefault="True" Content="Save" Margin="10,10" Command="{Binding Path=SaveSubgroupCommand}" />

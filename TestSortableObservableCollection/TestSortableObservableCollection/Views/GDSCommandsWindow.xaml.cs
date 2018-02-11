@@ -21,7 +21,7 @@ using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
 using TestSortableObservableCollection.Views;
 
-namespace TestSortableObservableCollection
+namespace TestSortableObservableCollection.Views
 {
     /// <summary>
     /// Interaction logic for GDSCommandsWindow.xaml

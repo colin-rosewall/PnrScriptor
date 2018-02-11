@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using TestSortableObservableCollection.Interfaces;
 
-namespace TestSortableObservableCollection
+namespace TestSortableObservableCollection.Views
 {
     class GDSCommandItemDataTemplateSelector : DataTemplateSelector
     {

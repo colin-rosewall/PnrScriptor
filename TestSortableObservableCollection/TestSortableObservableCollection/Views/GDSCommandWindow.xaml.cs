@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TestSortableObservableCollection.ViewModels;
 
-namespace TestSortableObservableCollection
+namespace TestSortableObservableCollection.Views
 {
     /// <summary>
     /// Interaction logic for GDSCommandWindow.xaml

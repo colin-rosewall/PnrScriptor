@@ -11,15 +11,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
 
-namespace TestSortableObservableCollection
+namespace TestSortableObservableCollection.Views
 {
     /// <summary>
     /// Interaction logic for PnrScriptsWindow.xaml
     /// </summary>
     public partial class PnrScriptsWindow : Window
     {
+        private PnrScriptSubgroupWindow _subgroupWindow = null;
+
         public PnrScriptsWindow()
         {
             InitializeComponent();
@@ -34,6 +37,13 @@ namespace TestSortableObservableCollection
             if (tvm != null)
             {
                 tvm.PnrScriptSubgroupToWorkOn = new PnrScriptSubgroupViewModel(null, "empty");
+                if (_subgroupWindow == null)
+                {
+                    _subgroupWindow = new PnrScriptSubgroupWindow(tvm);
+                    _subgroupWindow.Owner = this;
+                }
+
+                _subgroupWindow.Show();
             }
         }
 
@@ -43,7 +53,17 @@ namespace TestSortableObservableCollection
 
             if (tvm != null)
             {
+                if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
+                {
+                    tvm.PnrScriptSubgroupToWorkOn = new PnrScriptSubgroupViewModel(tvm.CurrentlySelectedItem.Parent, tvm.CurrentlySelectedItem.Description);
+                    if (_subgroupWindow == null)
+                    {
+                        _subgroupWindow = new PnrScriptSubgroupWindow(tvm);
+                        _subgroupWindow.Owner = this;
+                    }
 
+                    _subgroupWindow.Show();
+                }
             }
         }
     }
