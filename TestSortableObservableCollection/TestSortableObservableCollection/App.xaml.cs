@@ -25,14 +25,16 @@ namespace TestSortableObservableCollection
 
             base.OnStartup(e);
 
-            errMsg = Upgrade();
+            //errMsg = Upgrade();
             if (errMsg.Length > 0)
             {
                 MessageBox.Show(string.Format("Error starting the application - {0}", errMsg));
             }
             else
             {
-                Window main = new MainWindow();
+                //Window main = new MainWindow();
+                //main.Show();
+                Window main = new PnrScriptsWindow();
                 main.Show();
             }
 

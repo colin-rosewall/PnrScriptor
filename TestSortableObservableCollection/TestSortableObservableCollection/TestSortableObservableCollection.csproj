@@ -79,6 +79,10 @@
     <Compile Include="Models\GDSCmdTreeModelVer001.cs" />
     <Compile Include="Models\GDSCmdTreeModelVer002.cs" />
     <Compile Include="MyBindingProxy.cs" />
+    <Compile Include="PnrScriptItemDataTemplateSelector.cs" />
+    <Compile Include="PnrScriptsWindow.xaml.cs">
+      <DependentUpon>PnrScriptsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubgroupItemWindow.xaml.cs">
       <DependentUpon>SubgroupItemWindow.xaml</DependentUpon>
     </Compile>
@@ -88,6 +92,7 @@
     <Compile Include="ViewModels\GDSCommandTreeViewModel.cs" />
     <Compile Include="ViewModels\GDSCommandViewModel.cs" />
     <Compile Include="ViewModels\PnrScriptSubgroupViewModel.cs" />
+    <Compile Include="ViewModels\PnrScriptTreeViewModel.cs" />
     <Compile Include="ViewModels\PnrScriptViewModel.cs" />
     <Compile Include="ViewModels\SortableObservableCollection.cs" />
     <Page Include="GDSCommandWindow.xaml">
@@ -106,6 +111,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PnrScriptsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SubgroupItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
