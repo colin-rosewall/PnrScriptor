@@ -33,7 +33,7 @@ namespace TestSortableObservableCollection
             }
             else
             {
-                //Window main = new MainWindow();
+                //Window main = new GDSCommandsWindow();
                 //main.Show();
                 Window main = new PnrScriptsWindow();
                 main.Show();

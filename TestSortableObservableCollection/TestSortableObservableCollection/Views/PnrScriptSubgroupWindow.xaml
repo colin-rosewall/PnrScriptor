@@ -4,9 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
+        xmlns:behav="clr-namespace:TestSortableObservableCollection.Behaviours"
         mc:Ignorable="d"
-        Title="PnrScriptSubgroupWindow" Height="300" Width="300">
-    <Grid>
+        Title="PnrScriptSubgroupWindow" 
+        Height="150" 
+        Width="350"
+        WindowStyle="SingleBorderWindow"
+        behav:WindowCloseBehaviour.HideDontClose="True" >
+    <Grid Margin="5,5,5,5">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Subgroup:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <TextBox x:Name="txtSubgroupDescription" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PnrScriptSubgroupToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Margin="5,0"    >
+        </TextBox>
         
+        <Button Name="OkButton"  Grid.Column="1" Grid.Row="2" IsDefault="True" Content="Save" Margin="10,10" Command="{Binding Path=SaveSubgroupCommand}" />
+        <Button Name="CancelButton" Grid.Column="2" Grid.Row="2" Content="Cancel" IsCancel="True"  Margin="10,10" Click="CancelButton_Click" />
+
     </Grid>
 </Window>

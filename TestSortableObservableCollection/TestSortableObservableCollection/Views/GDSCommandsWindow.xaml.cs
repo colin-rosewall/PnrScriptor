@@ -19,18 +19,19 @@ using System.Xml.Serialization;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
+using TestSortableObservableCollection.Views;
 
 namespace TestSortableObservableCollection
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GDSCommandsWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GDSCommandsWindow : Window
     {
-        private SubgroupItemWindow _subgroupWindow = null;
+        private GDSCommandSubgroupWindow _subgroupWindow = null;
         private GDSCommandWindow _gdsCommandWindow = null;
 
-        public MainWindow()
+        public GDSCommandsWindow()
         {
             InitializeComponent();
             GDSCommandTreeViewModel vm = new GDSCommandTreeViewModel();
@@ -55,7 +56,7 @@ namespace TestSortableObservableCollection
                 tvm.GDSSubgroupToWorkOn = new GDSCommandSubgroupViewModel(null, "empty");
                 if (_subgroupWindow == null)
                 {
-                    _subgroupWindow = new SubgroupItemWindow(tvm);
+                    _subgroupWindow = new GDSCommandSubgroupWindow(tvm);
                     _subgroupWindow.Owner = this;
                 }
 
@@ -73,7 +74,7 @@ namespace TestSortableObservableCollection
                     tvm.GDSSubgroupToWorkOn = new GDSCommandSubgroupViewModel(tvm.CurrentlySelectedItem.Parent, tvm.CurrentlySelectedItem.Description);
                     if (_subgroupWindow == null)
                     {
-                        _subgroupWindow = new SubgroupItemWindow(tvm);
+                        _subgroupWindow = new GDSCommandSubgroupWindow(tvm);
                         _subgroupWindow.Owner = this;
                     }
 

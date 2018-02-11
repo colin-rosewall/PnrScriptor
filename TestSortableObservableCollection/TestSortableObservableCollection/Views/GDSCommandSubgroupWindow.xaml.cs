@@ -15,14 +15,14 @@ using System.Windows.Threading;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
 
-namespace TestSortableObservableCollection
+namespace TestSortableObservableCollection.Views
 {
     /// <summary>
-    /// Interaction logic for SubgroupItemWindow.xaml
+    /// Interaction logic for GDSCommandSubgroupWindow.xaml
     /// </summary>
-    public partial class SubgroupItemWindow : Window
+    public partial class GDSCommandSubgroupWindow : Window
     {
-        public SubgroupItemWindow(GDSCommandTreeViewModel tvm)
+        public GDSCommandSubgroupWindow(GDSCommandTreeViewModel tvm)
         {
             InitializeComponent();
             DataContext = tvm;

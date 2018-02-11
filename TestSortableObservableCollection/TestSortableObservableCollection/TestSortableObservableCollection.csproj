@@ -83,8 +83,8 @@
     <Compile Include="Views\PnrScriptsWindow.xaml.cs">
       <DependentUpon>PnrScriptsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SubgroupItemWindow.xaml.cs">
-      <DependentUpon>SubgroupItemWindow.xaml</DependentUpon>
+    <Compile Include="Views\GDSCommandSubgroupWindow.xaml.cs">
+      <DependentUpon>GDSCommandSubgroupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
@@ -102,7 +102,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainWindow.xaml">
+    <Page Include="Views\GDSCommandsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -110,15 +110,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Views\GDSCommandsWindow.xaml.cs">
+      <DependentUpon>GDSCommandsWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\PnrScriptsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SubgroupItemWindow.xaml">
+    <Page Include="Views\GDSCommandSubgroupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
