@@ -19,18 +19,24 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _deleteSubgroupCommand = null;
 
         private ICommand _selectedItemChangedCommand = null;
+
+        private ICommand _mouseDoubleClickCommand = null;
+
         private IPnrScriptBaseItemViewModel _currentlySelectedItem { get; set; }
         private IPnrScriptViewModel _itemToCut { get; set; }
         private IPnrScriptSubgroupViewModel _pnrScriptSubgroupToWorkOn = null;
         private IPnrScriptViewModel _pnrScriptToWorkOn = null;
         public Action CloseSubgroupWindow { get; set; }
         public Action ClosePnrScriptWindow { get; set; }
+        private GDSCommandTreeViewModel _gdsCmdTreeViewModel = null;
 
         public PnrScriptTreeViewModel()
         {
             _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
             _renameSubgroupCommand = new RelayCommand<object>(RenameSubgroup_Executed, RenameSubgroup_CanExecute);
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
+
+            _mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed, MouseDoubleClick_CanExecute);
 
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
@@ -75,6 +81,19 @@ namespace TestSortableObservableCollection.ViewModels
             {
                 _pnrScriptToWorkOn = value;
                 NotifyPropertyChanged(() => PnrScriptToWorkOn);
+            }
+        }
+
+        public GDSCommandTreeViewModel GDSCmdTreeViewModel
+        {
+            get
+            {
+                return _gdsCmdTreeViewModel;
+            }
+            set
+            {
+                _gdsCmdTreeViewModel = value;
+                NotifyPropertyChanged(() => GDSCmdTreeViewModel);
             }
         }
 
@@ -131,6 +150,18 @@ namespace TestSortableObservableCollection.ViewModels
             set
             {
                 _selectedItemChangedCommand = value;
+            }
+        }
+
+        public ICommand MouseDoubleClickCommand
+        {
+            get
+            {
+                return _mouseDoubleClickCommand;
+            }
+            set
+            {
+                _mouseDoubleClickCommand = value;
             }
         }
 
@@ -240,6 +271,41 @@ namespace TestSortableObservableCollection.ViewModels
 
             var item = obj as IPnrScriptBaseItemViewModel;
             _currentlySelectedItem = item;
+        }
+
+        public void MouseDoubleClick_Executed(object obj)
+        {
+            IGDSCommandViewModel clickedItem = obj as IGDSCommandViewModel;
+
+            if (clickedItem != null)
+            {
+                if (clickedItem.Parent != null)
+                {
+                    if (_pnrScriptToWorkOn != null)
+                    {
+                        _pnrScriptToWorkOn.GDSCommands.Add(clickedItem);
+                    }
+                }
+            }
+        }
+
+        public bool MouseDoubleClick_CanExecute(object obj)
+        {
+            bool result = false;
+            IGDSCommandViewModel clickedItem = obj as IGDSCommandViewModel;
+
+            if (clickedItem != null)
+            {
+                if (clickedItem.Parent != null)
+                {
+                    if (clickedItem.Children != null)
+                    {
+                        result = (clickedItem.Children.Count == 0);
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

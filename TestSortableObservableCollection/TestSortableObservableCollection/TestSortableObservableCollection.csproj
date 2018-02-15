@@ -98,6 +98,9 @@
     <Compile Include="Views\PnrScriptSubgroupWindow.xaml.cs">
       <DependentUpon>PnrScriptSubgroupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PnrScriptWindow.xaml.cs">
+      <DependentUpon>PnrScriptWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\GDSCommandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PnrScriptSubgroupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PnrScriptWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

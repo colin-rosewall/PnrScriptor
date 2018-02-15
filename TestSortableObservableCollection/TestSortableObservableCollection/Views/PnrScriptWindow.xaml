@@ -1,0 +1,90 @@
+﻿<Window x:Class="TestSortableObservableCollection.Views.PnrScriptWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
+        xmlns:behav="clr-namespace:TestSortableObservableCollection.Behaviours"
+        mc:Ignorable="d"
+        Title="Pnr Script Window" 
+        Height="500" 
+        Width="800"
+        behav:WindowCloseBehaviour.HideDontClose="True" >
+    <Window.Resources>
+        <local:MyBindingProxy x:Key="DataContextProxy" Data="{Binding}" />
+    </Window.Resources>
+    
+    <Grid Margin="5,5,5,5">
+        <Grid.Resources>
+            <HierarchicalDataTemplate x:Key="GDSCommandSubgroupItemTemplate" ItemsSource="{Binding Children}" >
+                <StackPanel>
+                    <TextBlock Text="{Binding Description}" >
+                    </TextBlock>
+                </StackPanel>
+            </HierarchicalDataTemplate>
+
+            <HierarchicalDataTemplate x:Key="GDSCommandItemTemplate" ItemsSource="{Binding Children}" >
+                <StackPanel>
+                    <TextBlock Text="{Binding Description}" Foreground="#FFF1A828" FontWeight="Bold" >
+                    </TextBlock>
+                </StackPanel>
+            </HierarchicalDataTemplate>
+
+            <local:GDSCommandItemDataTemplateSelector x:Key="GDSCommandItemDataTemplateSelector" 
+                GDSCommandSubgroupTemplate="{StaticResource GDSCommandSubgroupItemTemplate}" 
+                GDSCommandItemTemplate="{StaticResource GDSCommandItemTemplate}"  >
+
+            </local:GDSCommandItemDataTemplateSelector>
+
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Description:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PnrScriptToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="5,0" >
+            
+        </TextBox>
+        <TreeView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding GDSCmdTreeViewModel.Root}" 
+                  ItemTemplateSelector="{StaticResource GDSCommandItemDataTemplateSelector}"
+                  behav:TreeViewSelectionChangedBehavior.ChangedCommand="{Binding GDSCmdTreeViewModel.SelectedItemChangedCommand}"
+                  behav:TreeViewRightClickBehaviour.SelectItemOnRightClick="True"
+                  behav:MouseDoubleClick.Command="{Binding Data.MouseDoubleClickCommand, Source={StaticResource DataContextProxy}}" 
+                  behav:MouseDoubleClick.CommandParameter="{Binding Data.GDSCmdTreeViewModel.CurrentlySelectedItem, Source={StaticResource DataContextProxy}}"
+                  Margin="0,5,0,0" >
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}" >
+                    <Setter Property="behav:TreeViewItemBehaviour.IsBroughtIntoViewWhenSelected" Value="True" />
+                    <Setter Property="IsExpanded" Value="{Binding IsItemExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsItemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+
+        <ListBox Grid.Row="1" Grid.Column="2" Margin="5,5,0,0" ItemsSource="{Binding PnrScriptToWorkOn.GDSCommands}" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="Item = " > </TextBlock>
+                        <TextBlock Text="{Binding Description}" > 
+                            
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <Button Name="OkButton"  Grid.Column="1" Grid.Row="2" IsDefault="True" Content="Save" Margin="10,10" Command="{Binding Path=SavePnrScriptCommand}" />
+        <Button Name="CancelButton" Grid.Column="2" Grid.Row="2" Content="Cancel" IsCancel="True"  Margin="10,10" Click="CancelButton_Click" />
+
+    </Grid>
+</Window>

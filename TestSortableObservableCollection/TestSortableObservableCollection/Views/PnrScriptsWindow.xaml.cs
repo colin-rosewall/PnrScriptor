@@ -22,6 +22,7 @@ namespace TestSortableObservableCollection.Views
     public partial class PnrScriptsWindow : Window
     {
         private PnrScriptSubgroupWindow _subgroupWindow = null;
+        private PnrScriptWindow _pnrScriptWindow = null;
 
         public PnrScriptsWindow()
         {
@@ -63,6 +64,45 @@ namespace TestSortableObservableCollection.Views
                     }
 
                     _subgroupWindow.Show();
+                }
+            }
+        }
+
+        private void AddPnrScript_Click(object sender, RoutedEventArgs e)
+        {
+            var tvm = DataContext as PnrScriptTreeViewModel;
+            if (tvm != null)
+            {
+                tvm.PnrScriptToWorkOn = new PnrScriptViewModel(null, "empty");
+                if (_pnrScriptWindow == null)
+                {
+                    _pnrScriptWindow = new PnrScriptWindow(tvm);
+                    _pnrScriptWindow.Owner = this;
+                }
+
+                _pnrScriptWindow.Show();
+            }
+        }
+
+        private void ChangePnrScript_Click(object sender, RoutedEventArgs e)
+        {
+            var tvm = DataContext as PnrScriptTreeViewModel;
+            if (tvm != null)
+            {
+                if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
+                {
+                    var existingItem = tvm.CurrentlySelectedItem as PnrScriptViewModel;
+                    if (existingItem != null)
+                    {
+                        tvm.PnrScriptToWorkOn = new PnrScriptViewModel(existingItem.Parent, existingItem.Description);
+                        if (_pnrScriptWindow == null)
+                        {
+                            _pnrScriptWindow = new PnrScriptWindow(tvm);
+                            _pnrScriptWindow.Owner = this;
+                        }
+
+                        _pnrScriptWindow.Show();
+                    }
                 }
             }
         }

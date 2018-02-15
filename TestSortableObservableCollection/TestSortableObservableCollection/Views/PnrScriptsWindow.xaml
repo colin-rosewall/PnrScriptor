@@ -21,6 +21,7 @@
                                 <MenuItem Header="Rename Subgroup" Click="RenameSubgroup_Click" Command="{Binding Data.RenameSubgroupCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
                                 <MenuItem Header="Delete Subgroup" Command="{Binding Data.DeleteSubgroupCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
                                 <Separator />
+                                <MenuItem Header="Add Pnr Script" Click="AddPnrScript_Click" > </MenuItem>
                             </ContextMenu>
                             
                         </TextBlock.ContextMenu>
@@ -31,7 +32,12 @@
             <HierarchicalDataTemplate x:Key="PnrScriptItemTemplate" ItemsSource="{Binding Children}" >
                 <StackPanel>
                     <TextBlock Text="{Binding Description}" Foreground="#FFF1A828" FontWeight="Bold" >
-                        
+                        <TextBlock.ContextMenu>
+                            <ContextMenu>
+                                <Separator />
+                                <MenuItem Header="Change Pnr Script" Click="ChangePnrScript_Click" > </MenuItem>
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
                     </TextBlock>
                 </StackPanel>
             </HierarchicalDataTemplate>
