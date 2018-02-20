@@ -58,8 +58,8 @@
                   ItemTemplateSelector="{StaticResource GDSCommandItemDataTemplateSelector}"
                   behav:TreeViewSelectionChangedBehavior.ChangedCommand="{Binding GDSCmdTreeViewModel.SelectedItemChangedCommand}"
                   behav:TreeViewRightClickBehaviour.SelectItemOnRightClick="True"
-                  behav:MouseDoubleClick.Command="{Binding Data.MouseDoubleClickCommand, Source={StaticResource DataContextProxy}}" 
-                  behav:MouseDoubleClick.CommandParameter="{Binding Data.GDSCmdTreeViewModel.CurrentlySelectedItem, Source={StaticResource DataContextProxy}}"
+                  behav:MouseDoubleClick.Command="{Binding MouseDoubleClickCommand}" 
+                  behav:MouseDoubleClick.CommandParameter="{Binding GDSCmdTreeViewModel}"
                   Margin="0,5,0,0" >
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" >

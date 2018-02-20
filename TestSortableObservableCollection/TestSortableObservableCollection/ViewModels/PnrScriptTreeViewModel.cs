@@ -9,6 +9,7 @@ using TestSortableObservableCollection.ViewModels;
 using System.Windows.Input;
 using TestSortableObservableCollection.ViewModels.Base;
 
+
 namespace TestSortableObservableCollection.ViewModels
 {
     public class PnrScriptTreeViewModel : Base.BaseViewModel
@@ -275,15 +276,19 @@ namespace TestSortableObservableCollection.ViewModels
 
         public void MouseDoubleClick_Executed(object obj)
         {
-            IGDSCommandViewModel clickedItem = obj as IGDSCommandViewModel;
-
-            if (clickedItem != null)
+            GDSCommandTreeViewModel tvm = obj as GDSCommandTreeViewModel;
+            if (tvm != null)
             {
-                if (clickedItem.Parent != null)
+                IGDSCommandViewModel clickedItem = tvm.CurrentlySelectedItem as IGDSCommandViewModel;
+
+                if (clickedItem != null)
                 {
-                    if (_pnrScriptToWorkOn != null)
+                    if (clickedItem.Parent != null)
                     {
-                        _pnrScriptToWorkOn.GDSCommands.Add(clickedItem);
+                        if (_pnrScriptToWorkOn != null)
+                        {
+                            _pnrScriptToWorkOn.GDSCommands.Add(clickedItem);
+                        }
                     }
                 }
             }
@@ -291,6 +296,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         public bool MouseDoubleClick_CanExecute(object obj)
         {
+            // todo: this method does not get called
             bool result = false;
             IGDSCommandViewModel clickedItem = obj as IGDSCommandViewModel;
 
