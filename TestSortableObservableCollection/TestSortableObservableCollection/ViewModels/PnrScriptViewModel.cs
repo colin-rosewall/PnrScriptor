@@ -32,11 +32,12 @@ namespace TestSortableObservableCollection.ViewModels
             _validationErrors = new Dictionary<string, List<string>>();
         }
 
-        public PnrScriptViewModel(IPnrScriptBaseItemViewModel parent, string theDescription) : this()
+        public PnrScriptViewModel(IPnrScriptBaseItemViewModel parent, string theDescription, ObservableCollection<IGDSCommandViewModel> gdsCmds) : this()
         {
             _parent = parent;
             _description = theDescription;
             // todo: set _gdsCmds here
+            _gdsCmds = gdsCmds;
         }
 
         public SortableObservableCollection<IPnrScriptBaseItemViewModel> Children
@@ -70,6 +71,10 @@ namespace TestSortableObservableCollection.ViewModels
             get
             {
                 return _gdsCmds;
+            }
+            set
+            {
+                _gdsCmds = value;
             }
         }
 

@@ -73,7 +73,7 @@ namespace TestSortableObservableCollection.Views
             var tvm = DataContext as PnrScriptTreeViewModel;
             if (tvm != null)
             {
-                tvm.PnrScriptToWorkOn = new PnrScriptViewModel(null, "empty");
+                tvm.PnrScriptToWorkOn = new PnrScriptViewModel(null, "empty", new System.Collections.ObjectModel.ObservableCollection<IGDSCommandViewModel>());
                 if (_pnrScriptWindow == null)
                 {
                     _pnrScriptWindow = new PnrScriptWindow(tvm);
@@ -94,7 +94,7 @@ namespace TestSortableObservableCollection.Views
                     var existingItem = tvm.CurrentlySelectedItem as PnrScriptViewModel;
                     if (existingItem != null)
                     {
-                        tvm.PnrScriptToWorkOn = new PnrScriptViewModel(existingItem.Parent, existingItem.Description);
+                        tvm.PnrScriptToWorkOn = new PnrScriptViewModel(existingItem.Parent, existingItem.Description, existingItem.GDSCommands);
                         if (_pnrScriptWindow == null)
                         {
                             _pnrScriptWindow = new PnrScriptWindow(tvm);

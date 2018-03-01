@@ -19,6 +19,9 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _renameSubgroupCommand = null;
         private ICommand _deleteSubgroupCommand = null;
 
+        private ICommand _savePnrScriptCommand = null;
+
+
         private ICommand _selectedItemChangedCommand = null;
 
         private ICommand _mouseDoubleClickCommand = null;
@@ -36,6 +39,8 @@ namespace TestSortableObservableCollection.ViewModels
             _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
             _renameSubgroupCommand = new RelayCommand<object>(RenameSubgroup_Executed, RenameSubgroup_CanExecute);
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
+
+            _savePnrScriptCommand = new RelayCommand<object>(SavePnrScript_Executed);
 
             _mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed, MouseDoubleClick_CanExecute);
 
@@ -139,6 +144,18 @@ namespace TestSortableObservableCollection.ViewModels
             set
             {
                 _deleteSubgroupCommand = value;
+            }
+        }
+
+        public ICommand SavePnrScriptCommand
+        {
+            get
+            {
+                return _savePnrScriptCommand;
+            }
+            set
+            {
+                _savePnrScriptCommand = value;
             }
         }
 
@@ -312,6 +329,38 @@ namespace TestSortableObservableCollection.ViewModels
             }
 
             return result;
+        }
+
+        public void SavePnrScript_Executed(object obj)
+        {
+            if (PnrScriptToWorkOn != null)
+            {
+                if (_currentlySelectedItem != null)
+                {
+                    if (PnrScriptToWorkOn.Parent == null)
+                    {
+                        // this creates a new item
+                        IPnrScriptViewModel newItem = new PnrScriptViewModel(_currentlySelectedItem, PnrScriptToWorkOn.Description, PnrScriptToWorkOn.GDSCommands);
+                        _currentlySelectedItem.AddChildItem(newItem);
+                        ClosePnrScriptWindow();
+                        SortByDescription(_currentlySelectedItem);
+                    }
+                    else
+                    {
+                        var existingItem = _currentlySelectedItem as PnrScriptViewModel;
+                        if (existingItem != null)
+                        {
+                            existingItem.Description = _pnrScriptToWorkOn.Description;
+                            existingItem.GDSCommands = _pnrScriptToWorkOn.GDSCommands;
+                            ClosePnrScriptWindow();
+                            if (existingItem.Parent != null)
+                                SortByDescription(existingItem.Parent);
+                            else
+                                SortByDescription(existingItem);
+                        }
+                    }
+                }
+            }
         }
     }
 }

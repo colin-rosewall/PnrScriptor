@@ -73,11 +73,9 @@
         <ListBox Grid.Row="1" Grid.Column="2" Margin="5,5,0,0" ItemsSource="{Binding PnrScriptToWorkOn.GDSCommands}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
+                    <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Item = " > </TextBlock>
-                        <TextBlock Text="{Binding Description}" > 
-                            
-                        </TextBlock>
+                        <TextBlock Text="{Binding Description}" >  </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

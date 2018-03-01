@@ -10,6 +10,6 @@ namespace TestSortableObservableCollection.Interfaces
 {
     public interface IPnrScriptViewModel : IPnrScriptBaseItemViewModel, INotifyDataErrorInfo
     {
-        ObservableCollection<IGDSCommandViewModel> GDSCommands { get; }
+        ObservableCollection<IGDSCommandViewModel> GDSCommands { get; set; }
     }
 }
