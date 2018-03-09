@@ -79,6 +79,11 @@
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.InputBindings>
+                <KeyBinding Command="{Binding DeleteListItemCommand}" Modifiers="" Key="Delete" >
+                    
+                </KeyBinding>
+            </ListBox.InputBindings>
         </ListBox>
         
         <Button Name="OkButton"  Grid.Column="1" Grid.Row="2" IsDefault="True" Content="Save" Margin="10,10" Command="{Binding Path=SavePnrScriptCommand}" />
