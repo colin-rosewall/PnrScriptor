@@ -35,6 +35,8 @@ namespace TestSortableObservableCollection.ViewModels
         public Action ClosePnrScriptWindow { get; set; }
         private GDSCommandTreeViewModel _gdsCmdTreeViewModel = null;
 
+        private IGDSCommandViewModel _currentlySelectedGdsCmd { get; set; }
+
         public PnrScriptTreeViewModel()
         {
             _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
@@ -111,6 +113,19 @@ namespace TestSortableObservableCollection.ViewModels
             get
             {
                 return _currentlySelectedItem;
+            }
+        }
+
+        public IGDSCommandViewModel CurrentLySelectedGdsCmd
+        {
+            get
+            {
+                return _currentlySelectedGdsCmd;
+            }
+            set
+            {
+                _currentlySelectedGdsCmd = value;
+                NotifyPropertyChanged(() => CurrentLySelectedGdsCmd);
             }
         }
 
