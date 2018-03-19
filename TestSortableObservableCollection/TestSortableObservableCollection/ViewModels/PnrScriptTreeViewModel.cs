@@ -21,7 +21,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         private ICommand _savePnrScriptCommand = null;
 
-        private ICommand _deleteListItemCommand = null;
+        private ICommand _removeGDSCmdCommand = null;
 
         private ICommand _selectedItemChangedCommand = null;
 
@@ -45,7 +45,7 @@ namespace TestSortableObservableCollection.ViewModels
 
             _savePnrScriptCommand = new RelayCommand<object>(SavePnrScript_Executed);
 
-            _deleteListItemCommand = new RelayCommand<object>(DeleteListItem_Executed);
+            _removeGDSCmdCommand = new RelayCommand<object>(RemoveGDSCmd_Executed);
 
             _mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed, MouseDoubleClick_CanExecute);
 
@@ -177,15 +177,15 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public ICommand DeleteListItemCommand
+        public ICommand RemoveGDSCmdCommand
         {
             get
             {
-                return _deleteListItemCommand;
+                return _removeGDSCmdCommand;
             }
             set
             {
-                _deleteListItemCommand = value;
+                _removeGDSCmdCommand = value;
             }
         }
 
@@ -393,9 +393,19 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public void DeleteListItem_Executed(object obj)
+        public void RemoveGDSCmd_Executed(object obj)
         {
-            _pnrScriptToWorkOn.GDSCommands.Add(new GDSCommandViewModel(null, "New Description", "No command lines"));
+            if (_currentlySelectedGdsCmd != null)
+            {
+                if (PnrScriptToWorkOn != null)
+                {
+                    if (PnrScriptToWorkOn.GDSCommands != null)
+                    {
+                        PnrScriptToWorkOn.GDSCommands.Remove(_currentlySelectedGdsCmd);
+                        _currentlySelectedGdsCmd = null;
+                    }
+                }
+            }
         }
     }
 }

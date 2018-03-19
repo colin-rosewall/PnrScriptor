@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
         xmlns:behav="clr-namespace:TestSortableObservableCollection.Behaviours"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         mc:Ignorable="d"
         Title="Pnr Script Window" 
         Height="500" 
@@ -70,7 +71,7 @@
             </TreeView.ItemContainerStyle>
         </TreeView>
 
-        <ListBox Grid.Row="1" Grid.Column="2" Margin="5,5,0,0" ItemsSource="{Binding PnrScriptToWorkOn.GDSCommands}" SelectedItem="{Binding CurrentLySelectedGdsCmd, Mode=TwoWay}" >
+        <ListBox Grid.Row="1" Grid.Column="2" Margin="5,5,0,0" ItemsSource="{Binding PnrScriptToWorkOn.GDSCommands}" SelectedItem="{Binding CurrentLySelectedGdsCmd, Mode=TwoWay}" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -80,7 +81,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.InputBindings>
-                <KeyBinding Command="{Binding DeleteListItemCommand}" Modifiers="" Key="Delete" >
+                <KeyBinding Command="{Binding RemoveGDSCmdCommand}" Modifiers="" Key="Delete" >
                     
                 </KeyBinding>
             </ListBox.InputBindings>
