@@ -20,8 +20,11 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _deleteSubgroupCommand = null;
 
         private ICommand _savePnrScriptCommand = null;
+        private ICommand _deletePnrScriptCommand = null;
+        private ICommand _cutPnrScriptCommand = null;
+        private ICommand _pastePnrScriptCommand = null;
 
-        private ICommand _removeGDSCmdCommand = null;
+        private ICommand _removeGDSCmdCommand = null;  // this removes items from the gds cmds listbox
 
         private ICommand _selectedItemChangedCommand = null;
 
@@ -44,6 +47,10 @@ namespace TestSortableObservableCollection.ViewModels
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
 
             _savePnrScriptCommand = new RelayCommand<object>(SavePnrScript_Executed);
+            _deletePnrScriptCommand = new RelayCommand<object>(DeletePnrScript_Executed, DeletePnrScript_CanExecute);
+            _cutPnrScriptCommand = new RelayCommand<object>(CutPnrScript_Executed, CutPnrScript_CanExecute);
+            _pastePnrScriptCommand = new RelayCommand<object>(PastePnrScript_Executed, PastePnrScript_CanExecute);
+
 
             _removeGDSCmdCommand = new RelayCommand<object>(RemoveGDSCmd_Executed);
 
@@ -174,6 +181,42 @@ namespace TestSortableObservableCollection.ViewModels
             set
             {
                 _savePnrScriptCommand = value;
+            }
+        }
+
+        public ICommand DeletePnrScriptCommand
+        {
+            get
+            {
+                return _deletePnrScriptCommand;
+            }
+            set
+            {
+                _deletePnrScriptCommand = value;
+            }
+        }
+
+        public ICommand CutPnrScriptCommand
+        {
+            get
+            {
+                return _cutPnrScriptCommand;
+            }
+            set
+            {
+                _cutPnrScriptCommand = value;
+            }
+        }
+
+        public ICommand PastePnrScriptCommand
+        {
+            get
+            {
+                return _pastePnrScriptCommand;
+            }
+            set
+            {
+                _pastePnrScriptCommand = value;
             }
         }
 
@@ -391,6 +434,75 @@ namespace TestSortableObservableCollection.ViewModels
                     }
                 }
             }
+        }
+
+        public void DeletePnrScript_Executed(object obj)
+        {
+            IPnrScriptViewModel itemToBeDeleted = obj as IPnrScriptViewModel;
+
+            if (itemToBeDeleted != null)
+            {
+                if (itemToBeDeleted.Parent != null)
+                {
+                    _currentlySelectedItem = itemToBeDeleted.Parent;
+                    _currentlySelectedItem.Children.Remove(itemToBeDeleted);
+                }
+            }
+        }
+
+        public bool DeletePnrScript_CanExecute(object obj)
+        {
+            bool result = true;
+
+            return result;
+        }
+
+        public void CutPnrScript_Executed(object obj)
+        {
+            IPnrScriptViewModel itemToBeCut = obj as IPnrScriptViewModel;
+
+            if (itemToBeCut != null && itemToBeCut.Parent != null)
+            {
+                _itemToCut = itemToBeCut;
+            }
+        }
+
+        public bool CutPnrScript_CanExecute(object obj)
+        {
+            bool result = true;
+
+            return result;
+        }
+
+        public void PastePnrScript_Executed(object obj)
+        {
+            IPnrScriptSubgroupViewModel itemToPasteInto = obj as IPnrScriptSubgroupViewModel;
+
+            if (itemToPasteInto != null)
+            {
+                if (_itemToCut != null)
+                {
+                    IPnrScriptViewModel newItem = new PnrScriptViewModel(itemToPasteInto, _itemToCut.Description, _itemToCut.GDSCommands);
+                    itemToPasteInto.AddChildItem(newItem);
+
+                    var parent = _itemToCut.Parent;
+                    if (parent != null)
+                    {
+                        parent.Children.Remove(_itemToCut);
+                        _itemToCut = null;
+                    }
+                }
+            }
+        }
+
+        public bool PastePnrScript_CanExecute(object obj)
+        {
+            bool result = false;
+
+            if (_itemToCut != null)
+                result = true;
+
+            return result;
         }
 
         public void RemoveGDSCmd_Executed(object obj)

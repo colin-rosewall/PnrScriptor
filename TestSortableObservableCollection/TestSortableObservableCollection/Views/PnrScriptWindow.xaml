@@ -52,8 +52,22 @@
         </Grid.RowDefinitions>
 
         <Label Content="Description:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PnrScriptToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="5,0" >
-            
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PnrScriptToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }"  Margin="5,0" >
+            <Validation.ErrorTemplate>
+                <ControlTemplate>
+                    <StackPanel>
+                        <!-- Placeholder for the TextBox itself -->
+                        <AdornedElementPlaceholder />
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ErrorContent }" Foreground="Red"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ControlTemplate>
+            </Validation.ErrorTemplate>
         </TextBox>
         <TreeView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding GDSCmdTreeViewModel.Root}" 
                   ItemTemplateSelector="{StaticResource GDSCommandItemDataTemplateSelector}"
@@ -75,7 +89,6 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Item = " > </TextBlock>
                         <TextBlock Text="{Binding Description}" >  </TextBlock>
                     </StackPanel>
                 </DataTemplate>
@@ -90,6 +103,6 @@
         <Button Name="OkButton"  Grid.Column="1" Grid.Row="2" IsDefault="True" Content="Save" Margin="10,10" Command="{Binding Path=SavePnrScriptCommand}" />
         <Button Name="CancelButton" Grid.Column="2" Grid.Row="2" Content="Cancel" IsCancel="True"  Margin="10,10" Click="CancelButton_Click" />
 
-        <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding CurrentLySelectedGdsCmd.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+        
     </Grid>
 </Window>

@@ -17,11 +17,14 @@
                     <TextBlock Text="{Binding Description}" >
                         <TextBlock.ContextMenu>
                             <ContextMenu>
+                                <MenuItem Header="Paste" Command="{Binding Data.PastePnrScriptCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" > </MenuItem>
                                 <MenuItem Header="Add Subgroup" Click="AddSubgroup_Click" ></MenuItem>
                                 <MenuItem Header="Rename Subgroup" Click="RenameSubgroup_Click" Command="{Binding Data.RenameSubgroupCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
                                 <MenuItem Header="Delete Subgroup" Command="{Binding Data.DeleteSubgroupCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
                                 <Separator />
                                 <MenuItem Header="Add Pnr Script" Click="AddPnrScript_Click" > </MenuItem>
+                                <Separator />
+                                
                             </ContextMenu>
                             
                         </TextBlock.ContextMenu>
@@ -34,8 +37,10 @@
                     <TextBlock Text="{Binding Description}" Foreground="#FFF1A828" FontWeight="Bold" >
                         <TextBlock.ContextMenu>
                             <ContextMenu>
+                                <MenuItem Header="Cut" Command="{Binding Data.CutPnrScriptCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
                                 <Separator />
                                 <MenuItem Header="Change Pnr Script" Click="ChangePnrScript_Click" > </MenuItem>
+                                <MenuItem Header="Delete Pnr Script" Command="{Binding Data.DeletePnrScriptCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
                             </ContextMenu>
                         </TextBlock.ContextMenu>
                     </TextBlock>

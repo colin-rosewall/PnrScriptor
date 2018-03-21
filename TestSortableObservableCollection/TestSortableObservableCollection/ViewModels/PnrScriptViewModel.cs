@@ -36,7 +36,6 @@ namespace TestSortableObservableCollection.ViewModels
         {
             _parent = parent;
             _description = theDescription;
-            // todo: set _gdsCmds here
             _gdsCmds = gdsCmds;
         }
 
@@ -74,7 +73,11 @@ namespace TestSortableObservableCollection.ViewModels
             }
             set
             {
-                _gdsCmds = value;
+                if (_gdsCmds != value)
+                {
+                    _gdsCmds = value;
+                    NotifyPropertyChanged(() => GDSCommands);
+                }
             }
         }
 
@@ -173,7 +176,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         private void ValidateDescription(string newValue, Expression<Func<string>> propName)
         {
-            const string descriptionMissing = "GDS Command Description cannot be empty.";
+            const string descriptionMissing = "Pnr Script Description cannot be empty.";
 
             var lambda = (LambdaExpression)propName;
             MemberExpression memberExpression;
