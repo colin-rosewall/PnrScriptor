@@ -377,7 +377,8 @@ namespace TestSortableObservableCollection.ViewModels
                     {
                         if (_pnrScriptToWorkOn != null)
                         {
-                            _pnrScriptToWorkOn.GDSCommands.Add(clickedItem);
+                            IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines);
+                            _pnrScriptToWorkOn.GDSCommands.Add(newItem);
                         }
                     }
                 }
