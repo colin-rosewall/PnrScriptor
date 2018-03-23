@@ -24,7 +24,7 @@
                                 <Separator />
                                 <MenuItem Header="Add Pnr Script" Click="AddPnrScript_Click" > </MenuItem>
                                 <Separator />
-                                
+                                <MenuItem Header="Save Tree" Command="{Binding Data.SaveTreeCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}"></MenuItem>
                             </ContextMenu>
                             
                         </TextBlock.ContextMenu>

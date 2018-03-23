@@ -8,6 +8,7 @@ using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
 using System.Windows.Input;
 using TestSortableObservableCollection.ViewModels.Base;
+using TestSortableObservableCollection.Models;
 
 
 namespace TestSortableObservableCollection.ViewModels
@@ -21,6 +22,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         private ICommand _savePnrScriptCommand = null;
         private ICommand _deletePnrScriptCommand = null;
+        private ICommand _saveTreeCommand = null;
         private ICommand _cutPnrScriptCommand = null;
         private ICommand _pastePnrScriptCommand = null;
 
@@ -51,6 +53,7 @@ namespace TestSortableObservableCollection.ViewModels
             _cutPnrScriptCommand = new RelayCommand<object>(CutPnrScript_Executed, CutPnrScript_CanExecute);
             _pastePnrScriptCommand = new RelayCommand<object>(PastePnrScript_Executed, PastePnrScript_CanExecute);
 
+            _saveTreeCommand = new RelayCommand<object>(SaveTree_Executed, SaveTree_CanExecute);
 
             _removeGDSCmdCommand = new RelayCommand<object>(RemoveGDSCmd_Executed);
 
@@ -63,8 +66,8 @@ namespace TestSortableObservableCollection.ViewModels
             IPnrScriptSubgroupViewModel rootItem = new PnrScriptSubgroupViewModel(null, "Root");
             _root.Add(rootItem);
 
-            IPnrScriptSubgroupViewModel maskItem = new PnrScriptSubgroupViewModel(rootItem, "Mask");
-            rootItem.AddChildItem(maskItem);
+            //IPnrScriptSubgroupViewModel maskItem = new PnrScriptSubgroupViewModel(rootItem, "Mask");
+            //rootItem.AddChildItem(maskItem);
 
         }
 
@@ -145,6 +148,18 @@ namespace TestSortableObservableCollection.ViewModels
             set
             {
                 _saveSubgroupCommand = value;
+            }
+        }
+
+        public ICommand SaveTreeCommand
+        {
+            get
+            {
+                return _saveTreeCommand;
+            }
+            set
+            {
+                _saveTreeCommand = value;
             }
         }
 
@@ -378,6 +393,7 @@ namespace TestSortableObservableCollection.ViewModels
                         if (_pnrScriptToWorkOn != null)
                         {
                             IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines);
+                            newItem.Guid = clickedItem.Guid;
                             _pnrScriptToWorkOn.GDSCommands.Add(newItem);
                         }
                     }
@@ -519,6 +535,22 @@ namespace TestSortableObservableCollection.ViewModels
                     }
                 }
             }
+        }
+
+        public void SaveTree_Executed(object obj)
+        {
+            IPnrScriptTreeModel model = PnrScriptTreeModelFactory.GetModel("001");
+            model.SaveTree(this);
+        }
+
+        public bool SaveTree_CanExecute(object obj)
+        {
+            bool result = false;
+
+            if (_root != null && _root.Count > 0)
+                result = true;
+
+            return result;
         }
     }
 }

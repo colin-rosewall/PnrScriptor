@@ -68,6 +68,9 @@
     <Compile Include="Behaviours\TreeViewSelectionChangedBehavior.cs" />
     <Compile Include="Behaviours\WindowCloseBehaviour.cs" />
     <Compile Include="Constants\AppConstants.cs" />
+    <Compile Include="Interfaces\IPnrScriptTreeModel.cs" />
+    <Compile Include="Models\PnrScriptTreeModelFactory.cs" />
+    <Compile Include="Models\PnrScriptTreeModelVer001.cs" />
     <Compile Include="Views\GDSCommandItemDataTemplateSelector.cs" />
     <Compile Include="Views\GDSCommandWindow.xaml.cs">
       <DependentUpon>GDSCommandWindow.xaml</DependentUpon>
