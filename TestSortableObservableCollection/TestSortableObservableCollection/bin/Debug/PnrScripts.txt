@@ -1,0 +1,6 @@
+<Nodes>
+<Node Type="TestSortableObservableCollection.ViewModels.PnrScriptSubgroupViewModel" Level="0" UniqueID="0" ParentID="0"><Description>Root</Description></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.PnrScriptViewModel" Level="1" UniqueID="1" ParentID="0"><Description>111</Description><GdsCmds><Guid>8e9a6ebc-8b66-4349-bae4-b28718f61153</Guid><Guid>8bb3894a-fb3f-4382-885c-7c8d545430da</Guid><Guid>8e9a6ebc-8b66-4349-bae4-b28718f61153</Guid><Guid>8e9a6ebc-8b66-4349-bae4-b28718f61153</Guid><Guid>5c4bac26-469f-4ef5-a25a-74cfc5a69464</Guid></GdsCmds></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.PnrScriptSubgroupViewModel" Level="1" UniqueID="2" ParentID="0"><Description>sub1</Description></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.PnrScriptViewModel" Level="2" UniqueID="3" ParentID="2"><Description>222</Description><GdsCmds><Guid>02d05ac9-9eb1-42dd-80fa-64893e7a350b</Guid></GdsCmds></Node>
+</Nodes>

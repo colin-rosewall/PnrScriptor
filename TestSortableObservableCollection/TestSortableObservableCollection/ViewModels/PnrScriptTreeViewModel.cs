@@ -63,8 +63,8 @@ namespace TestSortableObservableCollection.ViewModels
 
             _root = new ObservableCollection<IPnrScriptBaseItemViewModel>();
 
-            IPnrScriptSubgroupViewModel rootItem = new PnrScriptSubgroupViewModel(null, "Root");
-            _root.Add(rootItem);
+            //IPnrScriptSubgroupViewModel rootItem = new PnrScriptSubgroupViewModel(null, "Root");
+            //_root.Add(rootItem);
 
             //IPnrScriptSubgroupViewModel maskItem = new PnrScriptSubgroupViewModel(rootItem, "Mask");
             //rootItem.AddChildItem(maskItem);

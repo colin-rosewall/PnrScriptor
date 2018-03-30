@@ -20,11 +20,15 @@ namespace TestSortableObservableCollection
     /// </summary>
     public partial class App : Application
     {
+
         protected override void OnStartup(StartupEventArgs e)
         {
             string errMsg = string.Empty;
 
             base.OnStartup(e);
+
+            // this will cause the cache to load
+            GDSCmdCache.GetGDSCmd("nothing");
 
             //errMsg = Upgrade();
             if (errMsg.Length > 0)

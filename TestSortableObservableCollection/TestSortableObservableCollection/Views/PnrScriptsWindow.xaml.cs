@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TestSortableObservableCollection.Interfaces;
+using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
 
 namespace TestSortableObservableCollection.Views
@@ -28,6 +29,10 @@ namespace TestSortableObservableCollection.Views
         {
             InitializeComponent();
             PnrScriptTreeViewModel vm = new PnrScriptTreeViewModel();
+
+            IPnrScriptTreeModel model = PnrScriptTreeModelFactory.GetModel("001");
+            model.LoadTree(vm);
+
             DataContext = vm;
         }
 
