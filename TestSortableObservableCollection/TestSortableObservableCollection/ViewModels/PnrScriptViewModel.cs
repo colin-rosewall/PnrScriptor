@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TestSortableObservableCollection.Interfaces;
+using TestSortableObservableCollection.ViewModels;
 
 namespace TestSortableObservableCollection.ViewModels
 {
@@ -36,7 +37,7 @@ namespace TestSortableObservableCollection.ViewModels
         {
             _parent = parent;
             _description = theDescription;
-            _gdsCmds = gdsCmds;
+            _gdsCmds = CloningExtensions.DeepCopy(gdsCmds);
         }
 
         public SortableObservableCollection<IPnrScriptBaseItemViewModel> Children

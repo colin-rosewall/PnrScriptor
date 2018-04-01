@@ -72,6 +72,7 @@
     <Compile Include="Models\GDSCmdCache.cs" />
     <Compile Include="Models\PnrScriptTreeModelFactory.cs" />
     <Compile Include="Models\PnrScriptTreeModelVer001.cs" />
+    <Compile Include="ViewModels\CloningExtensions.cs" />
     <Compile Include="Views\GDSCommandItemDataTemplateSelector.cs" />
     <Compile Include="Views\GDSCommandWindow.xaml.cs">
       <DependentUpon>GDSCommandWindow.xaml</DependentUpon>

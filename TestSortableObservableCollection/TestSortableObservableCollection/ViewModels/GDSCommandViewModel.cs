@@ -169,7 +169,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            return MemberwiseClone();
         }
 
         public IEnumerable GetErrors(string propertyName)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TestSortableObservableCollection.Interfaces
 {
-    public interface IGDSCommandViewModel : IGDSCommandItemViewModel, INotifyDataErrorInfo
+    public interface IGDSCommandViewModel : IGDSCommandItemViewModel, INotifyDataErrorInfo, ICloneable
     {
         string CommandLines { get; set; }
     }
