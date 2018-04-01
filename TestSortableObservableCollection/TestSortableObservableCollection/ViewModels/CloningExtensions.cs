@@ -9,7 +9,7 @@ namespace TestSortableObservableCollection.ViewModels
 {
     public static class CloningExtensions
     {
-        public static ObservableCollection<T> DeepCopy<T>(this ObservableCollection<T> list) where T : ICloneable
+        public static ObservableCollection<T> DeepCopy<T>(this IEnumerable<T> list) where T : ICloneable
         {
             return new ObservableCollection<T>(list.Select(x => x.Clone()).Cast<T>());
         }
