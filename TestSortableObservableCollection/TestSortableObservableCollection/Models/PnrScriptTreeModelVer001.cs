@@ -93,7 +93,8 @@ namespace TestSortableObservableCollection.Models
                                 GDSCommandViewModel cmd = GDSCmdCache.GetGDSCmd(inner.Value);
                                 if (cmd != null)
                                 {
-                                    gdsCmds.Add(cmd);
+                                    IGDSCommandViewModel newItem = new GDSCommandViewModel(cmd.Parent, cmd.Description, cmd.CommandLines);
+                                    gdsCmds.Add(newItem);
                                 }
                                 break;
                         }
