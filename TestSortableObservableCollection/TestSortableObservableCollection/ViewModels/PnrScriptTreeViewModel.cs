@@ -32,6 +32,8 @@ namespace TestSortableObservableCollection.ViewModels
 
         private ICommand _mouseDoubleClickCommand = null;
 
+        private ICommand _generateScriptCommand = null;
+
         private IPnrScriptBaseItemViewModel _currentlySelectedItem { get; set; }
         private IPnrScriptViewModel _itemToCut { get; set; }
         private IPnrScriptSubgroupViewModel _pnrScriptSubgroupToWorkOn = null;
@@ -41,6 +43,8 @@ namespace TestSortableObservableCollection.ViewModels
         private GDSCommandTreeViewModel _gdsCmdTreeViewModel = null;
 
         private IGDSCommandViewModel _currentlySelectedGdsCmd { get; set; }
+
+        private string _generatedScript { get; set; }
 
         public PnrScriptTreeViewModel()
         {
@@ -58,6 +62,8 @@ namespace TestSortableObservableCollection.ViewModels
             _removeGDSCmdCommand = new RelayCommand<object>(RemoveGDSCmd_Executed);
 
             _mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed, MouseDoubleClick_CanExecute);
+
+            _generateScriptCommand = new RelayCommand<object>(GenerateScript_Executed);
 
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
@@ -136,6 +142,31 @@ namespace TestSortableObservableCollection.ViewModels
             {
                 _currentlySelectedGdsCmd = value;
                 NotifyPropertyChanged(() => CurrentLySelectedGdsCmd);
+            }
+        }
+
+        public string GeneratedScript
+        {
+            get
+            {
+                return _generatedScript;
+            }
+            set
+            {
+                _generatedScript = value;
+                NotifyPropertyChanged(() => GeneratedScript);
+            }
+        }
+
+        public ICommand GenerateScriptCommand
+        {
+            get
+            {
+                return _generateScriptCommand;
+            }
+            set
+            {
+                _generateScriptCommand = value;
             }
         }
 
@@ -551,6 +582,17 @@ namespace TestSortableObservableCollection.ViewModels
                 result = true;
 
             return result;
+        }
+
+        public void GenerateScript_Executed(object obj)
+        {
+            IPnrScriptViewModel selectedItem = obj as IPnrScriptViewModel;
+
+            if (selectedItem != null)
+            {
+                string scriptText = string.Join(Environment.NewLine, selectedItem.GDSCommands.Select(cmd => cmd.CommandLines));
+                GeneratedScript = scriptText;
+            }
         }
     }
 }

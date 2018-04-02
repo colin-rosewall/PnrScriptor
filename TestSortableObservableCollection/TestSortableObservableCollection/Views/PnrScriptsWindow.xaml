@@ -41,6 +41,8 @@
                                 <Separator />
                                 <MenuItem Header="Change Pnr Script" Click="ChangePnrScript_Click" > </MenuItem>
                                 <MenuItem Header="Delete Pnr Script" Command="{Binding Data.DeletePnrScriptCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
+                                <Separator />
+                                <MenuItem Header="Generate Script" Command="{Binding Data.GenerateScriptCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
                             </ContextMenu>
                         </TextBlock.ContextMenu>
                     </TextBlock>
@@ -78,5 +80,7 @@
             </TreeView.ItemContainerStyle>
 
         </TreeView>
+
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding GeneratedScript, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
     </Grid>
 </Window>
