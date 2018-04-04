@@ -31,14 +31,11 @@ namespace TestSortableObservableCollection.Views
         private GDSCommandSubgroupWindow _subgroupWindow = null;
         private GDSCommandWindow _gdsCommandWindow = null;
 
-        public GDSCommandsWindow()
+        public GDSCommandsWindow(GDSCommandTreeViewModel tvm)
         {
             InitializeComponent();
-            GDSCommandTreeViewModel vm = new GDSCommandTreeViewModel();
-            IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
-            model.LoadTree(vm);
 
-            DataContext = vm;
+            DataContext = tvm;
 
         }
 
