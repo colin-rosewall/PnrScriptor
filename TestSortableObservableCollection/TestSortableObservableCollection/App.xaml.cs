@@ -24,16 +24,13 @@ namespace TestSortableObservableCollection
         protected override void OnStartup(StartupEventArgs e)
         {
             string errMsg = string.Empty;
-            GDSCommandTreeViewModel tvm = null;
+            
 
             base.OnStartup(e);
 
             // this will cause the cache to load
             GDSCmdCache.GetGDSCmd("nothing");
 
-            tvm = new GDSCommandTreeViewModel();
-            IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
-            model.LoadTree(tvm);
 
 
             //errMsg = Upgrade();
@@ -43,10 +40,8 @@ namespace TestSortableObservableCollection
             }
             else
             {
-                Window main = new GDSCommandsWindow(tvm);
+                Window main = new MainWindow();
                 main.Show();
-                //Window main = new PnrScriptsWindow();
-                //main.Show();
             }
 
         }

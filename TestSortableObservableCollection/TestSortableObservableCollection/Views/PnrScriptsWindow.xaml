@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
         mc:Ignorable="d"
-        Title="PnrScriptsWindow" Height="400" Width="500" WindowState="Maximized">
+        Title="PnrScriptsWindow" Height="400" Width="500" WindowState="Normal" MaxHeight="800" MaxWidth="1024" >
     <Window.Resources>
         <local:MyBindingProxy x:Key="DataContextProxy" Data="{Binding}" />
     </Window.Resources>

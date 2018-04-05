@@ -25,9 +25,6 @@ namespace TestSortableObservableCollection.Views
         public PnrScriptWindow(PnrScriptTreeViewModel tvm)
         {
             InitializeComponent();
-            tvm.GDSCmdTreeViewModel = new GDSCommandTreeViewModel();
-            IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
-            model.LoadTree(tvm.GDSCmdTreeViewModel);
 
             DataContext = tvm;
 

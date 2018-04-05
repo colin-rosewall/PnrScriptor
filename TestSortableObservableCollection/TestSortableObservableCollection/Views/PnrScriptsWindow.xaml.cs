@@ -25,10 +25,11 @@ namespace TestSortableObservableCollection.Views
         private PnrScriptSubgroupWindow _subgroupWindow = null;
         private PnrScriptWindow _pnrScriptWindow = null;
 
-        public PnrScriptsWindow()
+        public PnrScriptsWindow(GDSCommandTreeViewModel tvm)
         {
             InitializeComponent();
             PnrScriptTreeViewModel vm = new PnrScriptTreeViewModel();
+            vm.GDSCmdTreeViewModel = tvm;
 
             IPnrScriptTreeModel model = PnrScriptTreeModelFactory.GetModel("001");
             model.LoadTree(vm);

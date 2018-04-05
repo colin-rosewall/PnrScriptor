@@ -87,6 +87,9 @@
     <Compile Include="Models\GDSCmdTreeModelFactory.cs" />
     <Compile Include="Models\GDSCmdTreeModelVer001.cs" />
     <Compile Include="Models\GDSCmdTreeModelVer002.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MyBindingProxy.cs" />
     <Compile Include="Views\PnrScriptItemDataTemplateSelector.cs" />
     <Compile Include="Views\PnrScriptsWindow.xaml.cs">
@@ -126,6 +129,10 @@
       <DependentUpon>GDSCommandsWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PnrScriptsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
