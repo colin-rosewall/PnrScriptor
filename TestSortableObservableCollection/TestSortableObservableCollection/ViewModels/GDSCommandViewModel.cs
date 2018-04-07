@@ -40,6 +40,11 @@ namespace TestSortableObservableCollection.ViewModels
             _commandLines = theCommandLines;
         }
 
+        public GDSCommandViewModel(IGDSCommandItemViewModel parent, string theDescription, string theCommandLines, string guid) : this(parent, theDescription, theCommandLines)
+        {
+            _guid = guid;
+        }
+
         public string Guid
         {
             get

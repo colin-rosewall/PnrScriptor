@@ -423,8 +423,7 @@ namespace TestSortableObservableCollection.ViewModels
                     {
                         if (_pnrScriptToWorkOn != null)
                         {
-                            IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines);
-                            newItem.Guid = clickedItem.Guid;
+                            IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines, clickedItem.Guid);
                             _pnrScriptToWorkOn.GDSCommands.Add(newItem);
                         }
                     }

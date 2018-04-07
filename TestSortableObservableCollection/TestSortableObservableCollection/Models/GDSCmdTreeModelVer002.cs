@@ -126,7 +126,7 @@ namespace TestSortableObservableCollection.Models
                     {
                         if (intLevel == 0)
                         {
-                            newItem = new GDSCommandViewModel(null, description, commandLines);
+                            newItem = new GDSCommandViewModel(null, description, commandLines, guid);
                             vm.Root.Add(newItem);
                         }
                         else
@@ -134,14 +134,13 @@ namespace TestSortableObservableCollection.Models
                             parent = FindParent(vm, UInt64.Parse(parentID));
                             if (parent != null)
                             {
-                                newItem = new GDSCommandViewModel(parent, description, commandLines);
+                                newItem = new GDSCommandViewModel(parent, description, commandLines, guid);
                                 parent.AddChildItem(newItem);
                             }
                         }
                         if (newItem != null)
                         {
                             newItem.UniqueID = UInt64.Parse(uniqueID);
-                            newItem.Guid = guid;  // Only GDS Commands have a guid
                         }
                     }
                 }

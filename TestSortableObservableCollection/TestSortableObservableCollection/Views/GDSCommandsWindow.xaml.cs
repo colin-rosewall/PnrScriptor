@@ -106,7 +106,7 @@ namespace TestSortableObservableCollection.Views
                     var existingItem = tvm.CurrentlySelectedItem as GDSCommandViewModel;
                     if (existingItem != null)
                     {
-                        tvm.GDSCommandToWorkOn = new GDSCommandViewModel(existingItem.Parent, existingItem.Description, existingItem.CommandLines);
+                        tvm.GDSCommandToWorkOn = new GDSCommandViewModel(existingItem.Parent, existingItem.Description, existingItem.CommandLines, existingItem.Guid);
                         if (_gdsCommandWindow == null)
                         {
                             _gdsCommandWindow = new GDSCommandWindow(tvm);

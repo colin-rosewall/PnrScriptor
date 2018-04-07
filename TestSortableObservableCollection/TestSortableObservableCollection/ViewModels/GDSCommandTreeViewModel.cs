@@ -50,19 +50,6 @@ namespace TestSortableObservableCollection.ViewModels
             _selectedItemChangedCommand = new RelayCommand<object>(SelectedItemChanged);
 
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
-            // GDSCmdTreeModel.LoadTree(this);
-
-
-            //IGDSCommandSubgroupViewModel sabreItem = new GDSCommandSubgroupViewModel(rootItem, "Sabre");
-            //rootItem.AddChildItem(sabreItem);
-
-            //IGDSCommandSubgroupViewModel galileoItem = new GDSCommandSubgroupViewModel(rootItem, "Galileo");
-            //rootItem.AddChildItem(galileoItem);
-
-            //IGDSCommandViewModel addAdult = new GDSCommandViewModel(galileoItem, "Add Gal Adult", "");
-            //galileoItem.Children.Add(addAdult);
-
-            //SortByDescription(rootItem);
         }
 
         public ObservableCollection<IGDSCommandItemViewModel> Root
@@ -230,8 +217,9 @@ namespace TestSortableObservableCollection.ViewModels
                     if (GDSCommandToWorkOn.Parent == null)
                     {
                         // this creates a new item
-                        IGDSCommandViewModel newItem = new GDSCommandViewModel(_currentlySelectedItem, GDSCommandToWorkOn.Description, GDSCommandToWorkOn.CommandLines);
+                        IGDSCommandViewModel newItem = new GDSCommandViewModel(_currentlySelectedItem, GDSCommandToWorkOn.Description, GDSCommandToWorkOn.CommandLines, System.Guid.NewGuid().ToString());
                         _currentlySelectedItem.AddChildItem(newItem);
+                        // ToDo: add newItem to GDSCmdCache
                         CloseGDSCommandWindow();
                         SortByDescription(_currentlySelectedItem);
                     }
@@ -242,6 +230,7 @@ namespace TestSortableObservableCollection.ViewModels
                         {
                             existingItem.Description = GDSCommandToWorkOn.Description;
                             existingItem.CommandLines = GDSCommandToWorkOn.CommandLines;
+                            // ToDo: update GDSCmdCache with existingItem description and command lines
                             CloseGDSCommandWindow();
                             if (existingItem.Parent != null)
                                 SortByDescription(existingItem.Parent);
@@ -324,6 +313,7 @@ namespace TestSortableObservableCollection.ViewModels
                 {
                     _currentlySelectedItem = itemToBeDeleted.Parent;
                     _currentlySelectedItem.Children.Remove(itemToBeDeleted);
+                    // ToDo: Remove itemToBeDeleted from GDSCmdCache
                 }
             }
         }
@@ -353,8 +343,9 @@ namespace TestSortableObservableCollection.ViewModels
             {
                 if (_itemToCut != null)
                 {
-                    IGDSCommandViewModel newItem = new GDSCommandViewModel(itemToPasteInto, _itemToCut.Description, _itemToCut.CommandLines);
+                    IGDSCommandViewModel newItem = new GDSCommandViewModel(itemToPasteInto, _itemToCut.Description, _itemToCut.CommandLines, _itemToCut.Guid);
                     itemToPasteInto.AddChildItem(newItem);
+                    // ToDo: we do not need to update GDSCmdCache with the new parent itemToPasteInto because the parent is not set when the cache is loaded from file
 
                     var parent = _itemToCut.Parent;
                     if (parent != null)
