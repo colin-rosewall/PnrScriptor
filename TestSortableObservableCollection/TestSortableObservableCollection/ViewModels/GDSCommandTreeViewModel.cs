@@ -32,7 +32,9 @@ namespace TestSortableObservableCollection.ViewModels
         private IGDSCommandViewModel _GDSCommandToWorkOn = null;
         public Action CloseSubgroupWindow { get; set; }
         public Action CloseGDSCommandWindow { get; set; }
-        
+
+        public delegate void AddGDSCmdToCacheDelegate(IGDSCommandViewModel newItem);
+        public event AddGDSCmdToCacheDelegate RaiseAddGDSCmdToCache;
 
         public GDSCommandTreeViewModel()
         {
@@ -220,6 +222,8 @@ namespace TestSortableObservableCollection.ViewModels
                         IGDSCommandViewModel newItem = new GDSCommandViewModel(_currentlySelectedItem, GDSCommandToWorkOn.Description, GDSCommandToWorkOn.CommandLines, System.Guid.NewGuid().ToString());
                         _currentlySelectedItem.AddChildItem(newItem);
                         // ToDo: add newItem to GDSCmdCache
+                        if (RaiseAddGDSCmdToCache != null)
+                            RaiseAddGDSCmdToCache(newItem);
                         CloseGDSCommandWindow();
                         SortByDescription(_currentlySelectedItem);
                     }

@@ -34,6 +34,18 @@ namespace TestSortableObservableCollection.Models
             return fetchedItem;
         }
 
+        public static void AddGDSCmdToCache(IGDSCommandViewModel itemToBeAdded)
+        {
+            if (itemToBeAdded.Guid.Length > 0)
+            {
+                GDSCommandViewModel newItem = new GDSCommandViewModel(null, itemToBeAdded.Description, itemToBeAdded.CommandLines, itemToBeAdded.Guid);
+                if (newItem != null)
+                {
+                    GDSCmds.Add(newItem.Guid, newItem);
+                }
+            }
+        }
+
         private static string LoadGDSCmds()
         {
             string errMsg = string.Empty;

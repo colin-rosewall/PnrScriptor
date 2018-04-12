@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1024" Width="768" WindowState="Maximized">
+        Title="MainWindow" Height="1024" Width="768" WindowState="Maximized" Closing="Window_Closing">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top" x:Name="menu" HorizontalAlignment="Left"  VerticalAlignment="Top" >

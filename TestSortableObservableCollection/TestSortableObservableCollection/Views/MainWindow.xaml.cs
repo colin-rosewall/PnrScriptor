@@ -23,6 +23,7 @@ namespace TestSortableObservableCollection.Views
     public partial class MainWindow : Window
     {
         GDSCommandTreeViewModel tvm = null;
+        GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate addToCache = new GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate(GDSCmdCache.AddGDSCmdToCache);
 
         public MainWindow()
         {
@@ -30,6 +31,9 @@ namespace TestSortableObservableCollection.Views
             this.Show();
 
             tvm = new GDSCommandTreeViewModel();
+            
+            tvm.RaiseAddGDSCmdToCache += addToCache;
+
             IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
             model.LoadTree(tvm);
 
@@ -68,6 +72,14 @@ namespace TestSortableObservableCollection.Views
         private void ShowPnrScriptsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ShowPnrScriptsWindow();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (tvm != null)
+            {
+                tvm.RaiseAddGDSCmdToCache -= addToCache;
+            }
         }
     }
 }
