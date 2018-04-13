@@ -36,8 +36,11 @@ namespace TestSortableObservableCollection.ViewModels
         public delegate void AddGDSCmdToCacheDelegate(IGDSCommandViewModel newItem);
         public event AddGDSCmdToCacheDelegate RaiseAddGDSCmdToCache;
 
+        private bool _isDirty = false;
+
         public GDSCommandTreeViewModel()
         {
+            IsDirty = false;
             _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
             _renameSubgroupCommand = new RelayCommand<object>(RenameSubgroup_Executed, RenameSubgroup_CanExecute);
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
@@ -54,6 +57,12 @@ namespace TestSortableObservableCollection.ViewModels
             _root = new ObservableCollection<IGDSCommandItemViewModel>();
         }
 
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set { _isDirty = value; NotifyPropertyChanged(() => IsDirty); }
+
+        }
         public ObservableCollection<IGDSCommandItemViewModel> Root
         {
             get
@@ -221,6 +230,7 @@ namespace TestSortableObservableCollection.ViewModels
                         // this creates a new item
                         IGDSCommandViewModel newItem = new GDSCommandViewModel(_currentlySelectedItem, GDSCommandToWorkOn.Description, GDSCommandToWorkOn.CommandLines, System.Guid.NewGuid().ToString());
                         _currentlySelectedItem.AddChildItem(newItem);
+                        IsDirty = true;
                         // ToDo: add newItem to GDSCmdCache
                         if (RaiseAddGDSCmdToCache != null)
                             RaiseAddGDSCmdToCache(newItem);
@@ -234,6 +244,7 @@ namespace TestSortableObservableCollection.ViewModels
                         {
                             existingItem.Description = GDSCommandToWorkOn.Description;
                             existingItem.CommandLines = GDSCommandToWorkOn.CommandLines;
+                            IsDirty = true;
                             // ToDo: update GDSCmdCache with existingItem description and command lines
                             CloseGDSCommandWindow();
                             if (existingItem.Parent != null)
@@ -257,6 +268,7 @@ namespace TestSortableObservableCollection.ViewModels
                         // this creates a new item
                         IGDSCommandSubgroupViewModel newItem = new GDSCommandSubgroupViewModel(_currentlySelectedItem, GDSSubgroupToWorkOn.Description);
                         _currentlySelectedItem.AddChildItem(newItem);
+                        IsDirty = true;
                         CloseSubgroupWindow();
                         SortByDescription(_currentlySelectedItem);
                     }
@@ -264,6 +276,7 @@ namespace TestSortableObservableCollection.ViewModels
                     {
                         // this renames an item
                         _currentlySelectedItem.Description = GDSSubgroupToWorkOn.Description;
+                        IsDirty = true;
                         CloseSubgroupWindow();
                         if (_currentlySelectedItem.Parent != null)
                             SortByDescription(_currentlySelectedItem.Parent);
@@ -317,6 +330,7 @@ namespace TestSortableObservableCollection.ViewModels
                 {
                     _currentlySelectedItem = itemToBeDeleted.Parent;
                     _currentlySelectedItem.Children.Remove(itemToBeDeleted);
+                    IsDirty = true;
                     // ToDo: Remove itemToBeDeleted from GDSCmdCache
                 }
             }
@@ -349,6 +363,7 @@ namespace TestSortableObservableCollection.ViewModels
                 {
                     IGDSCommandViewModel newItem = new GDSCommandViewModel(itemToPasteInto, _itemToCut.Description, _itemToCut.CommandLines, _itemToCut.Guid);
                     itemToPasteInto.AddChildItem(newItem);
+                    IsDirty = true;
                     // ToDo: we do not need to update GDSCmdCache with the new parent itemToPasteInto because the parent is not set when the cache is loaded from file
 
                     var parent = _itemToCut.Parent;
@@ -385,6 +400,7 @@ namespace TestSortableObservableCollection.ViewModels
                         {
                             _currentlySelectedItem = itemToBeDeleted.Parent;
                             _currentlySelectedItem.Children.Remove(itemToBeDeleted);
+                            IsDirty = true;
                         }
                     }
                 }
@@ -424,6 +440,7 @@ namespace TestSortableObservableCollection.ViewModels
         {
             IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
             model.SaveTree(this);
+            IsDirty = false;
         }
 
         public bool SaveTree_CanExecute(object obj)

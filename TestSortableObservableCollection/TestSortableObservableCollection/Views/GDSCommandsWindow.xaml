@@ -80,6 +80,7 @@
                 
             </Button>
             <TextBox x:Name="txtOutput" Height="Auto"></TextBox>
+            <CheckBox Content="Is Dirty" IsChecked="{Binding IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></CheckBox>
         </StackPanel>          
     </Grid>
 </Window>
