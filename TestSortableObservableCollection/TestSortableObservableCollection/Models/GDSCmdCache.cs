@@ -46,6 +46,31 @@ namespace TestSortableObservableCollection.Models
             }
         }
 
+        public static void UpdateGDSCmdToCache(IGDSCommandViewModel itemToBeUpdated)
+        {
+            if (itemToBeUpdated.Guid.Length > 0)
+            {
+                GDSCommandViewModel fetchedItem = null;
+
+                GDSCmds.TryGetValue(itemToBeUpdated.Guid, out fetchedItem);
+
+                if (fetchedItem != null)
+                {
+                    fetchedItem.Description = itemToBeUpdated.Description;
+                    fetchedItem.CommandLines = itemToBeUpdated.CommandLines;
+                }
+            }
+        }
+
+        public static void DeleteGDSCmdFromCache(IGDSCommandViewModel itemToBeDeleted)
+        {
+            if (itemToBeDeleted.Guid.Length > 0)
+            {
+                if (GDSCmds.ContainsKey(itemToBeDeleted.Guid))
+                    GDSCmds.Remove(itemToBeDeleted.Guid);
+            }
+        }
+
         private static string LoadGDSCmds()
         {
             string errMsg = string.Empty;

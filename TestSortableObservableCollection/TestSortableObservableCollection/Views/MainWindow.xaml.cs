@@ -24,6 +24,8 @@ namespace TestSortableObservableCollection.Views
     {
         GDSCommandTreeViewModel tvm = null;
         GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate addToCache = new GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate(GDSCmdCache.AddGDSCmdToCache);
+        GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate updateToCache = new GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate(GDSCmdCache.UpdateGDSCmdToCache);
+        GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate deleteFromCache = new GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate(GDSCmdCache.DeleteGDSCmdFromCache);
 
         public MainWindow()
         {
@@ -33,6 +35,8 @@ namespace TestSortableObservableCollection.Views
             tvm = new GDSCommandTreeViewModel();
             
             tvm.RaiseAddGDSCmdToCache += addToCache;
+            tvm.RaiseUpdateGDSCmdToCache += updateToCache;
+            tvm.RaiseDeleteGDSCmdFromCache += deleteFromCache;
 
             IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
             model.LoadTree(tvm);
@@ -79,6 +83,8 @@ namespace TestSortableObservableCollection.Views
             if (tvm != null)
             {
                 tvm.RaiseAddGDSCmdToCache -= addToCache;
+                tvm.RaiseUpdateGDSCmdToCache -= updateToCache;
+                tvm.RaiseDeleteGDSCmdFromCache -= deleteFromCache;
             }
         }
     }
