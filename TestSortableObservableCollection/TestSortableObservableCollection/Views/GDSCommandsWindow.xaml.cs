@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using TestSortableObservableCollection.Interfaces;
@@ -30,17 +31,13 @@ namespace TestSortableObservableCollection.Views
     {
         private GDSCommandSubgroupWindow _subgroupWindow = null;
         private GDSCommandWindow _gdsCommandWindow = null;
+        private DispatcherTimer timerForSaveEvent;
 
         public GDSCommandsWindow(GDSCommandTreeViewModel tvm)
         {
             InitializeComponent();
 
             DataContext = tvm;
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
 
         }
 
@@ -116,6 +113,38 @@ namespace TestSortableObservableCollection.Views
                         _gdsCommandWindow.Show();
                     }
                 }
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            timerForSaveEvent = new DispatcherTimer();
+            timerForSaveEvent.Tick += new EventHandler(tick);
+            timerForSaveEvent.Interval = new TimeSpan(0, 1, 1);
+            timerForSaveEvent.Start();
+        }
+
+        private void tick(object sender, EventArgs e)
+        {
+            var tvm = DataContext as GDSCommandTreeViewModel;
+
+            if (tvm != null && tvm.SaveTreeCommand != null)
+            {
+                if (tvm.SaveTreeCommand.CanExecute(null))
+                {
+                    tvm.SaveTreeCommand.Execute(null);
+                }
+            }
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (timerForSaveEvent != null)
+            {
+                timerForSaveEvent.Stop();
+                timerForSaveEvent.IsEnabled = false;
+                timerForSaveEvent = null;
             }
         }
     }

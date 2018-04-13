@@ -450,9 +450,12 @@ namespace TestSortableObservableCollection.ViewModels
 
         public void SaveTree_Executed(object obj)
         {
-            IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
-            model.SaveTree(this);
-            IsDirty = false;
+            if (IsDirty)
+            {
+                IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
+                model.SaveTree(this);
+                IsDirty = false;
+            }
         }
 
         public bool SaveTree_CanExecute(object obj)

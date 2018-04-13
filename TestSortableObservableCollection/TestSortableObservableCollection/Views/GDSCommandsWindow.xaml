@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
         mc:Ignorable="d"
-        Title="GDSCommandsWindow" Height="350" Width="525" WindowState="Normal" MaxHeight="800" MaxWidth="1024" >
+        Title="GDSCommandsWindow" Height="350" Width="525" WindowState="Normal" MaxHeight="800" MaxWidth="1024" Loaded="Window_Loaded" Closing="Window_Closing" >
     <Window.Resources>
         <local:MyBindingProxy x:Key="DataContextProxy" Data="{Binding}" />
     </Window.Resources>
@@ -76,9 +76,6 @@
             </TreeView.ItemContainerStyle>
         </TreeView>
         <StackPanel Grid.Column="1"  Orientation="Vertical" >
-            <Button Content="Check Selected" Click="Button_Click" >
-                
-            </Button>
             <TextBox x:Name="txtOutput" Height="Auto"></TextBox>
             <CheckBox Content="Is Dirty" IsChecked="{Binding IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></CheckBox>
         </StackPanel>          
