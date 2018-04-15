@@ -607,5 +607,14 @@ namespace TestSortableObservableCollection.ViewModels
                 GeneratedScript = scriptText;
             }
         }
+
+        public void UpdateGDSCmdToPnrScriptTVM(IGDSCommandViewModel itemUsedForUpdating)
+        {
+            if (itemUsedForUpdating.Guid.Length > 0)
+            {
+                IPnrScriptTreeModel pnrScriptsModel = PnrScriptTreeModelFactory.GetModel("001");
+                pnrScriptsModel.UpdateTree(this, itemUsedForUpdating);
+            }
+        }
     }
 }

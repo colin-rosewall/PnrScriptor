@@ -26,6 +26,8 @@ namespace TestSortableObservableCollection.Views
         private GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate addToCache = new GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate(GDSCmdCache.AddGDSCmdToCache);
         private GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate updateToCache = new GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate(GDSCmdCache.UpdateGDSCmdToCache);
         private GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate deleteFromCache = new GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate(GDSCmdCache.DeleteGDSCmdFromCache);
+        private GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate updateToPnrScriptTVM = null;
+
         private PnrScriptTreeViewModel pnrScriptsTVM = null;
 
         public MainWindow()
@@ -48,6 +50,9 @@ namespace TestSortableObservableCollection.Views
 
             IPnrScriptTreeModel pnrScriptsModel = PnrScriptTreeModelFactory.GetModel("001");
             pnrScriptsModel.LoadTree(pnrScriptsTVM);
+
+            updateToPnrScriptTVM = new GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate(pnrScriptsTVM.UpdateGDSCmdToPnrScriptTVM);
+            gdsCmdsTVM.RaiseUpdateGDSCmdToCache += updateToPnrScriptTVM;
 
             ShowGDSCommandsWindow();
             ShowPnrScriptsWindow();
@@ -93,6 +98,7 @@ namespace TestSortableObservableCollection.Views
                 gdsCmdsTVM.RaiseAddGDSCmdToCache -= addToCache;
                 gdsCmdsTVM.RaiseUpdateGDSCmdToCache -= updateToCache;
                 gdsCmdsTVM.RaiseDeleteGDSCmdFromCache -= deleteFromCache;
+                gdsCmdsTVM.RaiseUpdateGDSCmdToCache -= updateToPnrScriptTVM;
             }
         }
     }

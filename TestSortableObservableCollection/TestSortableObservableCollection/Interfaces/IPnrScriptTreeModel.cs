@@ -12,5 +12,6 @@ namespace TestSortableObservableCollection.Interfaces
         string Upgrade(PnrScriptTreeViewModel vm);
         void SaveTree(PnrScriptTreeViewModel vm);
         string LoadTree(PnrScriptTreeViewModel vm);
+        void UpdateTree(PnrScriptTreeViewModel vm, IGDSCommandViewModel itemUsedForUpdating);
     }
 }

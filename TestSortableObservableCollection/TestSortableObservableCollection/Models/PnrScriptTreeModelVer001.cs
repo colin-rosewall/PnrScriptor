@@ -264,6 +264,42 @@ namespace TestSortableObservableCollection.Models
             }
         }
 
+        private void TraverseInLevelOrderForUpdating(IPnrScriptBaseItemViewModel item, IGDSCommandViewModel itemUsedForUpdating)
+        {
+            Queue<Tuple<int, IPnrScriptBaseItemViewModel>> q = new Queue<Tuple<int, IPnrScriptBaseItemViewModel>>();
+
+            if (item != null)
+                q.Enqueue(new Tuple<int, IPnrScriptBaseItemViewModel>(0, item));
+
+            while (q.Count > 0)
+            {
+                var queueItem = q.Dequeue();
+                int level = queueItem.Item1;
+                IPnrScriptBaseItemViewModel currentItem = queueItem.Item2;
+                //currentItem.UniqueID = uniqueID;
+
+                var pnrScript = currentItem as IPnrScriptViewModel;
+
+                if (pnrScript != null && pnrScript.GDSCommands != null)
+                {
+                    // only update gds cmds with the same guid
+                    var cmds = pnrScript.GDSCommands.Where(c => c.Guid == itemUsedForUpdating.Guid);
+                    foreach (var i in cmds)
+                    {
+                        i.Description = itemUsedForUpdating.Description;
+                        i.CommandLines = itemUsedForUpdating.CommandLines;
+                    }
+                }
+
+                //uniqueID++;
+
+                foreach (var child in currentItem.Children)
+                {
+                    q.Enqueue(new Tuple<int, IPnrScriptBaseItemViewModel>(level + 1, child));
+                }
+            }
+
+        }
         private string FormatItemAsXml(int level, UInt64 uniqueID, IPnrScriptBaseItemViewModel currentItem)
         {
             string xmlOutput = string.Empty;
@@ -309,5 +345,15 @@ namespace TestSortableObservableCollection.Models
             return xmlOutput;
         }
 
+        public void UpdateTree(PnrScriptTreeViewModel vm, IGDSCommandViewModel itemUsedForUpdating)
+        {
+            if (vm != null && vm.Root != null && vm.Root.Count > 0)
+            {
+                foreach (var item in vm.Root)
+                {
+                    TraverseInLevelOrderForUpdating(item, itemUsedForUpdating);
+                }
+            }
+        }
     }
 }
