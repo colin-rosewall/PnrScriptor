@@ -46,8 +46,11 @@ namespace TestSortableObservableCollection.ViewModels
 
         private string _generatedScript { get; set; }
 
+        private bool _isDirty = false;
+
         public PnrScriptTreeViewModel()
         {
+            IsDirty = false;
             _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
             _renameSubgroupCommand = new RelayCommand<object>(RenameSubgroup_Executed, RenameSubgroup_CanExecute);
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
@@ -69,12 +72,12 @@ namespace TestSortableObservableCollection.ViewModels
 
             _root = new ObservableCollection<IPnrScriptBaseItemViewModel>();
 
-            //IPnrScriptSubgroupViewModel rootItem = new PnrScriptSubgroupViewModel(null, "Root");
-            //_root.Add(rootItem);
+        }
 
-            //IPnrScriptSubgroupViewModel maskItem = new PnrScriptSubgroupViewModel(rootItem, "Mask");
-            //rootItem.AddChildItem(maskItem);
-
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set { _isDirty = value; NotifyPropertyChanged(() => IsDirty); }
         }
 
         public ObservableCollection<IPnrScriptBaseItemViewModel> Root
@@ -318,6 +321,7 @@ namespace TestSortableObservableCollection.ViewModels
                         // this creates a new item
                         IPnrScriptSubgroupViewModel newItem = new PnrScriptSubgroupViewModel(_currentlySelectedItem, PnrScriptSubgroupToWorkOn.Description);
                         _currentlySelectedItem.AddChildItem(newItem);
+                        IsDirty = true;
                         CloseSubgroupWindow();
                         SortByDescription(_currentlySelectedItem);
                     }
@@ -325,6 +329,7 @@ namespace TestSortableObservableCollection.ViewModels
                     {
                         // this renames an item
                         _currentlySelectedItem.Description = PnrScriptSubgroupToWorkOn.Description;
+                        IsDirty = true;
                         CloseSubgroupWindow();
                         if (CurrentlySelectedItem.Parent != null)
                             SortByDescription(_currentlySelectedItem.Parent);
@@ -382,6 +387,7 @@ namespace TestSortableObservableCollection.ViewModels
                         {
                             _currentlySelectedItem = itemToBeDeleted.Parent;
                             _currentlySelectedItem.Children.Remove(itemToBeDeleted);
+                            IsDirty = true;
                         }
                     }
                 }
@@ -462,6 +468,7 @@ namespace TestSortableObservableCollection.ViewModels
                         // this creates a new item
                         IPnrScriptViewModel newItem = new PnrScriptViewModel(_currentlySelectedItem, PnrScriptToWorkOn.Description, PnrScriptToWorkOn.GDSCommands);
                         _currentlySelectedItem.AddChildItem(newItem);
+                        IsDirty = true;
                         ClosePnrScriptWindow();
                         SortByDescription(_currentlySelectedItem);
                     }
@@ -472,6 +479,7 @@ namespace TestSortableObservableCollection.ViewModels
                         {
                             existingItem.Description = _pnrScriptToWorkOn.Description;
                             existingItem.GDSCommands = _pnrScriptToWorkOn.GDSCommands;
+                            IsDirty = true;
                             ClosePnrScriptWindow();
                             if (existingItem.Parent != null)
                                 SortByDescription(existingItem.Parent);
@@ -493,6 +501,7 @@ namespace TestSortableObservableCollection.ViewModels
                 {
                     _currentlySelectedItem = itemToBeDeleted.Parent;
                     _currentlySelectedItem.Children.Remove(itemToBeDeleted);
+                    IsDirty = true;
                 }
             }
         }
@@ -531,6 +540,7 @@ namespace TestSortableObservableCollection.ViewModels
                 {
                     IPnrScriptViewModel newItem = new PnrScriptViewModel(itemToPasteInto, _itemToCut.Description, _itemToCut.GDSCommands);
                     itemToPasteInto.AddChildItem(newItem);
+                    IsDirty = true;
 
                     var parent = _itemToCut.Parent;
                     if (parent != null)
@@ -569,8 +579,12 @@ namespace TestSortableObservableCollection.ViewModels
 
         public void SaveTree_Executed(object obj)
         {
-            IPnrScriptTreeModel model = PnrScriptTreeModelFactory.GetModel("001");
-            model.SaveTree(this);
+            if (IsDirty)
+            {
+                IPnrScriptTreeModel model = PnrScriptTreeModelFactory.GetModel("001");
+                model.SaveTree(this);
+                IsDirty = false;
+            }
         }
 
         public bool SaveTree_CanExecute(object obj)

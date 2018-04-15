@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
         mc:Ignorable="d"
-        Title="PnrScriptsWindow" Height="400" Width="500" WindowState="Normal" MaxHeight="800" MaxWidth="1024" >
+        Title="PnrScriptsWindow" Height="400" Width="500" WindowState="Normal" MaxHeight="800" MaxWidth="1024" Closing="Window_Closing" Loaded="Window_Loaded" >
     <Window.Resources>
         <local:MyBindingProxy x:Key="DataContextProxy" Data="{Binding}" />
     </Window.Resources>
@@ -81,6 +81,9 @@
 
         </TreeView>
 
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <CheckBox Content="Is Dirty" IsChecked="{Binding IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></CheckBox>
+        </StackPanel>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding GeneratedScript, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
     </Grid>
 </Window>

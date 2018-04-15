@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
@@ -24,17 +25,13 @@ namespace TestSortableObservableCollection.Views
     {
         private PnrScriptSubgroupWindow _subgroupWindow = null;
         private PnrScriptWindow _pnrScriptWindow = null;
+        private DispatcherTimer timerForSaveEvent;
 
-        public PnrScriptsWindow(GDSCommandTreeViewModel tvm)
+        public PnrScriptsWindow(PnrScriptTreeViewModel pnrScriptsTVM)
         {
             InitializeComponent();
-            PnrScriptTreeViewModel vm = new PnrScriptTreeViewModel();
-            vm.GDSCmdTreeViewModel = tvm;
 
-            IPnrScriptTreeModel model = PnrScriptTreeModelFactory.GetModel("001");
-            model.LoadTree(vm);
-
-            DataContext = vm;
+            DataContext = pnrScriptsTVM;
         }
 
         private void AddSubgroup_Click(object sender, RoutedEventArgs e)
@@ -110,6 +107,38 @@ namespace TestSortableObservableCollection.Views
                         _pnrScriptWindow.Show();
                     }
                 }
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            timerForSaveEvent = new DispatcherTimer();
+            timerForSaveEvent.Tick += new EventHandler(tick);
+            timerForSaveEvent.Interval = new TimeSpan(0, 1, 1);
+            timerForSaveEvent.Start();
+        }
+
+        private void tick(object sender, EventArgs e)
+        {
+            var tvm = DataContext as PnrScriptTreeViewModel;
+
+            if (tvm != null && tvm.SaveTreeCommand != null)
+            {
+                if (tvm.SaveTreeCommand.CanExecute(null))
+                {
+                    tvm.SaveTreeCommand.Execute(null);
+                }
+            }
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (timerForSaveEvent != null)
+            {
+                timerForSaveEvent.Stop();
+                timerForSaveEvent.IsEnabled = false;
+                timerForSaveEvent = null;
             }
         }
     }

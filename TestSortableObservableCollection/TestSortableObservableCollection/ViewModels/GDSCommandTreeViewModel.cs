@@ -67,7 +67,6 @@ namespace TestSortableObservableCollection.ViewModels
         {
             get { return _isDirty; }
             set { _isDirty = value; NotifyPropertyChanged(() => IsDirty); }
-
         }
         public ObservableCollection<IGDSCommandItemViewModel> Root
         {

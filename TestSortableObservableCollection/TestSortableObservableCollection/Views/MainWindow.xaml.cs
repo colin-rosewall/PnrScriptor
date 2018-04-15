@@ -22,24 +22,32 @@ namespace TestSortableObservableCollection.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        GDSCommandTreeViewModel tvm = null;
-        GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate addToCache = new GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate(GDSCmdCache.AddGDSCmdToCache);
-        GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate updateToCache = new GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate(GDSCmdCache.UpdateGDSCmdToCache);
-        GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate deleteFromCache = new GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate(GDSCmdCache.DeleteGDSCmdFromCache);
+        private GDSCommandTreeViewModel gdsCmdsTVM = null;
+        private GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate addToCache = new GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate(GDSCmdCache.AddGDSCmdToCache);
+        private GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate updateToCache = new GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate(GDSCmdCache.UpdateGDSCmdToCache);
+        private GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate deleteFromCache = new GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate(GDSCmdCache.DeleteGDSCmdFromCache);
+        private PnrScriptTreeViewModel pnrScriptsTVM = null;
 
         public MainWindow()
         {
             InitializeComponent();
             this.Show();
 
-            tvm = new GDSCommandTreeViewModel();
+            gdsCmdsTVM = new GDSCommandTreeViewModel();
             
-            tvm.RaiseAddGDSCmdToCache += addToCache;
-            tvm.RaiseUpdateGDSCmdToCache += updateToCache;
-            tvm.RaiseDeleteGDSCmdFromCache += deleteFromCache;
+            gdsCmdsTVM.RaiseAddGDSCmdToCache += addToCache;
+            gdsCmdsTVM.RaiseUpdateGDSCmdToCache += updateToCache;
+            gdsCmdsTVM.RaiseDeleteGDSCmdFromCache += deleteFromCache;
 
-            IGDSCmdTreeModel model = GDSCmdTreeModelFactory.GetModel("002");
-            model.LoadTree(tvm);
+            IGDSCmdTreeModel gdsCmdsModel = GDSCmdTreeModelFactory.GetModel("002");
+            gdsCmdsModel.LoadTree(gdsCmdsTVM);
+
+
+            pnrScriptsTVM = new PnrScriptTreeViewModel();
+            pnrScriptsTVM.GDSCmdTreeViewModel = gdsCmdsTVM;
+
+            IPnrScriptTreeModel pnrScriptsModel = PnrScriptTreeModelFactory.GetModel("001");
+            pnrScriptsModel.LoadTree(pnrScriptsTVM);
 
             ShowGDSCommandsWindow();
             ShowPnrScriptsWindow();
@@ -49,7 +57,7 @@ namespace TestSortableObservableCollection.Views
         {
             GDSCommandsWindow gdsCommandsWindow = null;
 
-            gdsCommandsWindow = new GDSCommandsWindow(tvm);
+            gdsCommandsWindow = new GDSCommandsWindow(gdsCmdsTVM);
             gdsCommandsWindow.Owner = this;
             gdsCommandsWindow.Show();
         }
@@ -58,7 +66,7 @@ namespace TestSortableObservableCollection.Views
         {
             PnrScriptsWindow pnrScriptsWindow = null;
 
-            pnrScriptsWindow = new PnrScriptsWindow(tvm);
+            pnrScriptsWindow = new PnrScriptsWindow(pnrScriptsTVM);
             pnrScriptsWindow.Owner = this;
             pnrScriptsWindow.Show();
         }
@@ -80,11 +88,11 @@ namespace TestSortableObservableCollection.Views
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (tvm != null)
+            if (gdsCmdsTVM != null)
             {
-                tvm.RaiseAddGDSCmdToCache -= addToCache;
-                tvm.RaiseUpdateGDSCmdToCache -= updateToCache;
-                tvm.RaiseDeleteGDSCmdFromCache -= deleteFromCache;
+                gdsCmdsTVM.RaiseAddGDSCmdToCache -= addToCache;
+                gdsCmdsTVM.RaiseUpdateGDSCmdToCache -= updateToCache;
+                gdsCmdsTVM.RaiseDeleteGDSCmdFromCache -= deleteFromCache;
             }
         }
     }
