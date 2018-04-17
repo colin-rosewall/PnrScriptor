@@ -1,1 +1,4 @@
 https://stackoverflow.com/questions/3350187/wpf-c-rearrange-items-in-listbox-via-drag-and-drop
+
+Mask Regular Expression
+([a-zA-Z\d\/ -]+\*\*)([\da-zA-Z ]*[.\d-]*)/g
