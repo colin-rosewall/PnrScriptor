@@ -32,6 +32,10 @@ namespace TestSortableObservableCollection.Views
             InitializeComponent();
 
             DataContext = pnrScriptsTVM;
+            if (pnrScriptsTVM.OpenScriptGenerationWindow == null)
+            {
+                pnrScriptsTVM.OpenScriptGenerationWindow = new Action(GenerateScriptClick);
+            }
         }
 
         private void AddSubgroup_Click(object sender, RoutedEventArgs e)
@@ -139,6 +143,25 @@ namespace TestSortableObservableCollection.Views
                 timerForSaveEvent.Stop();
                 timerForSaveEvent.IsEnabled = false;
                 timerForSaveEvent = null;
+            }
+        }
+
+        // object sender, RoutedEventArgs e
+        private void GenerateScriptClick()
+        {
+            var tvm = DataContext as PnrScriptTreeViewModel;
+
+            if (tvm != null)
+            {
+                ScriptGenerationViewModel vm = new ScriptGenerationViewModel();
+                vm.ScriptInput = tvm.GeneratedScript;
+
+                ScriptGenerationWindow sgw = new ScriptGenerationWindow(vm);
+                //if (this.IsLoaded)
+                    sgw.Owner = this;
+                //else
+                    //sgw.Owner = this.Owner;
+                sgw.Show();
             }
         }
     }

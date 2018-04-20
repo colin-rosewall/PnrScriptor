@@ -40,6 +40,7 @@ namespace TestSortableObservableCollection.ViewModels
         private IPnrScriptViewModel _pnrScriptToWorkOn = null;
         public Action CloseSubgroupWindow { get; set; }
         public Action ClosePnrScriptWindow { get; set; }
+        public Action OpenScriptGenerationWindow { get; set; }
         private GDSCommandTreeViewModel _gdsCmdTreeViewModel = null;
 
         private IGDSCommandViewModel _currentlySelectedGdsCmd { get; set; }
@@ -605,6 +606,7 @@ namespace TestSortableObservableCollection.ViewModels
             {
                 string scriptText = string.Join(Environment.NewLine, selectedItem.GDSCommands.Select(cmd => cmd.CommandLines));
                 GeneratedScript = scriptText;
+                OpenScriptGenerationWindow();
             }
         }
 
