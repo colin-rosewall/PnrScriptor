@@ -133,6 +133,8 @@ namespace TestSortableObservableCollection.Models
 
                             case "COMMANDLINES":
                                 commandLines = inner.Value;
+                                // Xml normalizes new line so we need to change it back
+                                commandLines = commandLines.Replace("\n", Environment.NewLine);
                                 break;
 
                             case "GUID":
