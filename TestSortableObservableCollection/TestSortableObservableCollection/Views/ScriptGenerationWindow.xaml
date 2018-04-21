@@ -19,6 +19,8 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding ScriptInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >  </TextBox>
-        <Button Grid.Column="0" Grid.Row="1" Content="Transform" Height="40" Margin="10" Padding="0" />
+        <Button Grid.Column="0" Grid.Row="1" Click="Button_Click" Content="Analyse" Height="40" Margin="10" Padding="0" />
+        
+        
     </Grid>
 </Window>
