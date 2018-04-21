@@ -157,10 +157,8 @@ namespace TestSortableObservableCollection.Views
                 vm.ScriptInput = tvm.GeneratedScript;
 
                 ScriptGenerationWindow sgw = new ScriptGenerationWindow(vm);
-                //if (this.IsLoaded)
-                    sgw.Owner = this;
-                //else
-                    //sgw.Owner = this.Owner;
+                if (this.Owner != null)
+                    sgw.Owner = this.Owner;
                 sgw.Show();
             }
         }
