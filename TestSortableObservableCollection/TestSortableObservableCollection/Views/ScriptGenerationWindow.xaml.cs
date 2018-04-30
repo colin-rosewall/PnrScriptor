@@ -21,7 +21,7 @@ namespace TestSortableObservableCollection.Views
     /// </summary>
     /// 
 
-    public class Fields
+    public class ScriptField
     {
         public int fieldOffset = 0;
         public string field = null;
@@ -58,9 +58,9 @@ namespace TestSortableObservableCollection.Views
 
         }
 
-        private int FindStartOfNextField(string line)
+        private int FindStartOfNextField(string line, string token)
         {
-            int index = line.IndexOf("**") - 1;
+            int index = line.IndexOf(token) - 1;
             bool okToContinue = true;
             while (index > 0 && okToContinue)
             {
@@ -78,30 +78,49 @@ namespace TestSortableObservableCollection.Views
             return index;
         }
 
-        private void ProcessLine(int lineCount, SortedList<int, List<Fields>> processedLines, string line)
+        private void ProcessLine(int lineCount, SortedList<int, List<ScriptField>> processedLines, string line)
         {
             int fieldOffset = 0;
             string fld;
             string val;
             int maxFieldCount = 2;
-            List<Fields> lineFields = new List<Fields>();
+            List<ScriptField> lineFields = new List<ScriptField>();
             bool timeToExit = false;
+            const string token1 = "**;";
+            const string token2 = "**";
 
-            if (line.Contains("**"))
+            if (line.Contains(token1) || line.Contains(token2))
             {
                 do
                 {
-                    fld = line.Substring(0, line.IndexOf("**") + "**".Length);
-                    line = line.Substring(line.IndexOf("**") + "**".Length);
-                    if (line.Contains("**"))
+                    if (line.Contains(token1))
                     {
-                        int index = FindStartOfNextField(line);
+                        fld = line.Substring(0, line.IndexOf(token1) + token1.Length);
+                        line = line.Substring(line.IndexOf(token1) + token1.Length);
+                    }
+                    else
+                    {
+                        fld = line.Substring(0, line.IndexOf(token2) + token2.Length);
+                        line = line.Substring(line.IndexOf(token2) + token2.Length);
+                    }
+                    if (line.Contains(token1) || line.Contains(token2))
+                    {
+                        int index;
+                        if (line.Contains(token1))
+                        {
+                            index = FindStartOfNextField(line, token1);
+                        }
+                        else
+                        {
+                            index = FindStartOfNextField(line, token2);
+                        }
+                        
                         if (index > 0)
                         {
                             index++;
                             val = line.Substring(0, index);
                             line = line.Substring(index);
-                            Fields newItem = new Fields();
+                            ScriptField newItem = new ScriptField();
                             newItem.fieldOffset = fieldOffset;
                             newItem.field = fld;
                             newItem.fieldValue = val;
@@ -111,7 +130,7 @@ namespace TestSortableObservableCollection.Views
                     }
                     else
                     {
-                        Fields newItem = new Fields();
+                        ScriptField newItem = new ScriptField();
                         newItem.fieldOffset = fieldOffset;
                         newItem.field = fld;
                         newItem.fieldValue = line;
@@ -125,7 +144,7 @@ namespace TestSortableObservableCollection.Views
             }
             else
             {
-                Fields newItem = new Fields();
+                ScriptField newItem = new ScriptField();
                 newItem.fieldOffset = fieldOffset;
                 newItem.field = line;
                 newItem.fieldValue = null;
@@ -145,7 +164,7 @@ namespace TestSortableObservableCollection.Views
                 char[] sep = Environment.NewLine.ToCharArray();
 
                 string[] lines = vm.ScriptInput.Split(sep, StringSplitOptions.RemoveEmptyEntries);
-                SortedList<int, List<Fields>> processedLines = new SortedList<int, List<Fields>>();
+                SortedList<int, List<ScriptField>> processedLines = new SortedList<int, List<ScriptField>>();
                 int lineCount = 0;
 
                 foreach (string line in lines)
@@ -158,14 +177,14 @@ namespace TestSortableObservableCollection.Views
             }
         }
 
-        private void ShowProcessedLines(SortedList<int, List<Fields>> processedLines)
+        private void ShowProcessedLines(SortedList<int, List<ScriptField>> processedLines)
         {
             foreach (var line in processedLines)
             {
                 string msg = string.Empty;
                 foreach (var f in line.Value)
                 {
-                    msg += string.Format("field = {0} value = {1}", f.field, f.fieldValue);
+                    msg += string.Format("field = <{0}> value = <{1}>", f.field, f.fieldValue);
                 }
                 MessageBox.Show(msg);
             }
