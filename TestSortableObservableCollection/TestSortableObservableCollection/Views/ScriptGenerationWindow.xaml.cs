@@ -179,14 +179,46 @@ namespace TestSortableObservableCollection.Views
 
         private void ShowProcessedLines(SortedList<int, List<ScriptField>> processedLines)
         {
-            foreach (var line in processedLines)
+            if (processedLines.Count > 0)
             {
-                string msg = string.Empty;
-                foreach (var f in line.Value)
+                Grid grd = new Grid();
+                grd.ColumnDefinitions.Add(new ColumnDefinition());
+                grd.ColumnDefinitions.Add(new ColumnDefinition());
+
+                int rowCount = 0;
+                foreach (var line in processedLines.Values)
                 {
-                    msg += string.Format("field = <{0}> value = <{1}>", f.field, f.fieldValue);
+                    RowDefinition r = new RowDefinition();
+                    r.Height = new GridLength(30);
+                    grd.RowDefinitions.Add(r);
+
+                    int columnCount = 0;
+                    foreach (var item in line)
+                    {
+                        Label lbl = new Label();
+                        lbl.Content = item.field;
+                        lbl.Height = 30;
+                        lbl.FontSize = 12;
+
+                        TextBox txt = new TextBox();
+                        txt.Text = item.fieldValue;
+                        txt.Height = 20;
+                        txt.FontSize = 12;
+
+                        StackPanel sp = new StackPanel();
+                        sp.Orientation = Orientation.Horizontal;
+                        sp.SetValue(Grid.RowProperty, rowCount);
+                        sp.SetValue(Grid.ColumnProperty, columnCount);
+
+                        sp.Children.Add(lbl);
+                        sp.Children.Add(txt);
+                        grd.Children.Add(sp);
+                        columnCount++;
+                    }
+
+                    rowCount++;
                 }
-                MessageBox.Show(msg);
+                mygrid.Children.Add(grd);
             }
         }
     }
