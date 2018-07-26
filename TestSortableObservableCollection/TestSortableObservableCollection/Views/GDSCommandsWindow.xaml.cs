@@ -51,7 +51,7 @@ namespace TestSortableObservableCollection.Views
                 if (_subgroupWindow == null)
                 {
                     _subgroupWindow = new GDSCommandSubgroupWindow(tvm);
-                    _subgroupWindow.Owner = this;
+                    _subgroupWindow.Owner = Application.Current.MainWindow;
                 }
 
                 _subgroupWindow.Show();
@@ -69,7 +69,7 @@ namespace TestSortableObservableCollection.Views
                     if (_subgroupWindow == null)
                     {
                         _subgroupWindow = new GDSCommandSubgroupWindow(tvm);
-                        _subgroupWindow.Owner = this;
+                        _subgroupWindow.Owner = Application.Current.MainWindow;
                     }
 
                     _subgroupWindow.Show();
@@ -86,7 +86,7 @@ namespace TestSortableObservableCollection.Views
                 if (_gdsCommandWindow == null)
                 {
                     _gdsCommandWindow = new GDSCommandWindow(tvm);
-                    _gdsCommandWindow.Owner = this;
+                    _gdsCommandWindow.Owner = Application.Current.MainWindow;
                 }
 
                 _gdsCommandWindow.Show();
@@ -107,7 +107,7 @@ namespace TestSortableObservableCollection.Views
                         if (_gdsCommandWindow == null)
                         {
                             _gdsCommandWindow = new GDSCommandWindow(tvm);
-                            _gdsCommandWindow.Owner = this;
+                            _gdsCommandWindow.Owner = Application.Current.MainWindow;
                         }
 
                         _gdsCommandWindow.Show();

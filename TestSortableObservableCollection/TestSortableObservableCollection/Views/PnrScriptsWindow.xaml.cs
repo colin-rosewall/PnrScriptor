@@ -48,7 +48,7 @@ namespace TestSortableObservableCollection.Views
                 if (_subgroupWindow == null)
                 {
                     _subgroupWindow = new PnrScriptSubgroupWindow(tvm);
-                    _subgroupWindow.Owner = this;
+                    _subgroupWindow.Owner = Application.Current.MainWindow;
                 }
 
                 _subgroupWindow.Show();
@@ -67,7 +67,7 @@ namespace TestSortableObservableCollection.Views
                     if (_subgroupWindow == null)
                     {
                         _subgroupWindow = new PnrScriptSubgroupWindow(tvm);
-                        _subgroupWindow.Owner = this;
+                        _subgroupWindow.Owner = Application.Current.MainWindow;
                     }
 
                     _subgroupWindow.Show();
@@ -84,7 +84,7 @@ namespace TestSortableObservableCollection.Views
                 if (_pnrScriptWindow == null)
                 {
                     _pnrScriptWindow = new PnrScriptWindow(tvm);
-                    _pnrScriptWindow.Owner = this;
+                    _pnrScriptWindow.Owner = Application.Current.MainWindow;
                 }
 
                 _pnrScriptWindow.Show();
@@ -105,7 +105,7 @@ namespace TestSortableObservableCollection.Views
                         if (_pnrScriptWindow == null)
                         {
                             _pnrScriptWindow = new PnrScriptWindow(tvm);
-                            _pnrScriptWindow.Owner = this;
+                            _pnrScriptWindow.Owner = Application.Current.MainWindow;
                         }
 
                         _pnrScriptWindow.Show();
@@ -157,8 +157,7 @@ namespace TestSortableObservableCollection.Views
                 vm.ScriptInput = tvm.GeneratedScript;
 
                 ScriptGenerationWindow sgw = new ScriptGenerationWindow(vm);
-                if (this.Owner != null)
-                    sgw.Owner = this.Owner;
+                sgw.Owner = Application.Current.MainWindow;
                 sgw.Show();
             }
         }

@@ -63,7 +63,7 @@ namespace TestSortableObservableCollection.Views
             GDSCommandsWindow gdsCommandsWindow = null;
 
             gdsCommandsWindow = new GDSCommandsWindow(gdsCmdsTVM);
-            gdsCommandsWindow.Owner = this;
+            gdsCommandsWindow.Owner = Application.Current.MainWindow;
             gdsCommandsWindow.Show();
         }
 
@@ -72,7 +72,7 @@ namespace TestSortableObservableCollection.Views
             PnrScriptsWindow pnrScriptsWindow = null;
 
             pnrScriptsWindow = new PnrScriptsWindow(pnrScriptsTVM);
-            pnrScriptsWindow.Owner = this;
+            pnrScriptsWindow.Owner = Application.Current.MainWindow;
             pnrScriptsWindow.Show();
         }
 
