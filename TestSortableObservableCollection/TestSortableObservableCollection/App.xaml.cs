@@ -20,6 +20,17 @@ namespace TestSortableObservableCollection
     /// </summary>
     public partial class App : Application
     {
+        private string LoadAmaTestString1()
+        {
+            string lines = @"NM1SMITHSON/DORRISMRS
+AN23JULJNBDXB/AEK/CU
+ss1U2
+AN01AUGDXBJNB/AEK/CB
+ss1B2
+AP0423560987";
+
+            return lines;
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -28,35 +39,37 @@ namespace TestSortableObservableCollection
 
             base.OnStartup(e);
 
-//            ScriptGenerationViewModel sm = new ScriptGenerationViewModel();
-//            sm.ScriptInput = @"5TMASK/DATE**6DEC17........T4**82345..........
-//5TDOC TYPE**ET..............PSEUDO**KG3I......
-//5TF/BASIS OR-**Y............TOTAL**3720.00....
-//5TTAXES**...................CHD/INF AMT**.....
-//5TFARE REF---**.............SHOP REF**........
-//5TFOP**001..................SECTORS**1.2......
-//5TOTHER INFO-**...............................
-//5TOTHER INFO-**...............................
-//";
+            ScriptGenerationViewModel sm = new ScriptGenerationViewModel();
+            sm.ScriptInput = LoadAmaTestString1();
 
-//            Window sc = new ScriptGenerationWindow(sm);
-//            sc.Show();
+            //            sm.ScriptInput = @"5TMASK/DATE**6DEC17........T4**82345..........
+            //5TDOC TYPE**ET..............PSEUDO**KG3I......
+            //5TF/BASIS OR-**Y............TOTAL**3720.00....
+            //5TTAXES**...................CHD/INF AMT**.....
+            //5TFARE REF---**.............SHOP REF**........
+            //5TFOP**001..................SECTORS**1.2......
+            //5TOTHER INFO-**...............................
+            //5TOTHER INFO-**...............................
+            //";
+
+            Window sc = new ScriptGenerationWindow(sm);
+            sc.Show();
 
             // this will cause the cache to load
-            GDSCmdCache.GetGDSCmd("nothing");
+            //GDSCmdCache.GetGDSCmd("nothing");
 
 
 
             //errMsg = Upgrade();
-            if (errMsg.Length > 0)
-            {
-                MessageBox.Show(string.Format("Error starting the application - {0}", errMsg));
-            }
-            else
-            {
-                Window main = new MainWindow();
-                main.Show();
-            }
+            //if (errMsg.Length > 0)
+            //{
+            //    MessageBox.Show(string.Format("Error starting the application - {0}", errMsg));
+            //}
+            //else
+            //{
+            //    Window main = new MainWindow();
+            //    main.Show();
+            //}
 
         }
 

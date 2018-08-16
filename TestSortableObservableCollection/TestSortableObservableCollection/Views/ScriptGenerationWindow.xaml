@@ -19,43 +19,15 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding ScriptInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >  </TextBox>
-        <Button Grid.Column="0" Grid.Row="1" Click="Button_Click" Content="Analyse" Height="40" Margin="10" Padding="0" />
+        <Button Grid.Column="1" Grid.Row="1" Click="Button_Click" Content="Test" Height="40" Margin="10" Padding="0" />
 
-        <Grid x:Name="mygrid" Grid.Column="1" Grid.Row="0">
-            
-        </Grid>
-        <!--<Grid x:Name="mygrid" Grid.Column="1" Grid.Row="0" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
-                <TextBlock Text="first" ></TextBlock>
-                <TextBox Text="first text" ></TextBox>
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
-                <TextBlock Text="second" ></TextBlock>
-                <TextBox Text="second text" ></TextBox>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
-                <TextBlock Text="third" ></TextBlock>
-                <TextBox Text="third text" ></TextBox>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                <TextBlock Text="fourth" ></TextBlock>
-                <TextBox Text="fourth text" ></TextBox>
-            </StackPanel>
-        </Grid>-->
+        <DataGrid Grid.Column="1" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Flights}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Origin" Binding="{Binding Origin}"> </DataGridTextColumn>
+                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}"> </DataGridTextColumn>
+                <DataGridTextColumn Header="Travel Date" Binding="{Binding TravelDate}"> </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
         
     </Grid>
 </Window>
