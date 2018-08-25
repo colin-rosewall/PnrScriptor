@@ -19,15 +19,38 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding ScriptInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >  </TextBox>
-        <Button Grid.Column="1" Grid.Row="1" Click="Button_Click" Content="Test" Height="40" Margin="10" Padding="0" />
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding Path=ApplyReplacementsCommand}" Content="Test" Height="40" Margin="10" Padding="0" />
 
         <DataGrid Grid.Column="1" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Flights}" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Origin" Binding="{Binding Origin}"> </DataGridTextColumn>
-                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}"> </DataGridTextColumn>
-                <DataGridTextColumn Header="Travel Date" Binding="{Binding TravelDate}"> </DataGridTextColumn>
+                <DataGridTextColumn Header="Travel Date" Binding="{Binding TravelDate}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="CharacterCasing" Value="Upper"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Origin" Binding="{Binding Origin}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="CharacterCasing" Value="Upper"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="CharacterCasing" Value="Upper"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>                    
+                </DataGridTextColumn>
+                
             </DataGrid.Columns>
         </DataGrid>
+
+        <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Path=ScriptOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" > </TextBox>
         
     </Grid>
 </Window>
