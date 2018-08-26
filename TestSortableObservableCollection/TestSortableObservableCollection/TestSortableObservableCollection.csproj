@@ -84,6 +84,7 @@
     <Compile Include="Behaviours\TreeViewSelectionChangedBehavior.cs" />
     <Compile Include="Behaviours\WindowCloseBehaviour.cs" />
     <Compile Include="Constants\AppConstants.cs" />
+    <Compile Include="Helpers\ReplacementsHelper.cs" />
     <Compile Include="Interfaces\IPnrScriptTreeModel.cs" />
     <Compile Include="Models\Flight.cs" />
     <Compile Include="Models\GDSCmdCache.cs" />
