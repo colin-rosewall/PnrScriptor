@@ -8,7 +8,7 @@ using static Pidgin.Parser;
 
 namespace TestSortableObservableCollection.Helpers
 {
-    static class ReplacementsHelper
+    public static class ReplacementsHelper
     {
         public static bool ReplaceAmaAvail(ref string lineCopy, ref int availabilityCounter, IEnumerable<Models.Flight> flights)
         {
