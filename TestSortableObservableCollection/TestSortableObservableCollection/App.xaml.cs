@@ -32,6 +32,37 @@ AP0423560987";
             return lines;
         }
 
+        private string LoadSabreTestString1()
+        {
+            string lines = @"114JUNSYDLON¥EK-Y
+01Y1Y2
+-JAMES/ARRON
+PE¥BOB@GMAIL.COM¥
+90784578457
+7TAW/
+W- 275 FREE STREET
+3DOCS/DB/19SEP64/M/JAMES/ARRON
+6 CR
+ER
+FOPCASH
+6 CR
+ER
+";
+            return lines;
+        }
+
+        private string LoadGalTestString1()
+        {
+            string lines = @"A11DECSYDBNE/QF
+01Y1
+N.BROWNING/BOB
+P.CTCW 02 2927 4736
+T.TAU/05SEP
+R.CR
+ER";
+            return lines;
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             string errMsg = string.Empty;
@@ -40,7 +71,7 @@ AP0423560987";
             base.OnStartup(e);
 
             ScriptGenerationViewModel sm = new ScriptGenerationViewModel();
-            sm.ScriptInput = LoadAmaTestString1();
+            sm.ScriptInput = LoadGalTestString1();
 
             //            sm.ScriptInput = @"5TMASK/DATE**6DEC17........T4**82345..........
             //5TDOC TYPE**ET..............PSEUDO**KG3I......
@@ -67,8 +98,8 @@ AP0423560987";
             //}
             //else
             //{
-            //    Window main = new MainWindow();
-            //    main.Show();
+            //Window main = new MainWindow();
+            //main.Show();
             //}
 
         }

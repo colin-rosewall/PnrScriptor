@@ -84,17 +84,25 @@ namespace TestSortableObservableCollection.ViewModels
             string[] lines = _scriptInput.Split(new [] { Environment.NewLine, "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string lineOfInput in lines)
             {
-                string lineCopy = lineOfInput;
+                string lineReplacement = lineOfInput;
                 bool replacementsMade = false;
 
-                replacementsMade = ReplacementsHelper.ReplaceAmaAvail(ref lineCopy, ref availabilityCounter, _flights);
+                replacementsMade = ReplacementsHelper.ReplaceAmaAvail(ref lineReplacement, ref availabilityCounter, _flights);
                 if (!replacementsMade)
                 {
-                    sb.AppendLine(lineOfInput);
+                    replacementsMade = ReplacementsHelper.ReplaceSabreAvail(ref lineReplacement, ref availabilityCounter, _flights);
+                    if (!replacementsMade)
+                    {
+                        sb.AppendLine(lineOfInput);
+                    }
+                    else
+                    {
+                        sb.AppendLine(lineReplacement);
+                    }
                 }
                 else
                 {
-                    sb.AppendLine(lineCopy);
+                    sb.AppendLine(lineReplacement);
                 }
             }
             ScriptOutput = sb.ToString();

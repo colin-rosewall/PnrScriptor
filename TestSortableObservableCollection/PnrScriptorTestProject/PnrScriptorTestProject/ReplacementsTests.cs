@@ -78,13 +78,13 @@ namespace PnrScriptorTestProject
         public void TestAmaWithAirlineCodeWithNoSpaces()
         {
             ObservableCollection<Flight> flightReplacements = new ObservableCollection<Flight>();
-            flightReplacements.Add(new Flight() { Origin = "ABC", Destination = "XYZ", TravelDate = "31JAN", AirlineCode = "QF" });
+            flightReplacements.Add(new Flight() { Origin = "ABC", Destination = "XYZ", TravelDate = "31JAN", AirlineCode = "VA" });
             int availabilityCounter = 0;
-            string lineOfInput = "AN 03JUN SYD SIN /ASQ";
+            string lineOfInput = "AN07DECBNESYD/AQF";
 
             bool replacementsMade = ReplacementsHelper.ReplaceAmaAvail(ref lineOfInput, ref availabilityCounter, flightReplacements);
 
-            Assert.AreEqual("AN31JANABCXYZ/AQF", lineOfInput);
+            Assert.AreEqual("AN31JANABCXYZ/AVA", lineOfInput);
         }
 
         [TestMethod]
@@ -98,6 +98,19 @@ namespace PnrScriptorTestProject
             bool replacementsMade = ReplacementsHelper.ReplaceAmaAvail(ref lineOfInput, ref availabilityCounter, flightReplacements);
 
             Assert.IsFalse(replacementsMade);
+        }
+
+        [TestMethod]
+        public void TestAmaWithClassAndAirlineCodeWithNoSpaces()
+        {
+            ObservableCollection<Flight> flightReplacements = new ObservableCollection<Flight>();
+            flightReplacements.Add(new Flight() { Origin = "ABC", Destination = "XYZ", TravelDate = "31JAN", AirlineCode = "VA", BookingClass = "Y"});
+            int availabilityCounter = 0;
+            string lineOfInput = "AN23OCTJNBDXB/AEK/CU";
+
+            bool replacementsMade = ReplacementsHelper.ReplaceAmaAvail(ref lineOfInput, ref availabilityCounter, flightReplacements);
+
+            Assert.AreEqual("AN31JANABCXYZ/AVA/CY", lineOfInput);
         }
     }
 }
