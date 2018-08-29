@@ -101,7 +101,7 @@ namespace PnrScriptorTestProject
         }
 
         [TestMethod]
-        public void TestAmaWithClassAndAirlineCodeWithNoSpaces()
+        public void TestAmaWithBookingClassAndAirlineCodeWithNoSpaces()
         {
             ObservableCollection<Flight> flightReplacements = new ObservableCollection<Flight>();
             flightReplacements.Add(new Flight() { Origin = "ABC", Destination = "XYZ", TravelDate = "31JAN", AirlineCode = "VA", BookingClass = "Y"});

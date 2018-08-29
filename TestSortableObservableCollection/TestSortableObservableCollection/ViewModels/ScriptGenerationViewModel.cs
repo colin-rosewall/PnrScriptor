@@ -93,7 +93,15 @@ namespace TestSortableObservableCollection.ViewModels
                     replacementsMade = ReplacementsHelper.ReplaceSabreAvail(ref lineReplacement, ref availabilityCounter, _flights);
                     if (!replacementsMade)
                     {
-                        sb.AppendLine(lineOfInput);
+                        replacementsMade = ReplacementsHelper.ReplaceGalAvail(ref lineReplacement, ref availabilityCounter, _flights);
+                        if (!replacementsMade)
+                        {
+                            sb.AppendLine(lineOfInput);
+                        }
+                        else
+                        {
+                            sb.AppendLine(lineReplacement);
+                        }
                     }
                     else
                     {
