@@ -19,6 +19,10 @@ namespace TestSortableObservableCollection.Helpers
                                         from firstTransactionCode in Parser.CIChar('A')
                                         select new string(new char[] { firstTransactionCode }).ToUpper();
 
+            var optionalSecondTransactionCodeParser = from gap1 in Parser.SkipWhitespaces
+                                                      from secondTransactionCode in OneOf(Try(Parser.CIChar('d')), Try(Parser.CIChar('j')), Try(Parser.CIChar('a')), Try(Parser.CIChar('f')), Try(Parser.CIChar('p')), Try(Parser.CIChar('q')), Try(Parser.CIChar('u'))).Optional()
+                                                      select (secondTransactionCode.HasValue ? new string(new char[] { secondTransactionCode.Value }).ToUpper() : string.Empty);
+
             var optionalDayDigitParser = from secondDigit in Parser.Digit.Optional()
                                          select (secondDigit.HasValue ? new string(new char[] { secondDigit.Value }) : string.Empty);
 
@@ -28,8 +32,8 @@ namespace TestSortableObservableCollection.Helpers
                                                  from airline in Parser.Letter.Repeat(2)
                                                  select new
                                                  {
-                                                     airlineQualifier = String.Concat(firstQualifier),
-                                                     airlineCode = new string(airline.ToArray())
+                                                     airlineQualifier = String.Concat(firstQualifier).ToUpper(),
+                                                     airlineCode = new string(airline.ToArray()).ToUpper()
                                                  };
 
             var dayPartParser = from gap1 in Parser.SkipWhitespaces
@@ -49,12 +53,13 @@ namespace TestSortableObservableCollection.Helpers
                                  select new string(city.ToArray()).ToUpper();
 
             var availabilityParser = from transactionCode in transactionCodeParser
+                                     from secondTransactionCode in optionalSecondTransactionCodeParser
                                      from dayPart in dayPartParser
                                      from monthPart in monthPartParser
                                      from origin in cityPartParser
                                      from destination in cityPartParser
                                      from airlinePart in optionalAirlineQualifierParser.Optional()
-                                     select new { transactionCode, dayPart, monthPart, origin, destination, airlinePart };
+                                     select new { transactionCode = String.Concat(transactionCode, secondTransactionCode), dayPart, monthPart, origin, destination, airlinePart };
 
             var parserResult = availabilityParser.Parse(lineCopy);
             if (parserResult.Success)
@@ -97,13 +102,13 @@ namespace TestSortableObservableCollection.Helpers
                 select (secondDigit.HasValue ? new string(new char[] { secondDigit.Value }) : string.Empty);
 
             var optionalAirlineQualifierParser = from gap1 in Parser.SkipWhitespaces
-                from firstQualifier in Parser.Char('¥')
-                from gap2 in SkipWhitespaces
-                from airline in Parser.Letter.Repeat(2)
-                select new
-                {
-                    airlineQualifier = String.Concat(firstQualifier),
-                    airlineCode = new string(airline.ToArray())
+                                                 from firstQualifier in Parser.Char('¥')
+                                                 from gap2 in SkipWhitespaces
+                                                 from airline in Parser.Letter.Repeat(2)
+                                                 select new
+                                                 {
+                                                     airlineQualifier = String.Concat(firstQualifier).ToUpper(),
+                                                     airlineCode = new string(airline.ToArray()).ToUpper()
                 };
 
             var dayPartParser = from gap1 in Parser.SkipWhitespaces

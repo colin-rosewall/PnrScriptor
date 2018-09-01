@@ -1,4 +1,5 @@
-﻿using System;
+﻿ #define script
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -12,6 +13,7 @@ using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
 using System.Xml;
 using TestSortableObservableCollection.Views;
+
 
 namespace TestSortableObservableCollection
 {
@@ -63,33 +65,35 @@ ER";
             return lines;
         }
 
+        public string LoadSabreNaskString1()
+        {
+            string lines = @"5TMASK/DATE**6DEC17........T4**82345..........
+            5TDOC TYPE**ET..............PSEUDO**KG3I......
+            5TF/BASIS OR-**Y............TOTAL**3720.00....
+            5TTAXES**...................CHD/INF AMT**.....
+            5TFARE REF---**.............SHOP REF**........
+            5TFOP**001..................SECTORS**1.2......
+            5TOTHER INFO-**...............................
+            5TOTHER INFO-**...............................";
+
+            return lines;
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             string errMsg = string.Empty;
             
 
             base.OnStartup(e);
-
+#if script 
             ScriptGenerationViewModel sm = new ScriptGenerationViewModel();
             sm.ScriptInput = LoadGalTestString1();
 
-            //            sm.ScriptInput = @"5TMASK/DATE**6DEC17........T4**82345..........
-            //5TDOC TYPE**ET..............PSEUDO**KG3I......
-            //5TF/BASIS OR-**Y............TOTAL**3720.00....
-            //5TTAXES**...................CHD/INF AMT**.....
-            //5TFARE REF---**.............SHOP REF**........
-            //5TFOP**001..................SECTORS**1.2......
-            //5TOTHER INFO-**...............................
-            //5TOTHER INFO-**...............................
-            //";
-
             Window sc = new ScriptGenerationWindow(sm);
             sc.Show();
-
+#else
             // this will cause the cache to load
-            //GDSCmdCache.GetGDSCmd("nothing");
-
-
+            GDSCmdCache.GetGDSCmd("nothing");
 
             //errMsg = Upgrade();
             //if (errMsg.Length > 0)
@@ -98,10 +102,11 @@ ER";
             //}
             //else
             //{
-            //Window main = new MainWindow();
-            //main.Show();
+            Window main = new MainWindow();
+            main.Show();
             //}
 
+#endif
         }
 
         public string Upgrade()
