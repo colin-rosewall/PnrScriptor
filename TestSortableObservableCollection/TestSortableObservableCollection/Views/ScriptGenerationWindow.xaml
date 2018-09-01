@@ -46,7 +46,22 @@
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>                    
                 </DataGridTextColumn>
-                
+
+                <DataGridTextColumn Header="Airline" Binding="{Binding AirlineCode}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="CharacterCasing" Value="Upper"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Booking Class" Binding="{Binding BookingClass}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="CharacterCasing" Value="Upper"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>                    
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
