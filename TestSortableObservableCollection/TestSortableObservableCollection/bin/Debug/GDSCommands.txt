@@ -39,7 +39,8 @@
 ss1B2</CommandLines><Guid>b973f082-ffe8-4a2a-b773-3ed7df75d49d</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="37" ParentID="4"><Description>1 AD JNB DXB EK U</Description><CommandLines>AN23JULJNBDXB/AEK/CU
 ss1U2</CommandLines><Guid>7d844436-f578-43e6-a493-d91b17daa62d</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="38" ParentID="4"><Description>1 AD SYD SIN QF</Description><CommandLines>AN23NOVSYDSIN/AQF</CommandLines><Guid>a6889a51-2c32-47b1-ab42-9116f9fdd1ca</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="38" ParentID="4"><Description>1 AD SYD SIN QF</Description><CommandLines>AN23NOVSYDSIN/AQF
+SS1Y1</CommandLines><Guid>a6889a51-2c32-47b1-ab42-9116f9fdd1ca</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="39" ParentID="5"><Description>Delete Filed Fare 1</Description><CommandLines>TTE/T1</CommandLines><Guid>3c16c39d-1118-4b9d-83ff-82d5147aff24</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="40" ParentID="5"><Description>Display Filed Fare 1</Description><CommandLines>TQT/T1</CommandLines><Guid>35c196c7-1a5f-4c34-8f8f-4df620beddf9</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="41" ParentID="6"><Description>Add Cash</Description><CommandLines>FP CASH</CommandLines><Guid>f6f98a28-ddad-4413-bd03-26f84d603d60</Guid></Node>
@@ -82,8 +83,8 @@ RM*FT-OTHER INFO-**...................</CommandLines><Guid>1f2e9ef8-2e93-4934-a4
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="57" ParentID="11"><Description>Sign into Queue</Description><CommandLines>QS40</CommandLines><Guid>d8abfe36-d788-4c1e-b280-582fc1a67f98</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="58" ParentID="11"><Description>Sign out of Queue</Description><CommandLines>QI</CommandLines><Guid>fe685d05-463c-45db-99fd-cf0d507cdbe8</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="59" ParentID="12"><Description>Add booking agent</Description><CommandLines>RM BOOKING AGENT IS- PETER</CommandLines><Guid>e70ac1c2-658a-456a-95a1-d5a52503b712</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="60" ParentID="13"><Description>1 AD QF SFPD</Description><CommandLines>SR DOCS QF HK1-P-GBR-012345678-GBR-30JUN73-M-14APR09-smith-jane/p1</CommandLines><Guid>f36e6792-46f4-4f15-92fc-38421338304c</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="61" ParentID="14"><Description>Add TTL</Description><CommandLines>TKTL05OCT</CommandLines><Guid>84ebafc6-ebd3-47e1-8818-2d076bf831f4</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="60" ParentID="13"><Description>1 AD QF SFPD</Description><CommandLines>SR DOCS QF HK1-P-GBR-012345678-GBR-30JUN73-M-14APR09-SMITHSON-DORRIS/P1</CommandLines><Guid>f36e6792-46f4-4f15-92fc-38421338304c</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="61" ParentID="14"><Description>Add TTL</Description><CommandLines>TKOK</CommandLines><Guid>84ebafc6-ebd3-47e1-8818-2d076bf831f4</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="62" ParentID="15"><Description>Display E-Ticket for Line 12</Description><CommandLines>TWD/L12</CommandLines><Guid>7ba1cf42-a390-4de3-94f4-e81abfa80e68</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="63" ParentID="16"><Description>1 AD Minimum SYD BNE QF Y</Description><CommandLines>A11DECSYDBNE/QF
 01Y1</CommandLines><Guid>8fc37c78-63aa-4894-b388-06a015d2bcc3</Guid></Node>
