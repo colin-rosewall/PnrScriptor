@@ -23,8 +23,8 @@ namespace TestSortableObservableCollection.Views
     /// </summary>
     public partial class PnrScriptsWindow : Window
     {
-        private PnrScriptSubgroupWindow _subgroupWindow = null;
-        private PnrScriptWindow _pnrScriptWindow = null;
+        //private PnrScriptSubgroupWindow _subgroupWindow = null;
+        //private PnrScriptWindow _pnrScriptWindow = null;
         private DispatcherTimer timerForSaveEvent;
 
         public PnrScriptsWindow(PnrScriptTreeViewModel pnrScriptsTVM)
@@ -44,14 +44,14 @@ namespace TestSortableObservableCollection.Views
 
             if (tvm != null)
             {
-                tvm.PnrScriptSubgroupToWorkOn = new PnrScriptSubgroupViewModel(null, "empty");
-                if (_subgroupWindow == null)
-                {
-                    _subgroupWindow = new PnrScriptSubgroupWindow(tvm);
-                    _subgroupWindow.Owner = Application.Current.MainWindow;
-                }
+                //tvm.PnrScriptSubgroupToWorkOn = new PnrScriptSubgroupViewModel(null, "empty");
+                //if (_subgroupWindow == null)
+                //{
+                //    _subgroupWindow = new PnrScriptSubgroupWindow(tvm);
+                //    _subgroupWindow.Owner = Application.Current.MainWindow;
+                //}
 
-                _subgroupWindow.Show();
+                //_subgroupWindow.Show();
             }
         }
 
@@ -61,17 +61,17 @@ namespace TestSortableObservableCollection.Views
 
             if (tvm != null)
             {
-                if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
-                {
-                    tvm.PnrScriptSubgroupToWorkOn = new PnrScriptSubgroupViewModel(tvm.CurrentlySelectedItem.Parent, tvm.CurrentlySelectedItem.Description);
-                    if (_subgroupWindow == null)
-                    {
-                        _subgroupWindow = new PnrScriptSubgroupWindow(tvm);
-                        _subgroupWindow.Owner = Application.Current.MainWindow;
-                    }
+                //if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
+                //{
+                //    tvm.PnrScriptSubgroupToWorkOn = new PnrScriptSubgroupViewModel(tvm.CurrentlySelectedItem.Parent, tvm.CurrentlySelectedItem.Description);
+                //    if (_subgroupWindow == null)
+                //    {
+                //        _subgroupWindow = new PnrScriptSubgroupWindow(tvm);
+                //        _subgroupWindow.Owner = Application.Current.MainWindow;
+                //    }
 
-                    _subgroupWindow.Show();
-                }
+                //    _subgroupWindow.Show();
+                //}
             }
         }
 
@@ -80,14 +80,20 @@ namespace TestSortableObservableCollection.Views
             var tvm = DataContext as PnrScriptTreeViewModel;
             if (tvm != null)
             {
-                tvm.PnrScriptToWorkOn = new PnrScriptViewModel(null, "empty", new System.Collections.ObjectModel.ObservableCollection<IGDSCommandViewModel>());
-                if (_pnrScriptWindow == null)
-                {
-                    _pnrScriptWindow = new PnrScriptWindow(tvm);
-                    _pnrScriptWindow.Owner = Application.Current.MainWindow;
-                }
+                PnrScriptViewModel vm = new PnrScriptViewModel(AppConstants.Constants.WindowMode.Add, tvm.CurrentlySelectedItem, "empty", tvm.GDSCmdTreeViewModel, new System.Collections.ObjectModel.ObservableCollection<IGDSCommandViewModel>(), SaveNotification);
+                PnrScriptWindow psw = new PnrScriptWindow(vm);
+                psw.Owner = Application.Current.MainWindow;
+                psw.Show();
 
-                _pnrScriptWindow.Show();
+
+                //tvm.PnrScriptToWorkOn = new PnrScriptViewModel(null, "empty", new System.Collections.ObjectModel.ObservableCollection<IGDSCommandViewModel>());
+                //if (_pnrScriptWindow == null)
+                //{
+                //    _pnrScriptWindow = new PnrScriptWindow(tvm);
+                //    _pnrScriptWindow.Owner = Application.Current.MainWindow;
+                //}
+
+                //_pnrScriptWindow.Show();
             }
         }
 
@@ -96,21 +102,21 @@ namespace TestSortableObservableCollection.Views
             var tvm = DataContext as PnrScriptTreeViewModel;
             if (tvm != null)
             {
-                if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
-                {
-                    var existingItem = tvm.CurrentlySelectedItem as PnrScriptViewModel;
-                    if (existingItem != null)
-                    {
-                        tvm.PnrScriptToWorkOn = new PnrScriptViewModel(existingItem.Parent, existingItem.Description, existingItem.GDSCommands);
-                        if (_pnrScriptWindow == null)
-                        {
-                            _pnrScriptWindow = new PnrScriptWindow(tvm);
-                            _pnrScriptWindow.Owner = Application.Current.MainWindow;
-                        }
+                //if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
+                //{
+                //    var existingItem = tvm.CurrentlySelectedItem as PnrScriptViewModel;
+                //    if (existingItem != null)
+                //    {
+                //        tvm.PnrScriptToWorkOn = new PnrScriptViewModel(existingItem.Parent, existingItem.Description, existingItem.GDSCommands);
+                //        if (_pnrScriptWindow == null)
+                //        {
+                //            _pnrScriptWindow = new PnrScriptWindow(tvm);
+                //            _pnrScriptWindow.Owner = Application.Current.MainWindow;
+                //        }
 
-                        _pnrScriptWindow.Show();
-                    }
-                }
+                //        _pnrScriptWindow.Show();
+                //    }
+                //}
             }
         }
 
@@ -159,6 +165,15 @@ namespace TestSortableObservableCollection.Views
                 ScriptGenerationWindow sgw = new ScriptGenerationWindow(vm);
                 sgw.Owner = Application.Current.MainWindow;
                 sgw.Show();
+            }
+        }
+
+        private void SaveNotification(IPnrScriptBaseItemViewModel obj)
+        {
+            if (obj != null)
+            {
+                // set IsDirty flag
+                // this needs to be moved to PnrScriptTreeViewModel
             }
         }
     }

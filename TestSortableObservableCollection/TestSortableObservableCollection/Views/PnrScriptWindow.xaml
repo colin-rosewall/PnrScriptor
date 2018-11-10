@@ -10,7 +10,7 @@
         Title="Pnr Script Window" 
         Height="500" 
         Width="800"
-        behav:WindowCloseBehaviour.HideDontClose="True" >
+         >
     <Window.Resources>
         <local:MyBindingProxy x:Key="DataContextProxy" Data="{Binding}" />
     </Window.Resources>
@@ -52,7 +52,7 @@
         </Grid.RowDefinitions>
 
         <Label Content="Description:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PnrScriptToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }"  Margin="5,0" >
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }"  Margin="5,0" >
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <StackPanel>
@@ -69,12 +69,12 @@
                 </ControlTemplate>
             </Validation.ErrorTemplate>
         </TextBox>
-        <TreeView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding GDSCmdTreeViewModel.Root}" 
+        <TreeView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableGDSCmdsTVM.Root}" 
                   ItemTemplateSelector="{StaticResource GDSCommandItemDataTemplateSelector}"
-                  behav:TreeViewSelectionChangedBehavior.ChangedCommand="{Binding GDSCmdTreeViewModel.SelectedItemChangedCommand}"
+                  behav:TreeViewSelectionChangedBehavior.ChangedCommand="{Binding AvailableGDSCmdsTVM.SelectedItemChangedCommand}"
                   behav:TreeViewRightClickBehaviour.SelectItemOnRightClick="True"
                   behav:MouseDoubleClick.Command="{Binding MouseDoubleClickCommand}" 
-                  behav:MouseDoubleClick.CommandParameter="{Binding GDSCmdTreeViewModel}"
+                  behav:MouseDoubleClick.CommandParameter="{Binding AvailableGDSCmdsTVM}"
                   Margin="0,5,0,0" >
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" >
@@ -85,7 +85,7 @@
             </TreeView.ItemContainerStyle>
         </TreeView>
 
-        <ListBox Grid.Row="1" Grid.Column="2" Margin="5,5,0,0" ItemsSource="{Binding PnrScriptToWorkOn.GDSCommands}" SelectedItem="{Binding CurrentLySelectedGdsCmd, Mode=TwoWay}" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" >
+        <ListBox Grid.Row="1" Grid.Column="2" Margin="5,5,0,0" ItemsSource="{Binding GDSCommands}" SelectedItem="{Binding CurrentLySelectedGdsCmd, Mode=TwoWay}" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

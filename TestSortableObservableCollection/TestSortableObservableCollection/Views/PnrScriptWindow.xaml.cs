@@ -22,19 +22,19 @@ namespace TestSortableObservableCollection.Views
     /// </summary>
     public partial class PnrScriptWindow : Window
     {
-        public PnrScriptWindow(PnrScriptTreeViewModel tvm)
+        public PnrScriptWindow(PnrScriptViewModel tvm)
         {
             InitializeComponent();
 
             DataContext = tvm;
 
-            if (tvm.ClosePnrScriptWindow == null)
-                tvm.ClosePnrScriptWindow = new Action(this.Hide);
+            //if (tvm.ClosePnrScriptWindow == null)
+            //    tvm.ClosePnrScriptWindow = new Action(this.Hide);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            //Hide();
         }
     }
 }

@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
+using TestSortableObservableCollection.AppConstants;
+using System.Windows.Input;
+using TestSortableObservableCollection.ViewModels.Base;
 
 namespace TestSortableObservableCollection.ViewModels
 {
@@ -16,7 +19,7 @@ namespace TestSortableObservableCollection.ViewModels
     {
         private UInt64 _uniqueID;
         private string _description = null;
-        private ObservableCollection<IGDSCommandViewModel> _gdsCmds = null;
+        private ObservableCollection<IGDSCommandViewModel> _scriptOfGDSCmds = null;
         private IPnrScriptBaseItemViewModel _parent;
         private SortableObservableCollection<IPnrScriptBaseItemViewModel> _children = null;
         private bool _IsItemExpanded = false;
@@ -25,19 +28,37 @@ namespace TestSortableObservableCollection.ViewModels
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
+        public delegate void CallBackDelegate(IPnrScriptBaseItemViewModel obj );
+        public event CallBackDelegate RaiseCallBackDelegate = null;
+        private CallBackDelegate _myCallBack = null;
+
+        private Constants.WindowMode _currentWindowMode;
+
+        private GDSCommandTreeViewModel _availableGDSCmdTVM = null;
+
+        private ICommand _savePnrScriptCommand = null;
+
+        private ICommand _mouseDoubleClickCommand = null;
+
         public PnrScriptViewModel()
         {
             _description = string.Empty;
-            _gdsCmds = new ObservableCollection<IGDSCommandViewModel>();
+            _scriptOfGDSCmds = new ObservableCollection<IGDSCommandViewModel>();
             _children = new SortableObservableCollection<IPnrScriptBaseItemViewModel>();
             _validationErrors = new Dictionary<string, List<string>>();
+            RaiseCallBackDelegate = null;
+            _savePnrScriptCommand = new RelayCommand<object>(SavePnrScript_Executed);
+            _mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed);
         }
 
-        public PnrScriptViewModel(IPnrScriptBaseItemViewModel parent, string theDescription, ObservableCollection<IGDSCommandViewModel> gdsCmds) : this()
+        public PnrScriptViewModel(Constants.WindowMode mode, IPnrScriptBaseItemViewModel parent, string theDescription, GDSCommandTreeViewModel gdsCmdsTVM, ObservableCollection<IGDSCommandViewModel> gdsCmds, CallBackDelegate saveNotification) : this()
         {
+            _currentWindowMode = mode;
             _parent = parent;
             _description = theDescription;
-            _gdsCmds = CloningExtensions.DeepCopy(gdsCmds);
+            _availableGDSCmdTVM = gdsCmdsTVM;
+            _scriptOfGDSCmds = CloningExtensions.DeepCopy(gdsCmds);
+            _myCallBack = saveNotification;
         }
 
         public SortableObservableCollection<IPnrScriptBaseItemViewModel> Children
@@ -66,19 +87,51 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        public GDSCommandTreeViewModel AvailableGDSCmdsTVM
+        {
+            get
+            {
+                return _availableGDSCmdTVM;
+            }
+        }
+
         public ObservableCollection<IGDSCommandViewModel> GDSCommands
         {
             get
             {
-                return _gdsCmds;
+                return _scriptOfGDSCmds;
             }
             set
             {
-                if (_gdsCmds != value)
+                if (_scriptOfGDSCmds != value)
                 {
-                    _gdsCmds = value;
+                    _scriptOfGDSCmds = value;
                     NotifyPropertyChanged(() => GDSCommands);
                 }
+            }
+        }
+
+        public ICommand SavePnrScriptCommand
+        {
+            get
+            {
+                return _savePnrScriptCommand;
+            }
+            set
+            {
+                _savePnrScriptCommand = value;
+            }
+        }
+
+        public ICommand MouseDoubleClickCommand
+        {
+            get
+            {
+                return _mouseDoubleClickCommand;
+            }
+            set
+            {
+                _mouseDoubleClickCommand = value;
             }
         }
 
@@ -223,5 +276,35 @@ namespace TestSortableObservableCollection.ViewModels
                 RaiseErrorsChanged(memberName);
             }
         }
+
+        public void SavePnrScript_Executed(object obj)
+        {
+            if (_currentWindowMode == Constants.WindowMode.Add)
+            {
+                _parent.AddChildItem(this);
+                if (_myCallBack != null)
+                    _myCallBack(_parent);
+                // close this window
+            }
+        }
+
+        public void MouseDoubleClick_Executed(object obj)
+        {
+            GDSCommandTreeViewModel tvm = obj as GDSCommandTreeViewModel;
+            if (tvm != null)
+            {
+                IGDSCommandViewModel clickedItem = tvm.CurrentlySelectedItem as IGDSCommandViewModel;
+
+                if (clickedItem != null)
+                {
+                    if (clickedItem.Parent != null)
+                    {
+                        IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines, clickedItem.Guid);
+                        GDSCommands.Add(newItem);
+                    }
+                }
+            }
+        }
+
     }
 }
