@@ -21,6 +21,7 @@ namespace TestSortableObservableCollection.ViewModels
         private string _description = null;
         private ObservableCollection<IGDSCommandViewModel> _scriptOfGDSCmds = null;
         private IPnrScriptBaseItemViewModel _parent;
+        private PnrScriptViewModel _originalItem;
         private SortableObservableCollection<IPnrScriptBaseItemViewModel> _children = null;
         private bool _IsItemExpanded = false;
         private bool _IsItemSelected = false;
@@ -28,8 +29,8 @@ namespace TestSortableObservableCollection.ViewModels
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        public delegate void CallBackDelegate(IPnrScriptBaseItemViewModel obj );
-        public event CallBackDelegate RaiseCallBackDelegate = null;
+        public delegate void CallBackDelegate(IPnrScriptBaseItemViewModel obj, Constants.WindowMode wm);
+        //public event CallBackDelegate RaiseCallBackDelegate = null;
         private CallBackDelegate _myCallBack = null;
 
         private Constants.WindowMode _currentWindowMode;
@@ -40,18 +41,25 @@ namespace TestSortableObservableCollection.ViewModels
 
         private ICommand _mouseDoubleClickCommand = null;
 
+        public Action ClosePnrScriptWindow { get; set; }
+
+        private ICommand _removeGDSCmdCommand = null;  // this removes items from the gds cmds listbox
+        private IGDSCommandViewModel _currentlySelectedGdsCmd { get; set; }
+
         public PnrScriptViewModel()
         {
             _description = string.Empty;
             _scriptOfGDSCmds = new ObservableCollection<IGDSCommandViewModel>();
             _children = new SortableObservableCollection<IPnrScriptBaseItemViewModel>();
             _validationErrors = new Dictionary<string, List<string>>();
-            RaiseCallBackDelegate = null;
+            //RaiseCallBackDelegate = null;
             _savePnrScriptCommand = new RelayCommand<object>(SavePnrScript_Executed);
             _mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed);
+            _removeGDSCmdCommand = new RelayCommand<object>(RemoveGDSCmd_Executed);
+            _originalItem = null;
         }
 
-        public PnrScriptViewModel(Constants.WindowMode mode, IPnrScriptBaseItemViewModel parent, string theDescription, GDSCommandTreeViewModel gdsCmdsTVM, ObservableCollection<IGDSCommandViewModel> gdsCmds, CallBackDelegate saveNotification) : this()
+        public PnrScriptViewModel(Constants.WindowMode mode, IPnrScriptBaseItemViewModel parent, string theDescription, GDSCommandTreeViewModel gdsCmdsTVM, ObservableCollection<IGDSCommandViewModel> gdsCmds, CallBackDelegate saveNotification, PnrScriptViewModel originalItem) : this()
         {
             _currentWindowMode = mode;
             _parent = parent;
@@ -59,6 +67,7 @@ namespace TestSortableObservableCollection.ViewModels
             _availableGDSCmdTVM = gdsCmdsTVM;
             _scriptOfGDSCmds = CloningExtensions.DeepCopy(gdsCmds);
             _myCallBack = saveNotification;
+            _originalItem = originalItem;
         }
 
         public SortableObservableCollection<IPnrScriptBaseItemViewModel> Children
@@ -152,6 +161,32 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        public IGDSCommandViewModel CurrentLySelectedGdsCmd
+        {
+            get
+            {
+                return _currentlySelectedGdsCmd;
+            }
+            set
+            {
+                _currentlySelectedGdsCmd = value;
+                NotifyPropertyChanged(() => CurrentLySelectedGdsCmd);
+            }
+        }
+
+        public ICommand RemoveGDSCmdCommand
+        {
+            get
+            {
+                return _removeGDSCmdCommand;
+            }
+            set
+            {
+                _removeGDSCmdCommand = value;
+            }
+        }
+
+
         public bool IsItemSelected
         {
             get
@@ -187,6 +222,14 @@ namespace TestSortableObservableCollection.ViewModels
             set
             {
                 _uniqueID = value;
+            }
+        }
+
+        public Constants.WindowMode CurrentWindowMode
+        {
+            get
+            {
+                return _currentWindowMode;
             }
         }
 
@@ -283,8 +326,21 @@ namespace TestSortableObservableCollection.ViewModels
             {
                 _parent.AddChildItem(this);
                 if (_myCallBack != null)
-                    _myCallBack(_parent);
-                // close this window
+                    _myCallBack(_parent, _currentWindowMode);
+                if (ClosePnrScriptWindow != null)
+                    ClosePnrScriptWindow();
+            }
+            else if (_currentWindowMode == Constants.WindowMode.Change)
+            {
+                if (_originalItem != null)
+                {
+                    _originalItem.Description = Description;
+                    _originalItem.GDSCommands = GDSCommands;
+                    if (_myCallBack != null)
+                        _myCallBack(_parent, _currentWindowMode);
+                    if (ClosePnrScriptWindow != null)
+                        ClosePnrScriptWindow();
+                }
             }
         }
 
@@ -302,6 +358,18 @@ namespace TestSortableObservableCollection.ViewModels
                         IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines, clickedItem.Guid);
                         GDSCommands.Add(newItem);
                     }
+                }
+            }
+        }
+
+        public void RemoveGDSCmd_Executed(object obj)
+        {
+            if (_currentlySelectedGdsCmd != null)
+            {
+                if (GDSCommands != null)
+                {
+                    GDSCommands.Remove(_currentlySelectedGdsCmd);
+                    _currentlySelectedGdsCmd = null;
                 }
             }
         }

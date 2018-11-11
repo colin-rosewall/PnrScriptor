@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
+using TestSortableObservableCollection.AppConstants;
 using System.Windows.Input;
 using TestSortableObservableCollection.ViewModels.Base;
 using TestSortableObservableCollection.Models;
@@ -38,8 +39,8 @@ namespace TestSortableObservableCollection.ViewModels
         private IPnrScriptViewModel _itemToCut { get; set; }
         //private IPnrScriptSubgroupViewModel _pnrScriptSubgroupToWorkOn = null;
         //private IPnrScriptViewModel _pnrScriptToWorkOn = null;
-        public Action CloseSubgroupWindow { get; set; }
-        public Action ClosePnrScriptWindow { get; set; }
+        //public Action CloseSubgroupWindow { get; set; }
+        //public Action ClosePnrScriptWindow { get; set; }
         public Action OpenScriptGenerationWindow { get; set; }
         private GDSCommandTreeViewModel _gdsCmdTreeViewModel = null;
 
@@ -492,6 +493,23 @@ namespace TestSortableObservableCollection.ViewModels
         //    }
         //}
 
+        public void SaveNotification(IPnrScriptBaseItemViewModel obj, Constants.WindowMode wm)
+        {
+            // obj should be the parent of the item added or changed
+            if (obj != null)
+            {
+                IsDirty = true;
+                if (wm == Constants.WindowMode.Add)
+                {
+                    SortByDescription(obj);
+                }
+                else if (wm == Constants.WindowMode.Change)
+                {
+                    SortByDescription(obj);
+                }
+            }
+        }
+
         public void DeletePnrScript_Executed(object obj)
         {
             IPnrScriptViewModel itemToBeDeleted = obj as IPnrScriptViewModel;
@@ -539,7 +557,7 @@ namespace TestSortableObservableCollection.ViewModels
             {
                 if (_itemToCut != null)
                 {
-                    IPnrScriptViewModel newItem = new PnrScriptViewModel( AppConstants.Constants.WindowMode.View, itemToPasteInto, _itemToCut.Description, null, _itemToCut.GDSCommands, null);
+                    IPnrScriptViewModel newItem = new PnrScriptViewModel(Constants.WindowMode.None, itemToPasteInto, _itemToCut.Description, null, _itemToCut.GDSCommands, null, null);
                     itemToPasteInto.AddChildItem(newItem);
                     IsDirty = true;
 

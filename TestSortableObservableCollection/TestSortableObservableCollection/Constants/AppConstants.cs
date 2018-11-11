@@ -7,10 +7,11 @@
 
         public enum WindowMode
         {
-            Add = 0,
-            Change = 1,
-            View = 2,
-            Copy = 3
+            None = 0,
+            Add = 1,
+            Change = 2,
+            View = 3,
+            Copy = 4
         }
     }
     

@@ -24,8 +24,8 @@ namespace TestSortableObservableCollection.Views
         {
             InitializeComponent();
             DataContext = tvm;
-            if (tvm.CloseSubgroupWindow == null)
-                tvm.CloseSubgroupWindow = new Action(this.Hide);
+            //if (tvm.CloseSubgroupWindow == null)
+            //    tvm.CloseSubgroupWindow = new Action(this.Hide);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

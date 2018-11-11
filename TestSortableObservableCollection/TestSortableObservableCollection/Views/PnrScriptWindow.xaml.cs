@@ -28,13 +28,15 @@ namespace TestSortableObservableCollection.Views
 
             DataContext = tvm;
 
-            //if (tvm.ClosePnrScriptWindow == null)
-            //    tvm.ClosePnrScriptWindow = new Action(this.Hide);
+            this.Title += String.Format(" - ({0})", tvm.CurrentWindowMode.ToString());
+
+            if (tvm.ClosePnrScriptWindow == null)
+                tvm.ClosePnrScriptWindow = new Action(this.Close);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            //Hide();
+            Close();
         }
     }
 }
