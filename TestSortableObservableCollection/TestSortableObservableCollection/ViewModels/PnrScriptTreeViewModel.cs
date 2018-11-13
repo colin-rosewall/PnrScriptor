@@ -21,7 +21,7 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _renameSubgroupCommand = null;
         private ICommand _deleteSubgroupCommand = null;
 
-        private ICommand _savePnrScriptCommand = null;
+        //private ICommand _savePnrScriptCommand = null;
         private ICommand _deletePnrScriptCommand = null;
         private ICommand _saveTreeCommand = null;
         private ICommand _cutPnrScriptCommand = null;
@@ -223,17 +223,17 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public ICommand SavePnrScriptCommand
-        {
-            get
-            {
-                return _savePnrScriptCommand;
-            }
-            set
-            {
-                _savePnrScriptCommand = value;
-            }
-        }
+        //public ICommand SavePnrScriptCommand
+        //{
+        //    get
+        //    {
+        //        return _savePnrScriptCommand;
+        //    }
+        //    set
+        //    {
+        //        _savePnrScriptCommand = value;
+        //    }
+        //}
 
         public ICommand DeletePnrScriptCommand
         {
@@ -560,6 +560,7 @@ namespace TestSortableObservableCollection.ViewModels
                     IPnrScriptViewModel newItem = new PnrScriptViewModel(Constants.WindowMode.None, itemToPasteInto, _itemToCut.Description, null, _itemToCut.GDSCommands, null, null);
                     itemToPasteInto.AddChildItem(newItem);
                     IsDirty = true;
+                    SortByDescription(itemToPasteInto);
 
                     var parent = _itemToCut.Parent;
                     if (parent != null)

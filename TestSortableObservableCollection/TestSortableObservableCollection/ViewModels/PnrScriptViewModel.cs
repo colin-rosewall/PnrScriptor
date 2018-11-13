@@ -21,7 +21,7 @@ namespace TestSortableObservableCollection.ViewModels
         private string _description = null;
         private ObservableCollection<IGDSCommandViewModel> _scriptOfGDSCmds = null;
         private IPnrScriptBaseItemViewModel _parent;
-        private PnrScriptViewModel _originalItem;
+        private PnrScriptViewModel _originalItem;  // only used when changing an existing pnr script
         private SortableObservableCollection<IPnrScriptBaseItemViewModel> _children = null;
         private bool _IsItemExpanded = false;
         private bool _IsItemSelected = false;
@@ -30,7 +30,6 @@ namespace TestSortableObservableCollection.ViewModels
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public delegate void CallBackDelegate(IPnrScriptBaseItemViewModel obj, Constants.WindowMode wm);
-        //public event CallBackDelegate RaiseCallBackDelegate = null;
         private CallBackDelegate _myCallBack = null;
 
         private Constants.WindowMode _currentWindowMode;
@@ -52,7 +51,6 @@ namespace TestSortableObservableCollection.ViewModels
             _scriptOfGDSCmds = new ObservableCollection<IGDSCommandViewModel>();
             _children = new SortableObservableCollection<IPnrScriptBaseItemViewModel>();
             _validationErrors = new Dictionary<string, List<string>>();
-            //RaiseCallBackDelegate = null;
             _savePnrScriptCommand = new RelayCommand<object>(SavePnrScript_Executed);
             _mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed);
             _removeGDSCmdCommand = new RelayCommand<object>(RemoveGDSCmd_Executed);
@@ -345,6 +343,7 @@ namespace TestSortableObservableCollection.ViewModels
         }
 
         public void MouseDoubleClick_Executed(object obj)
+            // this function copies a selected gds command from the available list to the script of gds commands
         {
             GDSCommandTreeViewModel tvm = obj as GDSCommandTreeViewModel;
             if (tvm != null)
@@ -363,6 +362,7 @@ namespace TestSortableObservableCollection.ViewModels
         }
 
         public void RemoveGDSCmd_Executed(object obj)
+            // this function removes the selected gds command from the script of gds commands
         {
             if (_currentlySelectedGdsCmd != null)
             {

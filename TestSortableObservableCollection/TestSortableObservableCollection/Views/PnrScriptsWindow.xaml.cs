@@ -16,6 +16,7 @@ using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.AppConstants;
 using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace TestSortableObservableCollection.Views
 {
@@ -81,11 +82,13 @@ namespace TestSortableObservableCollection.Views
             var tvm = DataContext as PnrScriptTreeViewModel;
             if (tvm != null)
             {
-                PnrScriptViewModel vm = new PnrScriptViewModel(Constants.WindowMode.Add, tvm.CurrentlySelectedItem, "empty", tvm.GDSCmdTreeViewModel, new System.Collections.ObjectModel.ObservableCollection<IGDSCommandViewModel>(), tvm.SaveNotification, null);
-                PnrScriptWindow psw = new PnrScriptWindow(vm);
-                psw.Owner = Application.Current.MainWindow;
-                psw.Show();
-
+                if (tvm.CurrentlySelectedItem != null)
+                {
+                    PnrScriptViewModel vm = new PnrScriptViewModel(Constants.WindowMode.Add, tvm.CurrentlySelectedItem, "empty", tvm.GDSCmdTreeViewModel, new ObservableCollection<IGDSCommandViewModel>(), tvm.SaveNotification, null);
+                    PnrScriptWindow psw = new PnrScriptWindow(vm);
+                    psw.Owner = Application.Current.MainWindow;
+                    psw.Show();
+                }
 
                 //tvm.PnrScriptToWorkOn = new PnrScriptViewModel(null, "empty", new System.Collections.ObjectModel.ObservableCollection<IGDSCommandViewModel>());
                 //if (_pnrScriptWindow == null)

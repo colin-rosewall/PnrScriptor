@@ -38,5 +38,14 @@ namespace TestSortableObservableCollection.Views
         {
             Close();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (txtDescription.Focusable)
+            {
+                txtDescription.SelectAll();
+                txtDescription.Focus();
+            }   
+        }
     }
 }

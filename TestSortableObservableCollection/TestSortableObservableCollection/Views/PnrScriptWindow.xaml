@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="Pnr Script Window" 
         Height="500" 
-        Width="800"
+        Width="800" Loaded="Window_Loaded"
          >
     <Window.Resources>
         <local:MyBindingProxy x:Key="DataContextProxy" Data="{Binding}" />
@@ -52,7 +52,7 @@
         </Grid.RowDefinitions>
 
         <Label Content="Description:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }"  Margin="5,0" >
+        <TextBox x:Name="txtDescription" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }"  Margin="5,0" TabIndex="0" >
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <StackPanel>
