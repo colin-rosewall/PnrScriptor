@@ -132,7 +132,7 @@ namespace TestSortableObservableCollection.Models
                     {
                         if (intLevel == 0)
                         {
-                            newItem = new PnrScriptViewModel(null, description, gdsCmds);
+                            newItem = new PnrScriptViewModel(Constants.WindowMode.None, null, description, null, gdsCmds, null, null);
                             vm.Root.Add(newItem);
                         }
                         else
@@ -140,7 +140,7 @@ namespace TestSortableObservableCollection.Models
                             parent = FindParent(vm, UInt64.Parse(parentID));
                             if (parent != null)
                             {
-                                newItem = new PnrScriptViewModel(parent, description, gdsCmds);
+                                newItem = new PnrScriptViewModel(Constants.WindowMode.None, parent, description, null, gdsCmds, null, null);
                                 parent.AddChildItem(newItem);
                             }
                         }

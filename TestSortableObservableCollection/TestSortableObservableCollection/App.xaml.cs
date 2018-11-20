@@ -1,4 +1,4 @@
-﻿ #define script
+﻿// #define script
 using System;
 using System.Collections.Generic;
 using System.Configuration;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.ViewModels;
+using TestSortableObservableCollection.AppConstants;
 using System.Windows.Input;
 using TestSortableObservableCollection.ViewModels.Base;
 using TestSortableObservableCollection.Models;
@@ -20,30 +21,30 @@ namespace TestSortableObservableCollection.ViewModels
         private ICommand _renameSubgroupCommand = null;
         private ICommand _deleteSubgroupCommand = null;
 
-        private ICommand _savePnrScriptCommand = null;
+        //private ICommand _savePnrScriptCommand = null;
         private ICommand _deletePnrScriptCommand = null;
         private ICommand _saveTreeCommand = null;
         private ICommand _cutPnrScriptCommand = null;
         private ICommand _pastePnrScriptCommand = null;
 
-        private ICommand _removeGDSCmdCommand = null;  // this removes items from the gds cmds listbox
+        //private ICommand _removeGDSCmdCommand = null;  // this removes items from the gds cmds listbox
 
         private ICommand _selectedItemChangedCommand = null;
 
-        private ICommand _mouseDoubleClickCommand = null;
+        //private ICommand _mouseDoubleClickCommand = null;
 
         private ICommand _generateScriptCommand = null;
 
         private IPnrScriptBaseItemViewModel _currentlySelectedItem { get; set; }
         private IPnrScriptViewModel _itemToCut { get; set; }
-        private IPnrScriptSubgroupViewModel _pnrScriptSubgroupToWorkOn = null;
-        private IPnrScriptViewModel _pnrScriptToWorkOn = null;
-        public Action CloseSubgroupWindow { get; set; }
-        public Action ClosePnrScriptWindow { get; set; }
+        //private IPnrScriptSubgroupViewModel _pnrScriptSubgroupToWorkOn = null;
+        //private IPnrScriptViewModel _pnrScriptToWorkOn = null;
+        //public Action CloseSubgroupWindow { get; set; }
+        //public Action ClosePnrScriptWindow { get; set; }
         public Action OpenScriptGenerationWindow { get; set; }
         private GDSCommandTreeViewModel _gdsCmdTreeViewModel = null;
 
-        private IGDSCommandViewModel _currentlySelectedGdsCmd { get; set; }
+        //private IGDSCommandViewModel _currentlySelectedGdsCmd { get; set; }
 
         private string _generatedScript { get; set; }
 
@@ -52,20 +53,20 @@ namespace TestSortableObservableCollection.ViewModels
         public PnrScriptTreeViewModel()
         {
             IsDirty = false;
-            _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
+            //_saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
             _renameSubgroupCommand = new RelayCommand<object>(RenameSubgroup_Executed, RenameSubgroup_CanExecute);
             _deleteSubgroupCommand = new RelayCommand<object>(DeleteSubgroup_Executed, DeleteSubgroup_CanExecute);
 
-            _savePnrScriptCommand = new RelayCommand<object>(SavePnrScript_Executed);
+            //_savePnrScriptCommand = new RelayCommand<object>(SavePnrScript_Executed);
             _deletePnrScriptCommand = new RelayCommand<object>(DeletePnrScript_Executed, DeletePnrScript_CanExecute);
             _cutPnrScriptCommand = new RelayCommand<object>(CutPnrScript_Executed, CutPnrScript_CanExecute);
             _pastePnrScriptCommand = new RelayCommand<object>(PastePnrScript_Executed, PastePnrScript_CanExecute);
 
             _saveTreeCommand = new RelayCommand<object>(SaveTree_Executed, SaveTree_CanExecute);
 
-            _removeGDSCmdCommand = new RelayCommand<object>(RemoveGDSCmd_Executed);
+            //_removeGDSCmdCommand = new RelayCommand<object>(RemoveGDSCmd_Executed);
 
-            _mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed, MouseDoubleClick_CanExecute);
+            //_mouseDoubleClickCommand = new RelayCommand<object>(MouseDoubleClick_Executed, MouseDoubleClick_CanExecute);
 
             _generateScriptCommand = new RelayCommand<object>(GenerateScript_Executed);
 
@@ -89,31 +90,31 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public IPnrScriptSubgroupViewModel PnrScriptSubgroupToWorkOn
-        {
-            get
-            {
-                return _pnrScriptSubgroupToWorkOn;
-            }
-            set
-            {
-                _pnrScriptSubgroupToWorkOn = value;
-                NotifyPropertyChanged(() => PnrScriptSubgroupToWorkOn);
-            }
-        }
+        //public IPnrScriptSubgroupViewModel PnrScriptSubgroupToWorkOn
+        //{
+        //    get
+        //    {
+        //        return _pnrScriptSubgroupToWorkOn;
+        //    }
+        //    set
+        //    {
+        //        _pnrScriptSubgroupToWorkOn = value;
+        //        NotifyPropertyChanged(() => PnrScriptSubgroupToWorkOn);
+        //    }
+        //}
 
-        public IPnrScriptViewModel PnrScriptToWorkOn
-        {
-            get
-            {
-                return _pnrScriptToWorkOn;
-            }
-            set
-            {
-                _pnrScriptToWorkOn = value;
-                NotifyPropertyChanged(() => PnrScriptToWorkOn);
-            }
-        }
+        //public IPnrScriptViewModel PnrScriptToWorkOn
+        //{
+        //    get
+        //    {
+        //        return _pnrScriptToWorkOn;
+        //    }
+        //    set
+        //    {
+        //        _pnrScriptToWorkOn = value;
+        //        NotifyPropertyChanged(() => PnrScriptToWorkOn);
+        //    }
+        //}
 
         public GDSCommandTreeViewModel GDSCmdTreeViewModel
         {
@@ -136,18 +137,18 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public IGDSCommandViewModel CurrentLySelectedGdsCmd
-        {
-            get
-            {
-                return _currentlySelectedGdsCmd;
-            }
-            set
-            {
-                _currentlySelectedGdsCmd = value;
-                NotifyPropertyChanged(() => CurrentLySelectedGdsCmd);
-            }
-        }
+        //public IGDSCommandViewModel CurrentLySelectedGdsCmd
+        //{
+        //    get
+        //    {
+        //        return _currentlySelectedGdsCmd;
+        //    }
+        //    set
+        //    {
+        //        _currentlySelectedGdsCmd = value;
+        //        NotifyPropertyChanged(() => CurrentLySelectedGdsCmd);
+        //    }
+        //}
 
         public string GeneratedScript
         {
@@ -222,17 +223,17 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public ICommand SavePnrScriptCommand
-        {
-            get
-            {
-                return _savePnrScriptCommand;
-            }
-            set
-            {
-                _savePnrScriptCommand = value;
-            }
-        }
+        //public ICommand SavePnrScriptCommand
+        //{
+        //    get
+        //    {
+        //        return _savePnrScriptCommand;
+        //    }
+        //    set
+        //    {
+        //        _savePnrScriptCommand = value;
+        //    }
+        //}
 
         public ICommand DeletePnrScriptCommand
         {
@@ -270,17 +271,17 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public ICommand RemoveGDSCmdCommand
-        {
-            get
-            {
-                return _removeGDSCmdCommand;
-            }
-            set
-            {
-                _removeGDSCmdCommand = value;
-            }
-        }
+        //public ICommand RemoveGDSCmdCommand
+        //{
+        //    get
+        //    {
+        //        return _removeGDSCmdCommand;
+        //    }
+        //    set
+        //    {
+        //        _removeGDSCmdCommand = value;
+        //    }
+        //}
 
         public ICommand SelectedItemChangedCommand
         {
@@ -294,69 +295,69 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public ICommand MouseDoubleClickCommand
-        {
-            get
-            {
-                return _mouseDoubleClickCommand;
-            }
-            set
-            {
-                _mouseDoubleClickCommand = value;
-            }
-        }
+        //public ICommand MouseDoubleClickCommand
+        //{
+        //    get
+        //    {
+        //        return _mouseDoubleClickCommand;
+        //    }
+        //    set
+        //    {
+        //        _mouseDoubleClickCommand = value;
+        //    }
+        //}
 
         private void SortByDescription(IPnrScriptBaseItemViewModel parent)
         {
             parent.Children.Sort(k => k.Description);
         }
 
-        public void SaveSubgroup_Executed(object obj)
-        {
-            if (PnrScriptSubgroupToWorkOn != null)
-            {
-                if (_currentlySelectedItem != null)
-                {
-                    if (PnrScriptSubgroupToWorkOn.Parent == null)
-                    {
-                        // this creates a new item
-                        IPnrScriptSubgroupViewModel newItem = new PnrScriptSubgroupViewModel(_currentlySelectedItem, PnrScriptSubgroupToWorkOn.Description);
-                        _currentlySelectedItem.AddChildItem(newItem);
-                        IsDirty = true;
-                        CloseSubgroupWindow();
-                        SortByDescription(_currentlySelectedItem);
-                    }
-                    else
-                    {
-                        // this renames an item
-                        _currentlySelectedItem.Description = PnrScriptSubgroupToWorkOn.Description;
-                        IsDirty = true;
-                        CloseSubgroupWindow();
-                        if (CurrentlySelectedItem.Parent != null)
-                            SortByDescription(_currentlySelectedItem.Parent);
-                        else
-                            SortByDescription(_currentlySelectedItem);
-                    }
-                }
-            }
-        }
+        //public void SaveSubgroup_Executed(object obj)
+        //{
+        //    if (PnrScriptSubgroupToWorkOn != null)
+        //    {
+        //        if (_currentlySelectedItem != null)
+        //        {
+        //            if (PnrScriptSubgroupToWorkOn.Parent == null)
+        //            {
+        //                // this creates a new item
+        //                IPnrScriptSubgroupViewModel newItem = new PnrScriptSubgroupViewModel(_currentlySelectedItem, PnrScriptSubgroupToWorkOn.Description);
+        //                _currentlySelectedItem.AddChildItem(newItem);
+        //                IsDirty = true;
+        //                CloseSubgroupWindow();
+        //                SortByDescription(_currentlySelectedItem);
+        //            }
+        //            else
+        //            {
+        //                // this renames an item
+        //                _currentlySelectedItem.Description = PnrScriptSubgroupToWorkOn.Description;
+        //                IsDirty = true;
+        //                CloseSubgroupWindow();
+        //                if (CurrentlySelectedItem.Parent != null)
+        //                    SortByDescription(_currentlySelectedItem.Parent);
+        //                else
+        //                    SortByDescription(_currentlySelectedItem);
+        //            }
+        //        }
+        //    }
+        //}
 
-        public bool SaveSubgroup_CanExecute(object obj)
-        {
-            bool result = false;
+        //public bool SaveSubgroup_CanExecute(object obj)
+        //{
+        //    bool result = false;
 
-            if (_pnrScriptSubgroupToWorkOn != null)
-            {
-                result = !(_pnrScriptSubgroupToWorkOn.HasErrors);
-                if (result == true)
-                {
-                    if (PnrScriptSubgroupToWorkOn.Parent != null)
-                        result = !(_currentlySelectedItem.Parent == null);
-                }
-            }
+        //    if (_pnrScriptSubgroupToWorkOn != null)
+        //    {
+        //        result = !(_pnrScriptSubgroupToWorkOn.HasErrors);
+        //        if (result == true)
+        //        {
+        //            if (PnrScriptSubgroupToWorkOn.Parent != null)
+        //                result = !(_currentlySelectedItem.Parent == null);
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public void RenameSubgroup_Executed(object obj)
         {
@@ -417,77 +418,94 @@ namespace TestSortableObservableCollection.ViewModels
             _currentlySelectedItem = item;
         }
 
-        public void MouseDoubleClick_Executed(object obj)
-        {
-            GDSCommandTreeViewModel tvm = obj as GDSCommandTreeViewModel;
-            if (tvm != null)
-            {
-                IGDSCommandViewModel clickedItem = tvm.CurrentlySelectedItem as IGDSCommandViewModel;
+        //public void MouseDoubleClick_Executed(object obj)
+        //{
+        //    GDSCommandTreeViewModel tvm = obj as GDSCommandTreeViewModel;
+        //    if (tvm != null)
+        //    {
+        //        IGDSCommandViewModel clickedItem = tvm.CurrentlySelectedItem as IGDSCommandViewModel;
 
-                if (clickedItem != null)
+        //        if (clickedItem != null)
+        //        {
+        //            if (clickedItem.Parent != null)
+        //            {
+        //                if (_pnrScriptToWorkOn != null)
+        //                {
+        //                    IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines, clickedItem.Guid);
+        //                    _pnrScriptToWorkOn.GDSCommands.Add(newItem);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        //public bool MouseDoubleClick_CanExecute(object obj)
+        //{
+        //    // todo: this method does not get called
+        //    bool result = false;
+        //    IGDSCommandViewModel clickedItem = obj as IGDSCommandViewModel;
+
+        //    if (clickedItem != null)
+        //    {
+        //        if (clickedItem.Parent != null)
+        //        {
+        //            if (clickedItem.Children != null)
+        //            {
+        //                result = (clickedItem.Children.Count == 0);
+        //            }
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
+        //public void SavePnrScript_Executed(object obj)
+        //{
+        //    if (PnrScriptToWorkOn != null)
+        //    {
+        //        if (_currentlySelectedItem != null)
+        //        {
+        //            if (PnrScriptToWorkOn.Parent == null)
+        //            {
+        //                // this creates a new item
+        //                IPnrScriptViewModel newItem = new PnrScriptViewModel(_currentlySelectedItem, PnrScriptToWorkOn.Description, PnrScriptToWorkOn.GDSCommands);
+        //                _currentlySelectedItem.AddChildItem(newItem);
+        //                IsDirty = true;
+        //                ClosePnrScriptWindow();
+        //                SortByDescription(_currentlySelectedItem);
+        //            }
+        //            else
+        //            {
+        //                var existingItem = _currentlySelectedItem as PnrScriptViewModel;
+        //                if (existingItem != null)
+        //                {
+        //                    existingItem.Description = _pnrScriptToWorkOn.Description;
+        //                    existingItem.GDSCommands = _pnrScriptToWorkOn.GDSCommands;
+        //                    IsDirty = true;
+        //                    ClosePnrScriptWindow();
+        //                    if (existingItem.Parent != null)
+        //                        SortByDescription(existingItem.Parent);
+        //                    else
+        //                        SortByDescription(existingItem);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        public void SaveNotification(IPnrScriptBaseItemViewModel obj, Constants.WindowMode wm)
+        {
+            // obj should be the parent of the item added or changed
+            if (obj != null)
+            {
+                IsDirty = true;
+                if (wm == Constants.WindowMode.Add)
                 {
-                    if (clickedItem.Parent != null)
-                    {
-                        if (_pnrScriptToWorkOn != null)
-                        {
-                            IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines, clickedItem.Guid);
-                            _pnrScriptToWorkOn.GDSCommands.Add(newItem);
-                        }
-                    }
+                    SortByDescription(obj);
                 }
-            }
-        }
-
-        public bool MouseDoubleClick_CanExecute(object obj)
-        {
-            // todo: this method does not get called
-            bool result = false;
-            IGDSCommandViewModel clickedItem = obj as IGDSCommandViewModel;
-
-            if (clickedItem != null)
-            {
-                if (clickedItem.Parent != null)
+                else if (wm == Constants.WindowMode.Change)
                 {
-                    if (clickedItem.Children != null)
-                    {
-                        result = (clickedItem.Children.Count == 0);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public void SavePnrScript_Executed(object obj)
-        {
-            if (PnrScriptToWorkOn != null)
-            {
-                if (_currentlySelectedItem != null)
-                {
-                    if (PnrScriptToWorkOn.Parent == null)
-                    {
-                        // this creates a new item
-                        IPnrScriptViewModel newItem = new PnrScriptViewModel(_currentlySelectedItem, PnrScriptToWorkOn.Description, PnrScriptToWorkOn.GDSCommands);
-                        _currentlySelectedItem.AddChildItem(newItem);
-                        IsDirty = true;
-                        ClosePnrScriptWindow();
-                        SortByDescription(_currentlySelectedItem);
-                    }
-                    else
-                    {
-                        var existingItem = _currentlySelectedItem as PnrScriptViewModel;
-                        if (existingItem != null)
-                        {
-                            existingItem.Description = _pnrScriptToWorkOn.Description;
-                            existingItem.GDSCommands = _pnrScriptToWorkOn.GDSCommands;
-                            IsDirty = true;
-                            ClosePnrScriptWindow();
-                            if (existingItem.Parent != null)
-                                SortByDescription(existingItem.Parent);
-                            else
-                                SortByDescription(existingItem);
-                        }
-                    }
+                    SortByDescription(obj);
                 }
             }
         }
@@ -539,9 +557,10 @@ namespace TestSortableObservableCollection.ViewModels
             {
                 if (_itemToCut != null)
                 {
-                    IPnrScriptViewModel newItem = new PnrScriptViewModel(itemToPasteInto, _itemToCut.Description, _itemToCut.GDSCommands);
+                    IPnrScriptViewModel newItem = new PnrScriptViewModel(Constants.WindowMode.None, itemToPasteInto, _itemToCut.Description, null, _itemToCut.GDSCommands, null, null);
                     itemToPasteInto.AddChildItem(newItem);
                     IsDirty = true;
+                    SortByDescription(itemToPasteInto);
 
                     var parent = _itemToCut.Parent;
                     if (parent != null)
@@ -563,20 +582,20 @@ namespace TestSortableObservableCollection.ViewModels
             return result;
         }
 
-        public void RemoveGDSCmd_Executed(object obj)
-        {
-            if (_currentlySelectedGdsCmd != null)
-            {
-                if (PnrScriptToWorkOn != null)
-                {
-                    if (PnrScriptToWorkOn.GDSCommands != null)
-                    {
-                        PnrScriptToWorkOn.GDSCommands.Remove(_currentlySelectedGdsCmd);
-                        _currentlySelectedGdsCmd = null;
-                    }
-                }
-            }
-        }
+        //public void RemoveGDSCmd_Executed(object obj)
+        //{
+        //    if (_currentlySelectedGdsCmd != null)
+        //    {
+        //        if (PnrScriptToWorkOn != null)
+        //        {
+        //            if (PnrScriptToWorkOn.GDSCommands != null)
+        //            {
+        //                PnrScriptToWorkOn.GDSCommands.Remove(_currentlySelectedGdsCmd);
+        //                _currentlySelectedGdsCmd = null;
+        //            }
+        //        }
+        //    }
+        //}
 
         public void SaveTree_Executed(object obj)
         {

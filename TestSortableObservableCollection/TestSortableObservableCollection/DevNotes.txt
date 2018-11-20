@@ -1,0 +1,69 @@
+Functionality needing to be changed
+ - Opening a new window so that more than 1 PnrScriptWindow can be open at the same time
+ - Add Pnr Script
+ - Change Pnr Script
+ - Loading treeview model from file
+ - Cut Pnr Script
+ - Paste Pnr Script
+
+PnrScriptWindow
+ - Showing Description
+ - Showing a list of gdsCommands to choose from
+ - Double click to add a gdsCommand to the list of script commands
+ - Maintain the currently selected item in the list of script commands so the delete key can remove the item
+ - Pressing delete to remove a gdsCommand from the list of script commands
+ - Showing a list of script commands
+ - Clicking the save button to save changes to pnrScriptsTreeViewModel
+ - Clicking the cancel button to close the PnrScriptWindow
+ - Closing the window, not hiding it
+
+PnrScriptTreeViewModel
+ - _removeGDSCmdCommand
+ - RemoveGDSCmdCommand
+ - RemoveGDSCmd_Executed
+ - _mouseDoubleClickCommand
+ - MouseDoubleClickCommand
+ - MouseDoubleClick_Executed
+ - MouseDoubleClick_CanExecute
+ - _pnrScriptSubgroupToWorkOn
+ - _pnrScriptToWorkOn
+ - _currentlySelectedGdsCmd
+ - CurrentLySelectedGdsCmd
+ - PnrScriptSubgroupToWorkOn
+ - PnrScriptToWorkOn
+ - _saveSubgroupCommand
+ - SaveSubgroup_Executed
+ - SaveSubgroup_CanExecute
+ - SavePnrScript_Executed
+
+PnrScriptsWindow
+ - _subgroupWindow
+ - _pnrScriptWindow
+ - AddSubgroup_Click
+ - RenameSubgroup_Click
+ - AddPnrScript_Click
+ - ChangePnrScript_Click
+
+
+Steps to Add a new pnr script
+ - Right click a pnrScript subgroup and select 'Add Pnr Script'
+ - Create a new PnrScriptViewModel with:
+	- mode = Add
+	- IPnrScriptBaseItemViewModel parent = currently selected subgroup
+	- description = empty
+	- availableGDSCommands = field from pnrScriptTreeViewModel
+	- scriptGDSCommands = new list of gdsCommands
+	- call back SaveNotification delegate, which will pass back the parent (IPnrScriptBaseItemViewModel) so that it can be re-sorted
+ - Create a new instance of the pnrScriptWindow
+ - Set the owner
+ - Show the pnrScriptWindow
+ - User sets the description
+ - User adds gdsCommands from the available list by double clicking on them in the left hand panel
+ - When the user clicks on the Save button, the SavePnrScriptCommand is invoked on the PnrScriptViewModel
+ - PnrScriptViewModel.SavePnrScript_Executed 
+	- If the mode = Add then
+		parent.AddChildItem(this)
+		call the call back delegate function, passing parent as a parameter
+		close the PnrScriptWindow
+
+	

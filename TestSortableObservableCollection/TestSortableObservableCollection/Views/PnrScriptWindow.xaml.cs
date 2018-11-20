@@ -22,19 +22,30 @@ namespace TestSortableObservableCollection.Views
     /// </summary>
     public partial class PnrScriptWindow : Window
     {
-        public PnrScriptWindow(PnrScriptTreeViewModel tvm)
+        public PnrScriptWindow(PnrScriptViewModel tvm)
         {
             InitializeComponent();
 
             DataContext = tvm;
 
+            this.Title += String.Format(" - ({0})", tvm.CurrentWindowMode.ToString());
+
             if (tvm.ClosePnrScriptWindow == null)
-                tvm.ClosePnrScriptWindow = new Action(this.Hide);
+                tvm.ClosePnrScriptWindow = new Action(this.Close);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (txtDescription.Focusable)
+            {
+                txtDescription.SelectAll();
+                txtDescription.Focus();
+            }   
         }
     }
 }
