@@ -20,17 +20,29 @@ namespace TestSortableObservableCollection.Views
     /// </summary>
     public partial class PnrScriptSubgroupWindow : Window
     {
-        public PnrScriptSubgroupWindow(PnrScriptTreeViewModel tvm)
+        public PnrScriptSubgroupWindow(PnrScriptSubgroupViewModel tvm)
         {
             InitializeComponent();
             DataContext = tvm;
-            //if (tvm.CloseSubgroupWindow == null)
-            //    tvm.CloseSubgroupWindow = new Action(this.Hide);
+
+            this.Title += String.Format(" - ({0})", tvm.CurrentWindowMode.ToString());
+
+            if (tvm.CloseSubgroupWindow == null)
+                tvm.CloseSubgroupWindow = new Action(this.Close);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (txtSubgroupDescription.Focusable)
+            {
+                txtSubgroupDescription.SelectAll();
+                txtSubgroupDescription.Focus();
+            }
         }
     }
 }

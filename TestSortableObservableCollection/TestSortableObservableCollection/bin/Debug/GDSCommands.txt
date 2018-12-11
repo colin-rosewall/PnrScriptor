@@ -132,23 +132,37 @@ DI.FT-OTHER INFO-**;...............................
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="79" ParentID="26"><Description>Add Brisbane Address</Description><CommandLines>W- 275 FREE STREET</CommandLines><Guid>bbe17de8-aa11-4a2b-ac0b-6a05ed838dcc</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="80" ParentID="27"><Description>1 AD ABX SYD ZL Y</Description><CommandLines>110OCTABXSYD¥ZL
 01Y5</CommandLines><Guid>3664c897-3f57-4170-af1d-e73e7a8fb2f8</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="81" ParentID="27"><Description>1 AD SYD MEL QF Y</Description><CommandLines>110DECSYDMEL¥QF
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="81" ParentID="27"><Description>1 AD AU DOM/INT VA/TG</Description><CommandLines>126MARHBAMEL¥VA
+01Y2
+127MARMELBKK¥TG
+01J2
+125APRBKKMEL¥TG
+01J2
+128APRMELHBA¥VA
+01Y5</CommandLines><Guid>06be1cd7-cc3e-4bf0-bf04-eb753e304f9d</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="82" ParentID="27"><Description>1 AD SYD MEL QF Y</Description><CommandLines>110DECSYDMEL¥QF
 01Y5</CommandLines><Guid>7cf8d1df-3af7-498b-b009-6902341d1294</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="82" ParentID="27"><Description>1AD SYD LON EK Y</Description><CommandLines>114JUNSYDLON¥EK-Y
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="83" ParentID="27"><Description>1AD SYD LON EK Y</Description><CommandLines>114JUNSYDLON¥EK-Y
 01Y1Y2</CommandLines><Guid>3366360a-e4a6-4ae5-bb49-5c80ad6691fe</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="83" ParentID="27"><Description>3 PAX SYD SIN VA Y</Description><CommandLines>120JUNSYDSIN¥VA-Y
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="84" ParentID="27"><Description>3 PAX SYD SIN VA Y</Description><CommandLines>120JUNSYDSIN¥VA-Y
 03Y2</CommandLines><Guid>e0354119-cccb-45be-b3cc-d8581a8e59c1</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="84" ParentID="28"><Description>Book Car (line 4) in SYD</Description><CommandLines>CFSYD/13DEC-15DEC/2P-2P/FCAR,ICAR
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="85" ParentID="28"><Description>Book Car (line 4) in SYD</Description><CommandLines>CFSYD/13DEC-15DEC/2P-2P/FCAR,ICAR
 0C4</CommandLines><Guid>e0277d94-135b-43e5-b474-5fff5411e6df</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="85" ParentID="29"><Description>Add Email</Description><CommandLines>PE¥BOB@GMAIL.COM¥</CommandLines><Guid>02d05ac9-9eb1-42dd-80fa-64893e7a350b</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="86" ParentID="30"><Description>Fare Quote and Save</Description><CommandLines>WPRQ</CommandLines><Guid>3934db83-e1d3-4755-94c9-efa854048eca</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="87" ParentID="31"><Description>Add Cash</Description><CommandLines>FOPCASH</CommandLines><Guid>683277d5-01f4-4cea-a110-7c7b6790285c</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="88" ParentID="31"><Description>Add Visa 4111</Description><CommandLines>FOPVI4111111111111111¥12/25</CommandLines><Guid>ee8bb8f3-f8c8-454a-9dc4-ca7a403bb005</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="89" ParentID="31"><Description>Add Visa Debit</Description><CommandLines>FOPVI4400000000000008¥12/25</CommandLines><Guid>1f0c6150-5899-4993-bc9d-4bb239b94cae</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="90" ParentID="32"><Description>Add Receive</Description><CommandLines>6 CR</CommandLines><Guid>57013fb7-5b9a-415f-baf7-0e6eef03b42b</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="91" ParentID="32"><Description>End And Re-Retrieve</Description><CommandLines>ER</CommandLines><Guid>fa656006-884f-4ca6-8fd9-cbfcfda8f7f8</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="92" ParentID="32"><Description>Ignore and Re-Retrieve</Description><CommandLines>IR</CommandLines><Guid>219b212b-aaf0-4f01-9d0d-ef5d2e9bee63</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="93" ParentID="33"><Description>Add Cash Retail Mask</Description><CommandLines>5TMASK/DATE**6DEC17........T4**82345..........
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="86" ParentID="29"><Description>Add Email</Description><CommandLines>PE¥BOB@GMAIL.COM¥</CommandLines><Guid>02d05ac9-9eb1-42dd-80fa-64893e7a350b</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="87" ParentID="30"><Description>Fare Quote and Save</Description><CommandLines>WPRQ</CommandLines><Guid>3934db83-e1d3-4755-94c9-efa854048eca</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="88" ParentID="30"><Description>Fare Quote S1.4 S2.3</Description><CommandLines>WPS1¥S4¥PADT¥RQ
+6CR
+ER
+WPS2¥S3¥PADT¥RQ
+6CR
+ER</CommandLines><Guid>e9e13685-be41-45a1-88f0-4d814ba96c9d</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="89" ParentID="31"><Description>Add Cash</Description><CommandLines>FOPCASH</CommandLines><Guid>683277d5-01f4-4cea-a110-7c7b6790285c</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="90" ParentID="31"><Description>Add Visa 4111</Description><CommandLines>FOPVI4111111111111111¥12/25</CommandLines><Guid>ee8bb8f3-f8c8-454a-9dc4-ca7a403bb005</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="91" ParentID="31"><Description>Add Visa Debit</Description><CommandLines>FOPVI4400000000000008¥12/25</CommandLines><Guid>1f0c6150-5899-4993-bc9d-4bb239b94cae</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="92" ParentID="32"><Description>Add Receive</Description><CommandLines>6 CR</CommandLines><Guid>57013fb7-5b9a-415f-baf7-0e6eef03b42b</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="93" ParentID="32"><Description>End And Re-Retrieve</Description><CommandLines>ER</CommandLines><Guid>fa656006-884f-4ca6-8fd9-cbfcfda8f7f8</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="94" ParentID="32"><Description>Ignore and Re-Retrieve</Description><CommandLines>IR</CommandLines><Guid>219b212b-aaf0-4f01-9d0d-ef5d2e9bee63</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="95" ParentID="33"><Description>Add Cash Retail Mask</Description><CommandLines>5TMASK/DATE**6DEC17........T4**82345..........
 5TDOC TYPE**ET..............PSEUDO**KG3I......
 5TF/BASIS OR-**Y............TOTAL**3720.00....
 5TTAXES**...................CHD/INF AMT**.....
@@ -156,7 +170,24 @@ DI.FT-OTHER INFO-**;...............................
 5TFOP**001..................SECTORS**1........
 5TOTHER INFO-**...............................
 5TOTHER INFO-**...............................</CommandLines><Guid>b20adc24-b8a0-4e0d-9781-aed9ac2b46ec</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="94" ParentID="33"><Description>Add CC Retail Mask</Description><CommandLines>5T¥MASK/DATE**13MAR..............T4**93456
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="96" ParentID="33"><Description>Add Cash Retail Mask for AU DOM/INT</Description><CommandLines>5TMASK/DATE**6DEC18........T4**618804.........
+5TDOC TYPE**ET..............PSEUDO**AZ6I......
+5TF/BASIS OR-**J3YAAU.......TOTAL**3720.00....
+5TTAXES**285.16.............CHD/INF AMT**.....
+5TFARE REF---**.............SHOP REF**........
+5TFOP**001..................SECTORS**2-3......
+5TOTHER INFO-**...............................
+5TOTHER INFO-**...............................
+5TMASK/DATE**6DEC18........T4**618804.........
+5TDOC TYPE**ET..............PSEUDO**AZ6I......
+5TF/BASIS OR-**SZGW0A45.....TOTAL**1418.01....
+5TTAXES**115.68.............CHD/INF AMT**.....
+5TFARE REF---**.............SHOP REF**........
+5TFOP**001..................SECTORS**1.4......
+5TOTHER INFO-**...............................
+5TOTHER INFO-**...............................
+</CommandLines><Guid>b36ea184-86d6-4122-85af-edacd82c8746</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="97" ParentID="33"><Description>Add CC Retail Mask</Description><CommandLines>5T¥MASK/DATE**13MAR..............T4**93456
 5T¥DOC TYPE**ET..................PSEUDO**KG3I
 5T¥F/BASIS OR-**YZFD0D...........TOTAL**3048.02
 5T¥TAXES**380.02.................CHD/INF AMT**
@@ -166,7 +197,7 @@ DI.FT-OTHER INFO-**;...............................
 5T¥AUTH**45127
 5T¥OTHER INFO-**.................
 5T¥OTHER INFO-**.................</CommandLines><Guid>f842859d-6626-4e3a-b7c6-0e4551be1adf</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="95" ParentID="33"><Description>Add Free of Charge Reissue Mask - Credit Card</Description><CommandLines>5TMASK/DATE**12JAN..............T4**FSD
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="98" ParentID="33"><Description>Add Free of Charge Reissue Mask - Credit Card</Description><CommandLines>5TMASK/DATE**12JAN..............T4**FSD
 5TDOC TYPE**REISSUE.............PSEUDO**KG3I
 5TTICKET NBR-**ALL..............PAX NBR**ALL
 5TADCOL FARE**..................ADCOL TAX**
@@ -176,18 +207,18 @@ DI.FT-OTHER INFO-**;...............................
 5TAUTH**2222
 5TOTHER INFO-**FOG..............
 5TOTHER INFO-**.................</CommandLines><Guid>8bb3894a-fb3f-4382-885c-7c8d545430da</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="96" ParentID="34"><Description>Add 2 AD 1 CH 1 INF</Description><CommandLines>-BROWN/PAUL MR
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="99" ParentID="34"><Description>Add 2 AD 1 CH 1 INF</Description><CommandLines>-BROWN/PAUL MR
 -BROWN/MICHELLE MRS
 -BROWN/SCOTT MSTR*P-C08
 -I/BROWN/INDIGO MISS*19JUL17
 PDTCNN-3.1</CommandLines><Guid>b559548e-1bbf-4b5f-a2df-078444ab4542</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="97" ParentID="34"><Description>Add Adult</Description><CommandLines>-JAMES/ARRON</CommandLines><Guid>1dd4ff3b-1bef-4f94-bf1b-70fd145d22c1</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="98" ParentID="35"><Description>Add Phone</Description><CommandLines>90784578457</CommandLines><Guid>5c4bac26-469f-4ef5-a25a-74cfc5a69464</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="99" ParentID="36"><Description>1 AD SFPD</Description><CommandLines>3DOCS/DB/19SEP64/M/JAMES/ARRON</CommandLines><Guid>3f1b4f8a-be15-46f1-bf7f-7ee76abbe0e8</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="100" ParentID="36"><Description>SFPD 2 AD 1 CH 1 INF</Description><CommandLines>3INFT/BROWN/INDIGO MISS/19JUL17-1.1
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="100" ParentID="34"><Description>Add Adult</Description><CommandLines>-JAMES/ARRON</CommandLines><Guid>1dd4ff3b-1bef-4f94-bf1b-70fd145d22c1</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="101" ParentID="35"><Description>Add Phone</Description><CommandLines>90784578457</CommandLines><Guid>5c4bac26-469f-4ef5-a25a-74cfc5a69464</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="102" ParentID="36"><Description>1 AD SFPD</Description><CommandLines>3DOCS/DB/19SEP64/M/JAMES/ARRON</CommandLines><Guid>3f1b4f8a-be15-46f1-bf7f-7ee76abbe0e8</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="103" ParentID="36"><Description>SFPD 2 AD 1 CH 1 INF</Description><CommandLines>3INFT/BROWN/INDIGO MISS/19JUL17-1.1
 3DOCS/P/AU/N40387/AU/01FEB64/M/31DEC20/BROWN/PAUL-1.1
 3DOCS/P/AU/N32987/AU/01DEC68/F/31DEC20/BROWN/MICHELLE-2.1
 3DOCS/P/AU/N40329/AU/15OCT09/M/31DEC20/BROWN/SCOTT-3.1
 3DOCS/P/AU/N38987/AU/19JUL17/FI/31DEC20/BROWN/INDIGO-1.1</CommandLines><Guid>55723a83-0e8f-41f3-82c1-650574845903</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="101" ParentID="37"><Description>Add TTL</Description><CommandLines>7TAW/</CommandLines><Guid>8e9a6ebc-8b66-4349-bae4-b28718f61153</Guid></Node>
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="104" ParentID="37"><Description>Add TTL</Description><CommandLines>7TAW/</CommandLines><Guid>8e9a6ebc-8b66-4349-bae4-b28718f61153</Guid></Node>
 </Nodes>

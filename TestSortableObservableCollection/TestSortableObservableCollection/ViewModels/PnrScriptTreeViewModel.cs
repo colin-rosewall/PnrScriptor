@@ -17,7 +17,7 @@ namespace TestSortableObservableCollection.ViewModels
     public class PnrScriptTreeViewModel : Base.BaseViewModel
     {
         private ObservableCollection<IPnrScriptBaseItemViewModel> _root = null;
-        private ICommand _saveSubgroupCommand = null;
+        //private ICommand _saveSubgroupCommand = null;
         private ICommand _renameSubgroupCommand = null;
         private ICommand _deleteSubgroupCommand = null;
 
@@ -175,17 +175,17 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
-        public ICommand SaveSubgroupCommand
-        {
-            get
-            {
-                return _saveSubgroupCommand;
-            }
-            set
-            {
-                _saveSubgroupCommand = value;
-            }
-        }
+        //public ICommand SaveSubgroupCommand
+        //{
+        //    get
+        //    {
+        //        return _saveSubgroupCommand;
+        //    }
+        //    set
+        //    {
+        //        _saveSubgroupCommand = value;
+        //    }
+        //}
 
         public ICommand SaveTreeCommand
         {
