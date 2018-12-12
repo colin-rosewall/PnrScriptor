@@ -36,7 +36,7 @@ namespace TestSortableObservableCollection.Models
                 }
                 if (vm.Root.Count == 0)
                 {
-                    IPnrScriptSubgroupViewModel rootItem = new PnrScriptSubgroupViewModel(null, "Root");
+                    IPnrScriptSubgroupViewModel rootItem = new PnrScriptSubgroupViewModel(Constants.WindowMode.None, null, "Root", null, null);
                     vm.Root.Add(rootItem);
                 }
             }
@@ -111,7 +111,7 @@ namespace TestSortableObservableCollection.Models
                     {
                         if (intLevel == 0)
                         {
-                            newItem = new PnrScriptSubgroupViewModel(null, description);
+                            newItem = new PnrScriptSubgroupViewModel(Constants.WindowMode.None, null, description, null, null);
                             vm.Root.Add(newItem);
                         }
                         else
@@ -119,7 +119,7 @@ namespace TestSortableObservableCollection.Models
                             parent = FindParent(vm, UInt64.Parse(parentID));
                             if (parent != null)
                             {
-                                newItem = new PnrScriptSubgroupViewModel(parent, description);
+                                newItem = new PnrScriptSubgroupViewModel(Constants.WindowMode.None, parent, description, null, null);
                                 parent.AddChildItem(newItem);
                             }
                         }

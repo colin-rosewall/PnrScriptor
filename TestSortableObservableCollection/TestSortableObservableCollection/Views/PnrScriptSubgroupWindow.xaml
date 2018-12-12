@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Pnr Script Subgroup Window" 
         Height="150" 
-        Width="350"
+        Width="430"
         WindowStyle="SingleBorderWindow" Loaded="Window_Loaded"
          >
     
