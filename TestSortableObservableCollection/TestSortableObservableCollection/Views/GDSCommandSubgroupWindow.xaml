@@ -8,9 +8,9 @@
         mc:Ignorable="d"
         Title="GDS Command Subgroup Window" 
         Height="150" 
-        Width="350" 
-        WindowStyle="SingleBorderWindow"
-        behav:WindowCloseBehaviour.HideDontClose="True" >
+        Width="430" 
+        WindowStyle="SingleBorderWindow" Loaded="Window_Loaded"
+         >
     
     <Grid Margin="5,5,5,5">
         
@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <Label Content="Subgroup:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox x:Name="txtSubgroupDescription" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GDSSubgroupToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0"    >
+        <TextBox x:Name="txtSubgroupDescription" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0"    >
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <StackPanel>

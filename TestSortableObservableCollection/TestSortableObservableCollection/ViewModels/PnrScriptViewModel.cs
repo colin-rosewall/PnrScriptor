@@ -354,7 +354,7 @@ namespace TestSortableObservableCollection.ViewModels
                 {
                     if (clickedItem.Parent != null)
                     {
-                        IGDSCommandViewModel newItem = new GDSCommandViewModel(clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines, clickedItem.Guid);
+                        IGDSCommandViewModel newItem = new GDSCommandViewModel(Constants.WindowMode.None, clickedItem.Parent, clickedItem.Description, clickedItem.CommandLines, clickedItem.Guid, null, null);
                         GDSCommands.Add(newItem);
                     }
                 }

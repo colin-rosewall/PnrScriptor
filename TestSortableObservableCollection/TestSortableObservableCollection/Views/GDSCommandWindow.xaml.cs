@@ -20,17 +20,26 @@ namespace TestSortableObservableCollection.Views
     /// </summary>
     public partial class GDSCommandWindow : Window
     {
-        public GDSCommandWindow(GDSCommandTreeViewModel tvm)
+        public GDSCommandWindow(GDSCommandViewModel tvm)
         {
             InitializeComponent();
             DataContext = tvm;
             if (tvm.CloseGDSCommandWindow == null)
-                tvm.CloseGDSCommandWindow = new Action(this.Hide);
+                tvm.CloseGDSCommandWindow = new Action(this.Close);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (txtDescription.Focusable)
+            {
+                txtDescription.SelectAll();
+                txtDescription.Focus();
+            }
         }
     }
 }

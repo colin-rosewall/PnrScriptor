@@ -35,7 +35,7 @@ namespace TestSortableObservableCollection.Models
                 }
                 if (vm.Root.Count == 0)
                 {
-                    IGDSCommandSubgroupViewModel rootItem = new GDSCommandSubgroupViewModel(null, "Root");
+                    IGDSCommandSubgroupViewModel rootItem = new GDSCommandSubgroupViewModel(Constants.WindowMode.None, null, "Root", null, null);
                     vm.Root.Add(rootItem);
                 }
             }
@@ -107,7 +107,7 @@ namespace TestSortableObservableCollection.Models
                     {
                         if (intLevel == 0)
                         {
-                            newItem = new GDSCommandSubgroupViewModel(null, description);
+                            newItem = new GDSCommandSubgroupViewModel(Constants.WindowMode.None, null, description, null, null);
                             vm.Root.Add(newItem);
                         }
                         else
@@ -115,7 +115,7 @@ namespace TestSortableObservableCollection.Models
                             parent = FindParent(vm, UInt64.Parse(parentID));
                             if (parent != null)
                             {
-                                newItem = new GDSCommandSubgroupViewModel(parent, description);
+                                newItem = new GDSCommandSubgroupViewModel(Constants.WindowMode.None, parent, description, null, null);
                                 parent.AddChildItem(newItem);
                             }
                         }
@@ -128,7 +128,7 @@ namespace TestSortableObservableCollection.Models
                     {
                         if (intLevel == 0)
                         {
-                            newItem = new GDSCommandViewModel(null, description, commandLines, guid);
+                            newItem = new GDSCommandViewModel(Constants.WindowMode.None, null, description, commandLines, guid, null, null);
                             vm.Root.Add(newItem);
                         }
                         else
@@ -136,7 +136,7 @@ namespace TestSortableObservableCollection.Models
                             parent = FindParent(vm, UInt64.Parse(parentID));
                             if (parent != null)
                             {
-                                newItem = new GDSCommandViewModel(parent, description, commandLines, guid);
+                                newItem = new GDSCommandViewModel(Constants.WindowMode.None, parent, description, commandLines, guid, null, null);
                                 parent.AddChildItem(newItem);
                             }
                         }

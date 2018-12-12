@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TestSortableObservableCollection.Interfaces;
+using TestSortableObservableCollection.AppConstants;
+using System.Windows.Input;
+using TestSortableObservableCollection.ViewModels.Base;
 
 namespace TestSortableObservableCollection.ViewModels
 {
@@ -17,6 +20,7 @@ namespace TestSortableObservableCollection.ViewModels
         private string _description = null;
         private string _commandLines = null;
         private IGDSCommandItemViewModel _parent = null;
+        private GDSCommandViewModel _originalItem; // only used when changing an existing gds command
         private SortableObservableCollection<IGDSCommandItemViewModel> _children = null;
         private bool _IsItemExpanded = false;
         private bool _IsItemSelected = false;
@@ -25,12 +29,23 @@ namespace TestSortableObservableCollection.ViewModels
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
+        public delegate void CallBackDelegate(IGDSCommandItemViewModel obj, Constants.WindowMode wm);
+        private CallBackDelegate _myCallBack = null;
+
+        private Constants.WindowMode _currentWindowMode;
+
+        private ICommand _saveGDSCmdCommand = null;
+
+        public Action CloseGDSCommandWindow { get; set; }
+
         public GDSCommandViewModel()
         {
             _description = string.Empty;
             _commandLines = string.Empty;
             _children = new SortableObservableCollection<IGDSCommandItemViewModel>();
             _validationErrors = new Dictionary<string, List<string>>();
+            _saveGDSCmdCommand = new RelayCommand<object>(SaveGDSCmd_Executed);
+            _originalItem = null;
         }
 
         public GDSCommandViewModel(IGDSCommandItemViewModel parent, string theDescription, string theCommandLines) : this()
@@ -40,9 +55,24 @@ namespace TestSortableObservableCollection.ViewModels
             _commandLines = theCommandLines;
         }
 
-        public GDSCommandViewModel(IGDSCommandItemViewModel parent, string theDescription, string theCommandLines, string guid) : this(parent, theDescription, theCommandLines)
+        public GDSCommandViewModel(Constants.WindowMode mode, IGDSCommandItemViewModel parent, string theDescription, string theCommandLines, string guid, CallBackDelegate saveNotification, GDSCommandViewModel originalItem) : this(parent, theDescription, theCommandLines)
         {
+            _currentWindowMode = mode;
             _guid = guid;
+            _myCallBack = saveNotification;
+            _originalItem = originalItem;
+        }
+
+        public ICommand SaveGDSCmdCommand
+        {
+            get
+            {
+                return _saveGDSCmdCommand;
+            }
+            set
+            {
+                _saveGDSCmdCommand = value;
+            }
         }
 
         public string Guid
@@ -158,6 +188,14 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        public Constants.WindowMode CurrentWindowMode
+        {
+            get
+            {
+                return _currentWindowMode;
+            }
+        }
+
         [XmlIgnore]
         public bool HasErrors
         {
@@ -246,5 +284,35 @@ namespace TestSortableObservableCollection.ViewModels
             }
         }
 
+        public void SaveGDSCmd_Executed(object obj)
+        {
+            if (_currentWindowMode == Constants.WindowMode.Add)
+            {
+                _parent.AddChildItem(this);
+                if (_myCallBack != null)
+                    _myCallBack(_parent, _currentWindowMode);
+    //            if (RaiseAddGDSCmdToCache != null)
+    //                RaiseAddGDSCmdToCache(newItem);
+
+                if (CloseGDSCommandWindow != null)
+                    CloseGDSCommandWindow();
+            }
+            else if (_currentWindowMode == Constants.WindowMode.Change)
+            {
+                if (_originalItem != null)
+                {
+                    _originalItem.Description = Description;
+                    _originalItem.CommandLines = CommandLines;
+                    if (_myCallBack != null)
+                        _myCallBack(_parent, _currentWindowMode);
+    //                if (RaiseUpdateGDSCmdToCache != null)
+    //                    RaiseUpdateGDSCmdToCache(existingItem);
+                    if (CloseGDSCommandWindow != null)
+                        CloseGDSCommandWindow();
+                }
+            }
+        }
     }
+
+
 }

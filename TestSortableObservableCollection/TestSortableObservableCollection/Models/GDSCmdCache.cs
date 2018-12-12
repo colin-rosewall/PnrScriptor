@@ -38,7 +38,7 @@ namespace TestSortableObservableCollection.Models
         {
             if (itemToBeAdded.Guid.Length > 0)
             {
-                GDSCommandViewModel newItem = new GDSCommandViewModel(null, itemToBeAdded.Description, itemToBeAdded.CommandLines, itemToBeAdded.Guid);
+                GDSCommandViewModel newItem = new GDSCommandViewModel(Constants.WindowMode.None, null, itemToBeAdded.Description, itemToBeAdded.CommandLines, itemToBeAdded.Guid, null, null);
                 if (newItem != null)
                 {
                     GDSCmds.Add(newItem.Guid, newItem);

@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Windows.Input;
 using TestSortableObservableCollection.Interfaces;
+using TestSortableObservableCollection.AppConstants;
+using TestSortableObservableCollection.ViewModels.Base;
 
 namespace TestSortableObservableCollection.ViewModels
 {
@@ -19,6 +22,7 @@ namespace TestSortableObservableCollection.ViewModels
         private UInt64 _uniqueID;
         private string _description = null;
         private IGDSCommandItemViewModel _parent = null;
+        private GDSCommandSubgroupViewModel _originalItem; // only used when changing an existing subgroup
         private SortableObservableCollection<IGDSCommandItemViewModel> _children = null;
         private bool _IsItemExpanded = false;
         private bool _IsItemSelected = false;
@@ -27,17 +31,45 @@ namespace TestSortableObservableCollection.ViewModels
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
+        public delegate void CallBackDelegate(IGDSCommandItemViewModel obj, Constants.WindowMode wm);
+        private CallBackDelegate _myCallBack = null;
+        private Constants.WindowMode _currentWindowMode;
+        private ICommand _saveSubgroupCommand = null;
+        public Action CloseSubgroupWindow { get; set; }
+
         public GDSCommandSubgroupViewModel()
         {
             _description = string.Empty;
             _children = new SortableObservableCollection<IGDSCommandItemViewModel>();
             _validationErrors = new Dictionary<string, List<string>>();
+            _saveSubgroupCommand = new RelayCommand<object>(SaveSubgroup_Executed, SaveSubgroup_CanExecute);
+            _originalItem = null;
         }
 
-        public GDSCommandSubgroupViewModel(IGDSCommandItemViewModel parent, string theDescription) : this()
+        public GDSCommandSubgroupViewModel(Constants.WindowMode mode, IGDSCommandItemViewModel parent, string theDescription, CallBackDelegate saveNotification, GDSCommandSubgroupViewModel originalItem) : this()
         {
+            _currentWindowMode = mode;
             _parent = parent;
             _description = theDescription;
+            _myCallBack = saveNotification;
+            _originalItem = originalItem;
+        }
+
+        public ICommand SaveSubgroupCommand
+        {
+            get
+            {
+                return _saveSubgroupCommand;
+            }
+            set
+            {
+                _saveSubgroupCommand = value;
+            }
+        }
+
+        public Constants.WindowMode CurrentWindowMode
+        {
+            get { return _currentWindowMode; }
         }
 
         public string Guid
@@ -223,5 +255,38 @@ namespace TestSortableObservableCollection.ViewModels
                 RaiseErrorsChanged(memberName);
             }
         }
+
+        public void SaveSubgroup_Executed(object obj)
+        {
+            if (_currentWindowMode == Constants.WindowMode.Add)
+            {
+                _parent.AddChildItem(this);
+                if (_myCallBack != null)
+                    _myCallBack(_parent, _currentWindowMode);
+                if (CloseSubgroupWindow != null)
+                    CloseSubgroupWindow();
+            }
+            else if (_currentWindowMode == Constants.WindowMode.Change)
+            {
+                if (_originalItem != null)
+                {
+                    _originalItem.Description = Description;
+                    if (_myCallBack != null)
+                        _myCallBack(_parent, _currentWindowMode);
+                    if (CloseSubgroupWindow != null)
+                        CloseSubgroupWindow();
+                }
+            }
+        }
+
+        public bool SaveSubgroup_CanExecute(object obj)
+        {
+            bool result = false;
+
+            result = !HasErrors;
+
+            return result;
+        }
+
     }
 }

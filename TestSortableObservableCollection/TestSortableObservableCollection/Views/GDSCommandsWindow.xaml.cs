@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using TestSortableObservableCollection.Interfaces;
+using TestSortableObservableCollection.AppConstants;
 using TestSortableObservableCollection.Models;
 using TestSortableObservableCollection.ViewModels;
 using TestSortableObservableCollection.Views;
@@ -29,8 +30,6 @@ namespace TestSortableObservableCollection.Views
     /// </summary>
     public partial class GDSCommandsWindow : Window
     {
-        private GDSCommandSubgroupWindow _subgroupWindow = null;
-        private GDSCommandWindow _gdsCommandWindow = null;
         private DispatcherTimer timerForSaveEvent;
 
         public GDSCommandsWindow(GDSCommandTreeViewModel tvm)
@@ -47,14 +46,13 @@ namespace TestSortableObservableCollection.Views
             var tvm = DataContext as GDSCommandTreeViewModel;
             if (tvm != null)
             {
-                tvm.GDSSubgroupToWorkOn = new GDSCommandSubgroupViewModel(null, "empty");
-                if (_subgroupWindow == null)
+                if (tvm.CurrentlySelectedItem != null)
                 {
-                    _subgroupWindow = new GDSCommandSubgroupWindow(tvm);
-                    _subgroupWindow.Owner = Application.Current.MainWindow;
+                    GDSCommandSubgroupViewModel vm = new GDSCommandSubgroupViewModel(Constants.WindowMode.Add, tvm.CurrentlySelectedItem, "empty", tvm.SaveNotification, null);
+                    GDSCommandSubgroupWindow sw = new GDSCommandSubgroupWindow(vm);
+                    sw.Owner = Application.Current.MainWindow;
+                    sw.Show();
                 }
-
-                _subgroupWindow.Show();
             }
         }
 
@@ -65,14 +63,14 @@ namespace TestSortableObservableCollection.Views
             {
                 if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
                 {
-                    tvm.GDSSubgroupToWorkOn = new GDSCommandSubgroupViewModel(tvm.CurrentlySelectedItem.Parent, tvm.CurrentlySelectedItem.Description);
-                    if (_subgroupWindow == null)
+                    var existingItem = tvm.CurrentlySelectedItem as GDSCommandSubgroupViewModel;
+                    if (existingItem != null)
                     {
-                        _subgroupWindow = new GDSCommandSubgroupWindow(tvm);
-                        _subgroupWindow.Owner = Application.Current.MainWindow;
+                        GDSCommandSubgroupViewModel vm = new GDSCommandSubgroupViewModel(Constants.WindowMode.Change, existingItem.Parent, existingItem.Description, tvm.SaveNotification, existingItem);
+                        GDSCommandSubgroupWindow sw = new GDSCommandSubgroupWindow(vm);
+                        sw.Owner = Application.Current.MainWindow;
+                        sw.Show();
                     }
-
-                    _subgroupWindow.Show();
                 }
             }
         }
@@ -82,14 +80,14 @@ namespace TestSortableObservableCollection.Views
             var tvm = DataContext as GDSCommandTreeViewModel;
             if (tvm != null)
             {
-                tvm.GDSCommandToWorkOn = new GDSCommandViewModel(null, "empty", "");
-                if (_gdsCommandWindow == null)
-                {
-                    _gdsCommandWindow = new GDSCommandWindow(tvm);
-                    _gdsCommandWindow.Owner = Application.Current.MainWindow;
-                }
+                //tvm.GDSCommandToWorkOn = new GDSCommandViewModel(null, "empty", "");
+                //if (_gdsCommandWindow == null)
+                //{
+                //    _gdsCommandWindow = new GDSCommandWindow(tvm);
+                //    _gdsCommandWindow.Owner = Application.Current.MainWindow;
+                //}
 
-                _gdsCommandWindow.Show();
+                //_gdsCommandWindow.Show();
             }
         }
 
@@ -103,14 +101,14 @@ namespace TestSortableObservableCollection.Views
                     var existingItem = tvm.CurrentlySelectedItem as GDSCommandViewModel;
                     if (existingItem != null)
                     {
-                        tvm.GDSCommandToWorkOn = new GDSCommandViewModel(existingItem.Parent, existingItem.Description, existingItem.CommandLines, existingItem.Guid);
-                        if (_gdsCommandWindow == null)
-                        {
-                            _gdsCommandWindow = new GDSCommandWindow(tvm);
-                            _gdsCommandWindow.Owner = Application.Current.MainWindow;
-                        }
+                        //tvm.GDSCommandToWorkOn = new GDSCommandViewModel(existingItem.Parent, existingItem.Description, existingItem.CommandLines, existingItem.Guid);
+                        //if (_gdsCommandWindow == null)
+                        //{
+                        //    _gdsCommandWindow = new GDSCommandWindow(tvm);
+                        //    _gdsCommandWindow.Owner = Application.Current.MainWindow;
+                        //}
 
-                        _gdsCommandWindow.Show();
+                        //_gdsCommandWindow.Show();
                     }
                 }
             }

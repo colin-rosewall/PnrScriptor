@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         Title="GDS Command Window" 
         Height="300"
-        Width="500"
-        behav:WindowCloseBehaviour.HideDontClose="True" >
+        Width="500" Loaded="Window_Loaded"
+ >
     
     <Grid Margin="5,5,5,5" >
         
@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <Label Content="Description:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding GDSCommandToWorkOn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0" >
+        <TextBox Name="txtDescription" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True }" Margin="5,0" >
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <StackPanel>
@@ -46,7 +46,7 @@
         
         <Label Content="Command:" Grid.Row="1" Grid.Column="0" ></Label>
         <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
-                 Text="{Binding GDSCommandToWorkOn.CommandLines, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding CommandLines, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   Margin="5,5,5,0" FontFamily="Courier New" > 
         </TextBox>
 
