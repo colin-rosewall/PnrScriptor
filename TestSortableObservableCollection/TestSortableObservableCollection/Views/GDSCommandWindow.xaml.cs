@@ -24,6 +24,7 @@ namespace TestSortableObservableCollection.Views
         {
             InitializeComponent();
             DataContext = tvm;
+
             if (tvm.CloseGDSCommandWindow == null)
                 tvm.CloseGDSCommandWindow = new Action(this.Close);
         }

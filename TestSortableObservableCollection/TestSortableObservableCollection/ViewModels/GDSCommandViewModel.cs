@@ -11,9 +11,12 @@ using TestSortableObservableCollection.Interfaces;
 using TestSortableObservableCollection.AppConstants;
 using System.Windows.Input;
 using TestSortableObservableCollection.ViewModels.Base;
+using TestSortableObservableCollection.Models;
 
 namespace TestSortableObservableCollection.ViewModels
 {
+    public delegate void UpdatePnrScriptTVMDelegate(IGDSCommandViewModel updatedItem);
+
     public class GDSCommandViewModel : Base.BaseViewModel, IGDSCommandViewModel
     {
         private UInt64 _uniqueID;
@@ -31,6 +34,9 @@ namespace TestSortableObservableCollection.ViewModels
 
         public delegate void CallBackDelegate(IGDSCommandItemViewModel obj, Constants.WindowMode wm);
         private CallBackDelegate _myCallBack = null;
+
+        
+        public UpdatePnrScriptTVMDelegate _updatePnrScriptTVM = null;  // only used when changing an existing gds command
 
         private Constants.WindowMode _currentWindowMode;
 
@@ -291,8 +297,8 @@ namespace TestSortableObservableCollection.ViewModels
                 _parent.AddChildItem(this);
                 if (_myCallBack != null)
                     _myCallBack(_parent, _currentWindowMode);
-    //            if (RaiseAddGDSCmdToCache != null)
-    //                RaiseAddGDSCmdToCache(newItem);
+
+                GDSCmdCache.AddGDSCmdToCache(this);
 
                 if (CloseGDSCommandWindow != null)
                     CloseGDSCommandWindow();
@@ -303,10 +309,16 @@ namespace TestSortableObservableCollection.ViewModels
                 {
                     _originalItem.Description = Description;
                     _originalItem.CommandLines = CommandLines;
+                    
+                    // we need to pass this change to pnrScriptTreeViewModel.UpdateGDSCmdToPnrScriptTVM so we do it via a delegate
+                    if (_updatePnrScriptTVM != null)
+                        _updatePnrScriptTVM(_originalItem);
+
                     if (_myCallBack != null)
                         _myCallBack(_parent, _currentWindowMode);
-    //                if (RaiseUpdateGDSCmdToCache != null)
-    //                    RaiseUpdateGDSCmdToCache(existingItem);
+
+                    GDSCmdCache.UpdateGDSCmdToCache(this);
+
                     if (CloseGDSCommandWindow != null)
                         CloseGDSCommandWindow();
                 }

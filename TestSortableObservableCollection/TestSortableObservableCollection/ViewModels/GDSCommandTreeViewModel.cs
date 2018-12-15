@@ -28,14 +28,7 @@ namespace TestSortableObservableCollection.ViewModels
         private IGDSCommandItemViewModel _currentlySelectedItem { get; set; }
         private IGDSCommandViewModel _itemToCut { get; set; }
 
-        public delegate void AddGDSCmdToCacheDelegate(IGDSCommandViewModel newItem);
-        public event AddGDSCmdToCacheDelegate RaiseAddGDSCmdToCache;
-
-        public delegate void UpdateGDSCmdToCacheDelegate(IGDSCommandViewModel existingItem);
-        public event UpdateGDSCmdToCacheDelegate RaiseUpdateGDSCmdToCache;
-
-        public delegate void DeleteGDSCmdFromCacheDelegate(IGDSCommandViewModel itemToBeDeleted);
-        public event DeleteGDSCmdFromCacheDelegate RaiseDeleteGDSCmdFromCache;
+        public UpdatePnrScriptTVMDelegate _updatePnrScriptTVM = null;  // this only gets used when changing an existing gds command
 
         private bool _isDirty = false;
 
@@ -168,7 +161,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         public void RenameSubgroup_Executed(object obj)
         {
-            // do nothing 
+            // we do not need to do anything here
         }
 
         public bool RenameSubgroup_CanExecute(object obj)
@@ -194,8 +187,7 @@ namespace TestSortableObservableCollection.ViewModels
                     _currentlySelectedItem.Children.Remove(itemToBeDeleted);
                     IsDirty = true;
 
-                    if (RaiseDeleteGDSCmdFromCache != null)
-                        RaiseDeleteGDSCmdFromCache(itemToBeDeleted);
+                    GDSCmdCache.DeleteGDSCmdFromCache(itemToBeDeleted);
                 }
             }
         }
@@ -320,22 +312,22 @@ namespace TestSortableObservableCollection.ViewModels
             return result;
         }
 
-        public void SaveNotification(IGDSCommandItemViewModel obj, Constants.WindowMode wm)
+        public void SaveNotification(IGDSCommandItemViewModel parent, Constants.WindowMode wm)
         {
-            // obj should be the parent of the item added or changed
-            if (obj != null)
+            if (parent != null)
             {
                 IsDirty = true;
                 if (wm == Constants.WindowMode.Add)
                 {
-                    SortByDescription(obj);
+                    SortByDescription(parent);
                 }
                 else if (wm == Constants.WindowMode.Change)
                 {
-                    SortByDescription(obj);
+                    SortByDescription(parent);
                 }
             }
         }
+
     }
 
 }

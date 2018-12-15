@@ -80,14 +80,13 @@ namespace TestSortableObservableCollection.Views
             var tvm = DataContext as GDSCommandTreeViewModel;
             if (tvm != null)
             {
-                //tvm.GDSCommandToWorkOn = new GDSCommandViewModel(null, "empty", "");
-                //if (_gdsCommandWindow == null)
-                //{
-                //    _gdsCommandWindow = new GDSCommandWindow(tvm);
-                //    _gdsCommandWindow.Owner = Application.Current.MainWindow;
-                //}
-
-                //_gdsCommandWindow.Show();
+                if (tvm.CurrentlySelectedItem != null)
+                {
+                    GDSCommandViewModel vm = new GDSCommandViewModel(Constants.WindowMode.Add, tvm.CurrentlySelectedItem, "empty", "", System.Guid.NewGuid().ToString(), tvm.SaveNotification, null);
+                    GDSCommandWindow cw = new GDSCommandWindow(vm);
+                    cw.Owner = Application.Current.MainWindow;
+                    cw.Show();
+                }
             }
         }
 
@@ -101,14 +100,11 @@ namespace TestSortableObservableCollection.Views
                     var existingItem = tvm.CurrentlySelectedItem as GDSCommandViewModel;
                     if (existingItem != null)
                     {
-                        //tvm.GDSCommandToWorkOn = new GDSCommandViewModel(existingItem.Parent, existingItem.Description, existingItem.CommandLines, existingItem.Guid);
-                        //if (_gdsCommandWindow == null)
-                        //{
-                        //    _gdsCommandWindow = new GDSCommandWindow(tvm);
-                        //    _gdsCommandWindow.Owner = Application.Current.MainWindow;
-                        //}
-
-                        //_gdsCommandWindow.Show();
+                        GDSCommandViewModel vm = new GDSCommandViewModel(Constants.WindowMode.Change, existingItem.Parent, existingItem.Description, existingItem.CommandLines, existingItem.Guid, tvm.SaveNotification, existingItem);
+                        vm._updatePnrScriptTVM = tvm._updatePnrScriptTVM;
+                        GDSCommandWindow cw = new GDSCommandWindow(vm);
+                        cw.Owner = Application.Current.MainWindow;
+                        cw.Show();
                     }
                 }
             }

@@ -23,10 +23,6 @@ namespace TestSortableObservableCollection.Views
     public partial class MainWindow : Window
     {
         private GDSCommandTreeViewModel gdsCmdsTVM = null;
-        private GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate addToCache = new GDSCommandTreeViewModel.AddGDSCmdToCacheDelegate(GDSCmdCache.AddGDSCmdToCache);
-        private GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate updateToCache = new GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate(GDSCmdCache.UpdateGDSCmdToCache);
-        private GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate deleteFromCache = new GDSCommandTreeViewModel.DeleteGDSCmdFromCacheDelegate(GDSCmdCache.DeleteGDSCmdFromCache);
-        private GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate updateToPnrScriptTVM = null;
 
         private PnrScriptTreeViewModel pnrScriptsTVM = null;
 
@@ -36,10 +32,6 @@ namespace TestSortableObservableCollection.Views
             this.Show();
 
             gdsCmdsTVM = new GDSCommandTreeViewModel();
-            
-            gdsCmdsTVM.RaiseAddGDSCmdToCache += addToCache;
-            gdsCmdsTVM.RaiseUpdateGDSCmdToCache += updateToCache;
-            gdsCmdsTVM.RaiseDeleteGDSCmdFromCache += deleteFromCache;
 
             IGDSCmdTreeModel gdsCmdsModel = GDSCmdTreeModelFactory.GetModel("002");
             gdsCmdsModel.LoadTree(gdsCmdsTVM);
@@ -51,8 +43,7 @@ namespace TestSortableObservableCollection.Views
             IPnrScriptTreeModel pnrScriptsModel = PnrScriptTreeModelFactory.GetModel("001");
             pnrScriptsModel.LoadTree(pnrScriptsTVM);
 
-            updateToPnrScriptTVM = new GDSCommandTreeViewModel.UpdateGDSCmdToCacheDelegate(pnrScriptsTVM.UpdateGDSCmdToPnrScriptTVM);
-            gdsCmdsTVM.RaiseUpdateGDSCmdToCache += updateToPnrScriptTVM;
+            gdsCmdsTVM._updatePnrScriptTVM = new UpdatePnrScriptTVMDelegate(pnrScriptsTVM.UpdateGDSCmdToPnrScriptTVM);
 
             ShowGDSCommandsWindow();
             ShowPnrScriptsWindow();
@@ -93,12 +84,13 @@ namespace TestSortableObservableCollection.Views
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (pnrScriptsTVM != null)
+                pnrScriptsTVM = null;
+
             if (gdsCmdsTVM != null)
             {
-                gdsCmdsTVM.RaiseAddGDSCmdToCache -= addToCache;
-                gdsCmdsTVM.RaiseUpdateGDSCmdToCache -= updateToCache;
-                gdsCmdsTVM.RaiseDeleteGDSCmdFromCache -= deleteFromCache;
-                gdsCmdsTVM.RaiseUpdateGDSCmdToCache -= updateToPnrScriptTVM;
+                gdsCmdsTVM._updatePnrScriptTVM = null;
+                gdsCmdsTVM = null;
             }
         }
     }

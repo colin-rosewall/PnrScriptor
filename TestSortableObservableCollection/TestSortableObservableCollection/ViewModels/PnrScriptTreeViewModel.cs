@@ -209,7 +209,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         public void RenameSubgroup_Executed(object obj)
         {
-            // do nothing 
+            // we dont need to do anything here
         }
 
         public bool RenameSubgroup_CanExecute(object obj)
@@ -266,19 +266,18 @@ namespace TestSortableObservableCollection.ViewModels
             _currentlySelectedItem = item;
         }
 
-        public void SaveNotification(IPnrScriptBaseItemViewModel obj, Constants.WindowMode wm)
+        public void SaveNotification(IPnrScriptBaseItemViewModel parent, Constants.WindowMode wm)
         {
-            // obj should be the parent of the item added or changed
-            if (obj != null)
+            if (parent != null)
             {
                 IsDirty = true;
                 if (wm == Constants.WindowMode.Add)
                 {
-                    SortByDescription(obj);
+                    SortByDescription(parent);
                 }
                 else if (wm == Constants.WindowMode.Change)
                 {
-                    SortByDescription(obj);
+                    SortByDescription(parent);
                 }
             }
         }
