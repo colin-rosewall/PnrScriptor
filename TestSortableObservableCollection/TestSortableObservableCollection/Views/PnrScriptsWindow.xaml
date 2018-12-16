@@ -37,6 +37,7 @@
                     <TextBlock Text="{Binding Description}" Foreground="#FFF1A828" FontWeight="Bold" >
                         <TextBlock.ContextMenu>
                             <ContextMenu>
+                                <MenuItem Header="Copy Pnr Script" Click="CopyPnrScript_Click"  > </MenuItem>
                                 <MenuItem Header="Cut" Command="{Binding Data.CutPnrScriptCommand, Source={StaticResource DataContextProxy}}" CommandParameter="{Binding}" ></MenuItem>
                                 <Separator />
                                 <MenuItem Header="Change Pnr Script" Click="ChangePnrScript_Click" > </MenuItem>

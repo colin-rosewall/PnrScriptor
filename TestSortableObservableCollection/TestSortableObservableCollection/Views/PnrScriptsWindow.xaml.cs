@@ -89,6 +89,29 @@ namespace TestSortableObservableCollection.Views
             }
         }
 
+        private void CopyPnrScript_Click(object sender, RoutedEventArgs e)
+        {
+            var tvm = DataContext as PnrScriptTreeViewModel;
+            if (tvm != null)
+            {
+                if (tvm.CurrentlySelectedItem != null && tvm.CurrentlySelectedItem.Parent != null)
+                {
+                    var existingItem = tvm.CurrentlySelectedItem as PnrScriptViewModel;
+                    if (existingItem != null)
+                    {
+                        string newGuid =  System.Guid.NewGuid().ToString().Substring(0,6);
+                        string newDescription = String.Format("{0}-{1}-{2}", "Copy", newGuid, existingItem.Description);
+                        ObservableCollection<IGDSCommandViewModel> clonedGDSCommands = CloningExtensions.DeepCopy(existingItem.GDSCommands);
+                        PnrScriptViewModel vm = new PnrScriptViewModel(Constants.WindowMode.Copy, existingItem.Parent, newDescription, tvm.GDSCmdTreeViewModel, clonedGDSCommands, tvm.SaveNotification, null);
+                        PnrScriptWindow psw = new PnrScriptWindow(vm);
+                        psw.Owner = Application.Current.MainWindow;
+                        psw.Show();
+                    }
+                }
+            }
+
+        }
+
         private void ChangePnrScript_Click(object sender, RoutedEventArgs e)
         {
             var tvm = DataContext as PnrScriptTreeViewModel;

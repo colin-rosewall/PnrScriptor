@@ -320,7 +320,7 @@ namespace TestSortableObservableCollection.ViewModels
 
         public void SavePnrScript_Executed(object obj)
         {
-            if (_currentWindowMode == Constants.WindowMode.Add)
+            if (_currentWindowMode == Constants.WindowMode.Add || _currentWindowMode == Constants.WindowMode.Copy)
             {
                 _parent.AddChildItem(this);
                 if (_myCallBack != null)

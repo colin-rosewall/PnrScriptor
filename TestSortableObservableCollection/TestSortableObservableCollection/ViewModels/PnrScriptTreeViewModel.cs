@@ -271,7 +271,7 @@ namespace TestSortableObservableCollection.ViewModels
             if (parent != null)
             {
                 IsDirty = true;
-                if (wm == Constants.WindowMode.Add)
+                if (wm == Constants.WindowMode.Add || wm == Constants.WindowMode.Copy)
                 {
                     SortByDescription(parent);
                 }
