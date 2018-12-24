@@ -96,7 +96,15 @@ namespace TestSortableObservableCollection.ViewModels
                         replacementsMade = ReplacementsHelper.ReplaceGalAvail(ref lineReplacement, ref availabilityCounter, _flights);
                         if (!replacementsMade)
                         {
-                            sb.AppendLine(lineOfInput);
+                            replacementsMade = ReplacementsHelper.ReplaceGalBuySeats(ref lineReplacement, availabilityCounter, _flights);
+                            if (!replacementsMade)
+                            {
+                                sb.AppendLine(lineOfInput);
+                            }
+                            else
+                            {
+                                sb.AppendLine(lineReplacement);
+                            }
                         }
                         else
                         {

@@ -65,7 +65,7 @@ ER";
             return lines;
         }
 
-        public string LoadSabreNaskString1()
+        public string LoadSabreMaskString1()
         {
             string lines = @"5TMASK/DATE**6DEC17........T4**82345..........
             5TDOC TYPE**ET..............PSEUDO**KG3I......

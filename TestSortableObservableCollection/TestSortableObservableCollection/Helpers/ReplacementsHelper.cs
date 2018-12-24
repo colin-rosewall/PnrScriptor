@@ -11,6 +11,73 @@ namespace TestSortableObservableCollection.Helpers
 {
     public static class ReplacementsHelper
     {
+        public static bool ReplaceGalBuySeats(ref string linecopy, int availabilityCounter,  IEnumerable<Models.Flight> flights)
+        // beaware that availibilityCounter will already have been increased so we need to decrease it by 1 to refer to the correct row in flights 
+        {
+            bool result = false;
+
+            var optionalDigitParser = from secondDigit in Parser.Digit.Optional()
+                                      select (secondDigit.HasValue ? new string(new char[] { secondDigit.Value }) : string.Empty);
+
+            var sellCodeParser = from gap1 in Parser.SkipWhitespaces
+                                 from sellCode in OneOf(Try(Parser.CIChar('n')), Try(Parser.Digit))
+                                 select sellCode;
+
+            var seatPartParser = from gap1 in Parser.SkipWhitespaces
+                                 from firstDigit in Parser.Digit
+                                 from secondOptionalDigit in optionalDigitParser
+                                 select new string(new char[] { firstDigit }) + secondOptionalDigit;
+
+            var seatClassParser = from gap1 in Parser.SkipWhitespaces
+                                  from seatClass in Parser.Letter
+                                  select new string(new char[] { seatClass });
+
+            var lineReferenceParser = from gap1 in Parser.SkipWhitespaces
+                                      from firstDigit in Parser.Digit
+                                      from secondOptionalDigit in optionalDigitParser
+                                      select new string(new char[] { firstDigit }) + secondOptionalDigit;
+
+            var shortSellParser = from sellCode in sellCodeParser
+                                  from seatPart in seatPartParser
+                                  from seatClass in seatClassParser
+                                  from lineRef in lineReferenceParser
+                                  select new { firstBit = String.Concat(sellCode, seatPart), seatClass, lineRef };
+
+            var parserResult = shortSellParser.Parse(linecopy);
+            if (parserResult.Success)
+            {
+                availabilityCounter -= 1;
+                var flt = flights.ElementAtOrDefault(availabilityCounter);
+                if (flt != null)
+                {
+                    var firstBit = parserResult.Value.firstBit;
+                    var bc = string.IsNullOrEmpty(flt.BookingClass) ? parserResult.Value.seatClass : flt.BookingClass;
+                    var lr = parserResult.Value.lineRef;
+
+                    linecopy = String.Concat(firstBit, bc, lr);
+                }
+                result = true;
+            }
+
+            return result;
+        }
+
+        public static bool ReplaceAmaBuySeats(ref string linecopy, int availabilityCounter, IEnumerable<Models.Flight> flights)
+        // beaware that availibilityCounter will already have been increased so we need to decrease it by 1 to refer to the correct row in flights 
+        {
+            bool result = false;
+
+            return result;
+        }
+
+        public static bool ReplaceSabreBuySeats(ref string linecopy, int availabilityCounter, IEnumerable<Models.Flight> flights)
+        // beaware that availibilityCounter will already have been increased so we need to decrease it by 1 to refer to the correct row in flights 
+        {
+            bool result = false;
+
+            return result;
+        }
+
         public static bool ReplaceGalAvail(ref string lineCopy, ref int availabilityCounter, IEnumerable<Models.Flight> flights)
         {
             bool result = false;
