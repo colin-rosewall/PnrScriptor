@@ -87,7 +87,7 @@ ER";
             base.OnStartup(e);
 #if script 
             ScriptGenerationViewModel sm = new ScriptGenerationViewModel();
-            sm.ScriptInput = LoadGalTestString1();
+            sm.ScriptInput = LoadSabreTestString1();
 
             Window sc = new ScriptGenerationWindow(sm);
             sc.Show();
