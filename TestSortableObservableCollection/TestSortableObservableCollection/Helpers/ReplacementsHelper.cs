@@ -91,6 +91,73 @@ namespace TestSortableObservableCollection.Helpers
         {
             bool result = false;
 
+            var optionalDigitParser = from secondDigit in Parser.Digit.Optional()
+                                      select (secondDigit.HasValue ? new string(new char[] { secondDigit.Value }) : string.Empty);
+
+            var optionalSeatClassParser = from gap1 in Parser.SkipWhitespaces
+                                          from seatClass in Parser.Letter.Optional()
+                                          select (seatClass.HasValue ? new string(new char[] { seatClass.Value }) : string.Empty);
+
+            var optionalLineReferenceParser = from gap1 in Parser.SkipWhitespaces
+                                              from firstOptionalDigit in optionalDigitParser
+                                              from secondOptionalDigit in optionalDigitParser
+                                              select new { lineReference = String.Concat(firstOptionalDigit, secondOptionalDigit) };
+
+            var sellCodeParser = from gap1 in Parser.SkipWhitespaces
+                                 from sellCode in Parser.CIChar('s').Repeat(2)
+                                 select new string(sellCode.ToArray()).ToUpper();
+
+            var seatPartParser = from gap1 in Parser.SkipWhitespaces
+                                 from firstDigit in Parser.Digit
+                                 from secondOptionalDigit in optionalDigitParser
+                                 select new string(new char[] { firstDigit }) + secondOptionalDigit;
+
+            var seatClassParser = from gap1 in Parser.SkipWhitespaces
+                                  from seatClass in Parser.Letter
+                                  select new string(new char[] { seatClass });
+
+            var lineReferenceParser = from gap1 in Parser.SkipWhitespaces
+                                      from firstDigit in Parser.Digit
+                                      from secondOptionalDigit in optionalDigitParser
+                                      select new string(new char[] { firstDigit }) + secondOptionalDigit;
+
+            var shortSellParser = from sellCode in sellCodeParser
+                                  from seatPart in seatPartParser
+                                  from seatClass in seatClassParser
+                                  from lineRef in lineReferenceParser
+                                  from secondSeatClass in optionalSeatClassParser
+                                  from secondLineRef in optionalLineReferenceParser
+                                  select new { firstBit = String.Concat(sellCode, seatPart), seatClass, lineRef, secondSeatClass, secondLineRef };
+
+            var parserResult = shortSellParser.Parse(linecopy);
+            if (parserResult.Success)
+            {
+                availabilityCounter -= 1;
+                var flt = flights.ElementAtOrDefault(availabilityCounter);
+                if (flt != null)
+                {
+                    var firstBit = parserResult.Value.firstBit;
+                    var bc = string.IsNullOrEmpty(flt.BookingClass) ? parserResult.Value.seatClass : flt.BookingClass;
+                    var lr = parserResult.Value.lineRef;
+                    var lastBit = string.Empty;
+
+                    if ((parserResult.Value.secondSeatClass.Length > 0) && (parserResult.Value.secondLineRef.lineReference.Length > 0))
+                    {
+                        if (string.IsNullOrEmpty(flt.BookingClass))
+                        {
+                            lastBit = String.Concat(parserResult.Value.secondSeatClass, parserResult.Value.secondLineRef.lineReference);
+                        }
+                        else
+                        {
+                            lastBit = String.Concat(flt.BookingClass, parserResult.Value.secondLineRef.lineReference);
+                        }
+                    }
+
+                    linecopy = String.Concat(firstBit, bc, lr, lastBit);
+                }
+                result = true;
+            }
+
             return result;
         }
 

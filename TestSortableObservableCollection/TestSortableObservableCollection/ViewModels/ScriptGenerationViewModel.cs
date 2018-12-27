@@ -102,7 +102,15 @@ namespace TestSortableObservableCollection.ViewModels
                                 replacementsMade = ReplacementsHelper.ReplaceSabreBuySeats(ref lineReplacement, availabilityCounter, _flights);
                                 if (!replacementsMade)
                                 {
-                                    sb.AppendLine(lineOfInput);
+                                    replacementsMade = ReplacementsHelper.ReplaceAmaBuySeats(ref lineReplacement, availabilityCounter, _flights);
+                                    if (!replacementsMade)
+                                    {
+                                        sb.AppendLine(lineOfInput);
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(lineReplacement);
+                                    }
                                 }
                                 else
                                 {
