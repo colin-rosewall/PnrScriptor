@@ -20,6 +20,9 @@ namespace TestSortableObservableCollection.ViewModels
         private ObservableCollection<Models.Flight> _flights = null;
         private ICommand _applyReplacementsCommand = null;
 
+        public delegate void CallBackDelegate(string updatedScript);
+        public CallBackDelegate ScriptUpdatedDelegate = null;
+
         public ScriptGenerationViewModel()
         {
             _scriptInput = string.Empty;
@@ -138,6 +141,8 @@ namespace TestSortableObservableCollection.ViewModels
                 }
             }
             ScriptOutput = sb.ToString();
+            if (ScriptUpdatedDelegate != null)
+                ScriptUpdatedDelegate(ScriptOutput);
         }
 
         public bool ApplyReplacements_CanExecute(object obj)

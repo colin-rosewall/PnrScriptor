@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestSortableObservableCollection.Views"
+        xmlns:avalonedit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
         mc:Ignorable="d"
-        Title="ScriptGenerationWindow" Height="400" Width="800">
+        Title="ScriptGenerationWindow" Height="400" Width="800" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -18,7 +19,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding ScriptInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >  </TextBox>
+        <TextBox Grid.Column="0" Grid.Row="0" FontFamily="Consolas" FontSize="10pt" Text="{Binding ScriptInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >  </TextBox>
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding Path=ApplyReplacementsCommand}" Content="Test" Height="40" Margin="10" Padding="0" />
 
         <DataGrid Grid.Column="1" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Flights}" >
@@ -65,7 +66,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Path=ScriptOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" > </TextBox>
-        
+        <!--<TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Path=ScriptOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" > </TextBox>-->
+        <avalonedit:TextEditor Grid.Column="2" Grid.Row="0" x:Name="textEditor" FontFamily="Consolas" FontSize="10pt" />
     </Grid>
 </Window>
