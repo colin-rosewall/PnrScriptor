@@ -958,7 +958,9 @@ namespace ICSharpCode.AvalonEdit.Editing
 				throw new ArgumentNullException("newText");
 			if (this.Document == null)
 				throw ThrowUtil.NoDocumentAssigned();
-			selection.ReplaceSelectionWithText(newText);
+            if (newText.Length > 0)
+                newText = newText.ToUpper();
+            selection.ReplaceSelectionWithText(newText);
 		}
 		
 		internal ISegment[] GetDeletableSegments(ISegment segment)

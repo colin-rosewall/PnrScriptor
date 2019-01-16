@@ -63,8 +63,16 @@ namespace ICSharpCode.AvalonEdit.Editing
 		
 		static readonly List<CommandBinding> CommandBindings = new List<CommandBinding>();
 		static readonly List<InputBinding> InputBindings = new List<InputBinding>();
-		
-		static void AddBinding(ICommand command, ModifierKeys modifiers, Key key, ExecutedRoutedEventHandler handler)
+
+        static readonly string[] keyWords =
+            {
+                "MASK/DATE**", "T4**", "DOC TYPE**", "PSEUDO**", "F/BASIS OR-**", "TOTAL**", "TAXES**", "CHD/INF AMT**", "FARE REF---**", "SHOP REF**", "FOP**", "SECTORS**", "OTHER INFO-**",
+                "CC TOTAL AMOUNT**", "AUTH**", "RETAIL/DATE**", "AGT ID**", "ET/MPD/PTA-**", "GROSS**", "GRID REF---**", "NETT**", "CC NUMBER--**", "CC EXPIRY--**",
+                "TTL CC AMT-**", "NAME ON CC-**", "CONS A/HOURS CTC", "TTL**"
+            };
+
+
+        static void AddBinding(ICommand command, ModifierKeys modifiers, Key key, ExecutedRoutedEventHandler handler)
 		{
 			CommandBindings.Add(new CommandBinding(command, handler));
 			InputBindings.Add(TextAreaDefaultInputHandler.CreateFrozenKeyBinding(command, modifiers, key));
@@ -313,83 +321,263 @@ namespace ICSharpCode.AvalonEdit.Editing
 				}
 			}
 		}
-		#endregion
+        #endregion
 
-		#region Line+Page up/down
-		static TextViewPosition GetUpDownCaretPosition(TextView textView, TextViewPosition caretPosition, CaretMovementType direction, VisualLine visualLine, TextLine textLine, bool enableVirtualSpace, ref double xPos)
-		{
-			// moving up/down happens using the desired visual X position
-			if (double.IsNaN(xPos))
-				xPos = visualLine.GetTextLineVisualXPosition(textLine, caretPosition.VisualColumn);
-			// now find the TextLine+VisualLine where the caret will end up in
-			VisualLine targetVisualLine = visualLine;
-			TextLine targetLine;
-			int textLineIndex = visualLine.TextLines.IndexOf(textLine);
-			switch (direction) {
-				case CaretMovementType.LineUp:
-					{
-						// Move up: move to the previous TextLine in the same visual line
-						// or move to the last TextLine of the previous visual line
-						int prevLineNumber = visualLine.FirstDocumentLine.LineNumber - 1;
-						if (textLineIndex > 0) {
-							targetLine = visualLine.TextLines[textLineIndex - 1];
-						} else if (prevLineNumber >= 1) {
-							DocumentLine prevLine = textView.Document.GetLineByNumber(prevLineNumber);
-							targetVisualLine = textView.GetOrConstructVisualLine(prevLine);
-							targetLine = targetVisualLine.TextLines[targetVisualLine.TextLines.Count - 1];
-						} else {
-							targetLine = null;
-						}
-						break;
-					}
-				case CaretMovementType.LineDown:
-					{
-						// Move down: move to the next TextLine in the same visual line
-						// or move to the first TextLine of the next visual line
-						int nextLineNumber = visualLine.LastDocumentLine.LineNumber + 1;
-						if (textLineIndex < visualLine.TextLines.Count - 1) {
-							targetLine = visualLine.TextLines[textLineIndex + 1];
-						} else if (nextLineNumber <= textView.Document.LineCount) {
-							DocumentLine nextLine = textView.Document.GetLineByNumber(nextLineNumber);
-							targetVisualLine = textView.GetOrConstructVisualLine(nextLine);
-							targetLine = targetVisualLine.TextLines[0];
-						} else {
-							targetLine = null;
-						}
-						break;
-					}
-				case CaretMovementType.PageUp:
-				case CaretMovementType.PageDown:
-					{
-						// Page up/down: find the target line using its visual position
-						double yPos = visualLine.GetTextLineVisualYPosition(textLine, VisualYPosition.LineMiddle);
-						if (direction == CaretMovementType.PageUp)
-							yPos -= textView.RenderSize.Height;
-						else
-							yPos += textView.RenderSize.Height;
-						DocumentLine newLine = textView.GetDocumentLineByVisualTop(yPos);
-						targetVisualLine = textView.GetOrConstructVisualLine(newLine);
-						targetLine = targetVisualLine.GetTextLineByVisualYPosition(yPos);
-						break;
-					}
-				default:
-					throw new NotSupportedException(direction.ToString());
-			}
-			if (targetLine != null) {
-				double yPos = targetVisualLine.GetTextLineVisualYPosition(targetLine, VisualYPosition.LineMiddle);
-				int newVisualColumn = targetVisualLine.GetVisualColumn(new Point(xPos, yPos), enableVirtualSpace);
-				
-				// prevent wrapping to the next line; TODO: could 'IsAtEnd' help here?
-				int targetLineStartCol = targetVisualLine.GetTextLineVisualStartColumn(targetLine);
-				if (newVisualColumn >= targetLineStartCol + targetLine.Length) {
-					if (newVisualColumn <= targetVisualLine.VisualLength)
-						newVisualColumn = targetLineStartCol + targetLine.Length - 1;
-				}
-				return targetVisualLine.GetTextViewPosition(newVisualColumn);
-			} else {
-				return caretPosition;
-			}
-		}
-		#endregion
-	}
+        #region Line+Page up/down
+        static TextViewPosition GetUpDownCaretPosition(TextView textView, TextViewPosition caretPosition, CaretMovementType direction, VisualLine visualLine, TextLine textLine, bool enableVirtualSpace, ref double xPos)
+        {
+            bool handled = false;
+
+            switch (direction)
+            {
+                case CaretMovementType.LineDown:
+                    {
+                        TextViewPosition tvp;
+                        handled = SearchForward(textView, caretPosition.Location, enableVirtualSpace, ref xPos, out tvp);
+                        if (handled)
+                        {
+                            return tvp;
+                        }
+                        break;
+                    }
+                case CaretMovementType.LineUp:
+                    {
+                        TextViewPosition tvp;
+                        handled = SearchBackward(textView, caretPosition.Location, enableVirtualSpace, ref xPos, out tvp);
+                        if (handled)
+                        {
+                            return tvp;
+                        }
+                        break;
+                    }
+            }
+
+            if (!handled)
+            {
+                // moving up/down happens using the desired visual X position
+                if (double.IsNaN(xPos))
+                    xPos = visualLine.GetTextLineVisualXPosition(textLine, caretPosition.VisualColumn);
+                // now find the TextLine+VisualLine where the caret will end up in
+                VisualLine targetVisualLine = visualLine;
+                TextLine targetLine;
+                int textLineIndex = visualLine.TextLines.IndexOf(textLine);
+
+                switch (direction)
+                {
+                    case CaretMovementType.LineUp:
+                        {
+                            // Move up: move to the previous TextLine in the same visual line
+                            // or move to the last TextLine of the previous visual line
+                            int prevLineNumber = visualLine.FirstDocumentLine.LineNumber - 1;
+                            if (textLineIndex > 0)
+                            {
+                                targetLine = visualLine.TextLines[textLineIndex - 1];
+                            }
+                            else if (prevLineNumber >= 1)
+                            {
+                                DocumentLine prevLine = textView.Document.GetLineByNumber(prevLineNumber);
+                                targetVisualLine = textView.GetOrConstructVisualLine(prevLine);
+                                targetLine = targetVisualLine.TextLines[targetVisualLine.TextLines.Count - 1];
+                            }
+                            else {
+                                targetLine = null;
+                            }
+
+                            break;
+                        }
+                    case CaretMovementType.LineDown:
+                        {
+                            // Move down: move to the next TextLine in the same visual line
+                            // or move to the first TextLine of the next visual line
+                            int nextLineNumber = visualLine.LastDocumentLine.LineNumber + 1;
+                            if (textLineIndex < visualLine.TextLines.Count - 1)
+                            {
+                                targetLine = visualLine.TextLines[textLineIndex + 1];
+                            }
+                            else if (nextLineNumber <= textView.Document.LineCount)
+                            {
+                                DocumentLine nextLine = textView.Document.GetLineByNumber(nextLineNumber);
+                                targetVisualLine = textView.GetOrConstructVisualLine(nextLine);
+                                targetLine = targetVisualLine.TextLines[0];
+                            }
+                            else {
+                                targetLine = null;
+                            }
+                            break;
+                        }
+                    case CaretMovementType.PageUp:
+                    case CaretMovementType.PageDown:
+                        {
+                            // Page up/down: find the target line using its visual position
+                            double yPos = visualLine.GetTextLineVisualYPosition(textLine, VisualYPosition.LineMiddle);
+                            if (direction == CaretMovementType.PageUp)
+                                yPos -= textView.RenderSize.Height;
+                            else
+                                yPos += textView.RenderSize.Height;
+                            DocumentLine newLine = textView.GetDocumentLineByVisualTop(yPos);
+                            targetVisualLine = textView.GetOrConstructVisualLine(newLine);
+                            targetLine = targetVisualLine.GetTextLineByVisualYPosition(yPos);
+                            break;
+                        }
+                    default:
+                        throw new NotSupportedException(direction.ToString());
+                }
+                if (targetLine != null)
+                {
+                    double yPos = targetVisualLine.GetTextLineVisualYPosition(targetLine, VisualYPosition.LineMiddle);
+                    int newVisualColumn = targetVisualLine.GetVisualColumn(new Point(xPos, yPos), enableVirtualSpace);
+
+                    // prevent wrapping to the next line; TODO: could 'IsAtEnd' help here?
+                    int targetLineStartCol = targetVisualLine.GetTextLineVisualStartColumn(targetLine);
+                    if (newVisualColumn >= targetLineStartCol + targetLine.Length)
+                    {
+                        if (newVisualColumn <= targetVisualLine.VisualLength)
+                            newVisualColumn = targetLineStartCol + targetLine.Length - 1;
+                    }
+                    return targetVisualLine.GetTextViewPosition(newVisualColumn);
+                }
+                else {
+                    return caretPosition;
+                }
+            }
+            else
+            {
+                return caretPosition;
+            }
+        }
+        #endregion
+
+        static int FindNextClosest(TextView textView, int startPos)
+        {
+            //var myTimer = System.Diagnostics.Stopwatch.StartNew();
+            int foundPos = -1;
+
+            int entireLength = textView.Document.TextLength;
+            int result;
+            int termLength = 0;
+            foreach (string term in keyWords)
+            {
+                result = textView.Document.IndexOf(term, startPos, entireLength - startPos, StringComparison.InvariantCultureIgnoreCase);
+                if ((result > startPos) && (foundPos == -1))
+                {
+                    foundPos = result - 1;
+                    termLength = term.Length;
+                }
+                else if ((result > startPos) && (result < foundPos))
+                {
+                    foundPos = result - 1;
+                    termLength = term.Length;
+                }
+            }
+            //myTimer.Stop();
+            //Debug.Print("Find Next Took " + myTimer.ElapsedMilliseconds);
+
+            return foundPos + termLength;
+        }
+
+        static int FindPreviousClosest(TextView textView, int startPos)
+        {
+            //var myTimer = System.Diagnostics.Stopwatch.StartNew();
+            int foundPos = -1;
+
+            //int entireLength = textView.Document.TextLength;
+            int result;
+            int termLength = 0;
+            foreach (string term in keyWords)
+            {
+                result = textView.Document.IndexOf(term, 0, startPos - 1, StringComparison.InvariantCultureIgnoreCase);
+                if ((result >= 0) && (result + term.Length + 1 < startPos) && (foundPos == -1))
+                {
+                    foundPos = result - 1;
+                    termLength = term.Length;
+                }
+                else if ((result >= 0) && (result + term.Length + 1 < startPos) && (result > foundPos))
+                {
+                    foundPos = result - 1;
+                    termLength = term.Length;
+                }
+            }
+            //myTimer.Stop();
+            //Debug.Print("Find Previous Took " + myTimer.ElapsedMilliseconds);
+
+            return foundPos + termLength;
+        }
+
+        static bool SearchForward(TextView textView, TextLocation caretLocation, bool enableVirtualSpace, ref double xPos, out TextViewPosition tvp)
+        {
+            bool handled = false;
+            tvp = new TextViewPosition();
+
+            // find the start of the next field if possible
+            int startPos = textView.Document.GetOffset(caretLocation);
+            int foundPos = FindNextClosest(textView, startPos);
+            if (foundPos > startPos)
+            {
+                handled = true;
+                TextLocation newLocation = textView.Document.GetLocation(foundPos);
+                int newLineNummber = newLocation.Line;
+                DocumentLine nextLine = textView.Document.GetLineByNumber(newLineNummber);
+                VisualLine targetVisualLine = textView.GetOrConstructVisualLine(nextLine);
+                TextLine targetLine = targetVisualLine.TextLines[targetVisualLine.TextLines.Count - 1];
+
+                if (targetLine != null)
+                {
+                    double yPos = targetVisualLine.GetTextLineVisualYPosition(targetLine, VisualYPosition.LineMiddle);
+                    xPos = targetVisualLine.GetTextLineVisualXPosition(targetLine, newLocation.Column);
+
+                    int newVisualColumn = targetVisualLine.GetVisualColumn(new Point(xPos, yPos), enableVirtualSpace);
+
+                    // prevent wrapping to the next line; TODO: could 'IsAtEnd' help here?
+                    int targetLineStartCol = targetVisualLine.GetTextLineVisualStartColumn(targetLine);
+                    if (newVisualColumn >= targetLineStartCol + targetLine.Length)
+                    {
+                        if (newVisualColumn <= targetVisualLine.VisualLength)
+                            newVisualColumn = targetLineStartCol + targetLine.Length - 1;
+                    }
+                    tvp = targetVisualLine.GetTextViewPosition(newVisualColumn);
+                }
+            }
+
+            return handled;
+        }
+
+        static bool SearchBackward(TextView textView, TextLocation caretLocation, bool enableVirtualSpace, ref double xPos, out TextViewPosition tvp)
+        {
+            bool handled = false;
+            tvp = new TextViewPosition();
+
+            // find the start of the previous field if possible
+            int startPos = textView.Document.GetOffset(caretLocation);
+            int foundPos = FindPreviousClosest(textView, startPos);
+            if ((foundPos >= 0) && (foundPos < startPos))
+            {
+                handled = true;
+                TextLocation newLocation = textView.Document.GetLocation(foundPos);
+                int newLineNummber = newLocation.Line;
+                DocumentLine nextLine = textView.Document.GetLineByNumber(newLineNummber);
+                VisualLine targetVisualLine = textView.GetOrConstructVisualLine(nextLine);
+                TextLine targetLine = targetVisualLine.TextLines[targetVisualLine.TextLines.Count - 1];
+
+                if (targetLine != null)
+                {
+                    double yPos = targetVisualLine.GetTextLineVisualYPosition(targetLine, VisualYPosition.LineMiddle);
+                    xPos = targetVisualLine.GetTextLineVisualXPosition(targetLine, newLocation.Column);
+
+                    int newVisualColumn = targetVisualLine.GetVisualColumn(new Point(xPos, yPos), enableVirtualSpace);
+
+                    // prevent wrapping to the next line; TODO: could 'IsAtEnd' help here?
+                    int targetLineStartCol = targetVisualLine.GetTextLineVisualStartColumn(targetLine);
+                    if (newVisualColumn >= targetLineStartCol + targetLine.Length)
+                    {
+                        if (newVisualColumn <= targetVisualLine.VisualLength)
+                            newVisualColumn = targetLineStartCol + targetLine.Length - 1;
+                    }
+                    tvp = targetVisualLine.GetTextViewPosition(newVisualColumn);
+                }
+            }
+
+            return handled;
+        }
+
+    }
 }
