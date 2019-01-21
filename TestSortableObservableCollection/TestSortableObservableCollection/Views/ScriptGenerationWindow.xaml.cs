@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TestSortableObservableCollection.ViewModels;
 using System.Text.RegularExpressions;
+using ICSharpCode.AvalonEdit;
 
 namespace TestSortableObservableCollection.Views
 {
@@ -29,17 +30,23 @@ namespace TestSortableObservableCollection.Views
             InitializeComponent();
 
             DataContext = vm;
+            if (vm.ScriptUpdatedDelegate == null)
+                vm.ScriptUpdatedDelegate = ScriptUpdatedNotification;
+        }
+        
+        public void ScriptUpdatedNotification(string updatedScript)
+        {
+            if (updatedScript != null)
+                textEditor.Document.Text = updatedScript;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var vm = DataContext as ScriptGenerationViewModel;
 
             if (vm != null)
-            {
-                char[] sep = Environment.NewLine.ToCharArray();
-
-            }
+                vm.ScriptUpdatedDelegate = null;
         }
+
     }
 }
