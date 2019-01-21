@@ -30,6 +30,9 @@ namespace TestSortableObservableCollection.Views
             InitializeComponent();
 
             DataContext = vm;
+            textEditor.Options.AllowToggleOverstrikeMode = true;
+            textEditor.TextArea.OverstrikeMode = true;
+
             if (vm.ScriptUpdatedDelegate == null)
                 vm.ScriptUpdatedDelegate = ScriptUpdatedNotification;
         }

@@ -66,7 +66,7 @@ namespace ICSharpCode.AvalonEdit.Editing
 
         static readonly string[] keyWords =
             {
-                "MASK/DATE**", "T4**", "DOC TYPE**", "PSEUDO**", "F/BASIS OR-**", "TOTAL**", "TAXES**", "CHD/INF AMT**", "FARE REF---**", "SHOP REF**", "FOP**", "SECTORS**", "OTHER INFO-**",
+                "MASK/DATE**", "T4**", "DOC TYPE**", "PSEUDO**", "F/BASIS OR-**", "TOTAL**", "TAXES**", "CHD/INF AMT**", "FARE REF---**", "SHOP REF**", "FOP**", "SECTORS**", "OTHER INFO-**",
                 "CC TOTAL AMOUNT**", "AUTH**", "RETAIL/DATE**", "AGT ID**", "ET/MPD/PTA-**", "GROSS**", "GRID REF---**", "NETT**", "CC NUMBER--**", "CC EXPIRY--**",
                 "TTL CC AMT-**", "NAME ON CC-**", "CONS A/HOURS CTC", "TTL**"
             };

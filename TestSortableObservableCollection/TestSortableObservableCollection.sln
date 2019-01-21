@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSortableObservableCollection", "TestSortableObservableCollection\TestSortableObservableCollection.csproj", "{D6F62113-41D9-4196-B7ED-AEE6B1793EAF}"
 EndProject
@@ -54,6 +54,7 @@ Global
 		{E4119645-3AC2-4E28-9DE0-2C3CA0308470}.Release|WithNRefactory.ActiveCfg = Release|Any CPU
 		{E4119645-3AC2-4E28-9DE0-2C3CA0308470}.Release|WithNRefactory.Build.0 = Release|Any CPU
 		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Any CPU.ActiveCfg = Debug|WithNRefactory
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Any CPU.Build.0 = Debug|WithNRefactory
 		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Net35.ActiveCfg = Debug|Net35
 		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Net35.Build.0 = Debug|Net35
 		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Net40.ActiveCfg = Debug|Net40
