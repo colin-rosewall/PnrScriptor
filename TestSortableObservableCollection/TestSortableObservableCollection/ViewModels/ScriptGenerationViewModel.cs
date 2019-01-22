@@ -87,9 +87,14 @@ namespace TestSortableObservableCollection.ViewModels
             string[] lines = _scriptInput.Split(new [] { Environment.NewLine, "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string lineOfInput in lines)
             {
-                string lineReplacement = lineOfInput;
+                string lineReplacement = lineOfInput; // make a copy of lineOfInput because it is immutable
                 bool replacementsMade = false;
 
+                // Mandatory replacements
+                ReplacementsHelper.ReplaceMaskDates(ref lineReplacement);
+                string savedCopy = lineReplacement; 
+
+                // Optional replacements
                 replacementsMade = ReplacementsHelper.ReplaceAmaAvail(ref lineReplacement, ref availabilityCounter, _flights);
                 if (!replacementsMade)
                 {
@@ -108,7 +113,7 @@ namespace TestSortableObservableCollection.ViewModels
                                     replacementsMade = ReplacementsHelper.ReplaceAmaBuySeats(ref lineReplacement, availabilityCounter, _flights);
                                     if (!replacementsMade)
                                     {
-                                        sb.AppendLine(lineOfInput);
+                                        sb.AppendLine(savedCopy);
                                     }
                                     else
                                     {

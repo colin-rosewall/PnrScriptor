@@ -484,5 +484,39 @@ namespace TestSortableObservableCollection.Helpers
             return result;
         }
 
+        public static void ReplaceMaskDates(ref string lineCopy)
+        {
+            int foundPos = -1;
+            string[] maskDateKeywords = { "MASK/DATE**", "RETAIL/DATE**" };
+            string todaysDate = DateTime.Today.ToString("ddMMMyy").ToUpper();
+
+            if (!string.IsNullOrEmpty(lineCopy))
+            {
+                foreach (string term in maskDateKeywords)
+                {
+                    foundPos = lineCopy.IndexOf(term, 0, StringComparison.InvariantCultureIgnoreCase);
+                    if (foundPos >= 0)
+                    {
+                        int startPos = foundPos + term.Length;
+                        if (lineCopy.Length > startPos)
+                        {
+                            if (lineCopy[startPos] == ';')
+                                startPos += 1;
+                            if (lineCopy.Length >= (startPos + todaysDate.Length))
+                            {
+                                // replace whatever is in there with todays date
+                                lineCopy = lineCopy.Substring(0, startPos) + todaysDate +
+                                           lineCopy.Substring(startPos + todaysDate.Length);
+                            }
+                            else
+                            {
+                                // insert todays date
+                                lineCopy = lineCopy.Insert(startPos, todaysDate + ' ');
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

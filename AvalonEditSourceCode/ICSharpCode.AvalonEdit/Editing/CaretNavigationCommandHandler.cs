@@ -455,6 +455,7 @@ namespace ICSharpCode.AvalonEdit.Editing
             int entireLength = textView.Document.TextLength;
             int result;
             int termLength = 0;
+
             foreach (string term in keyWords)
             {
                 result = textView.Document.IndexOf(term, startPos, entireLength - startPos, StringComparison.InvariantCultureIgnoreCase);
@@ -471,8 +472,15 @@ namespace ICSharpCode.AvalonEdit.Editing
             }
             //myTimer.Stop();
             //Debug.Print("Find Next Took " + myTimer.ElapsedMilliseconds);
+	        result = foundPos + termLength;
+	        if (entireLength > result)
+	        {
+				// check if the next char is a semicolon
+		        if (textView.Document.GetCharAt(result + 1) == ';')
+			        result += 1;
+	        }
 
-            return foundPos + termLength;
+			return result;
         }
 
         static int FindPreviousClosest(TextView textView, int startPos)
@@ -480,11 +488,17 @@ namespace ICSharpCode.AvalonEdit.Editing
             //var myTimer = System.Diagnostics.Stopwatch.StartNew();
             int foundPos = -1;
 
-            //int entireLength = textView.Document.TextLength;
+            int entireLength = textView.Document.TextLength;
             int result;
             int termLength = 0;
-            foreach (string term in keyWords)
+
+	        if (startPos - 1 < 0)
+	        {
+		        startPos = 1;
+	        }
+			foreach (string term in keyWords)
             {
+				
                 result = textView.Document.IndexOf(term, 0, startPos - 1, StringComparison.InvariantCultureIgnoreCase);
                 if ((result >= 0) && (result + term.Length + 1 < startPos) && (foundPos == -1))
                 {
@@ -497,11 +511,18 @@ namespace ICSharpCode.AvalonEdit.Editing
                     termLength = term.Length;
                 }
             }
-            //myTimer.Stop();
-            //Debug.Print("Find Previous Took " + myTimer.ElapsedMilliseconds);
+			//myTimer.Stop();
+			//Debug.Print("Find Previous Took " + myTimer.ElapsedMilliseconds);
+			result = foundPos + termLength;
+	        if (entireLength > result)
+	        {
+		        // check if the next char is a semicolon
+		        if (textView.Document.GetCharAt(result + 1) == ';')
+			        result += 1;
+	        }
 
-            return foundPos + termLength;
-        }
+	        return result;
+		}
 
         static bool SearchForward(TextView textView, TextLocation caretLocation, bool enableVirtualSpace, ref double xPos, out TextViewPosition tvp)
         {
