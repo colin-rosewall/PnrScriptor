@@ -487,25 +487,37 @@ namespace ICSharpCode.AvalonEdit.Editing
         {
             //var myTimer = System.Diagnostics.Stopwatch.StartNew();
             int foundPos = -1;
+	        bool foundOnce = false;
+	        int searchLength = 70;
 
             int entireLength = textView.Document.TextLength;
-            int result;
+            int result = -1;
             int termLength = 0;
+	        int endPos = startPos;
 
+	        startPos = startPos - searchLength;
 	        if (startPos - 1 < 0)
 	        {
 		        startPos = 1;
 	        }
+
+	        if ((startPos - 1 + searchLength) > entireLength)
+	        {
+		        searchLength = entireLength - (startPos - 1);
+		        if (searchLength < 0)
+			        searchLength = 0;
+	        }
+
 			foreach (string term in keyWords)
             {
-				
-                result = textView.Document.IndexOf(term, 0, startPos - 1, StringComparison.InvariantCultureIgnoreCase);
-                if ((result >= 0) && (result + term.Length + 1 < startPos) && (foundPos == -1))
+                result = textView.Document.IndexOf(term, startPos - 1, searchLength, StringComparison.InvariantCultureIgnoreCase);
+                if ((result >= 0) && (result + term.Length + 1 < endPos) && (foundPos == -1))
                 {
+	                foundOnce = true;
                     foundPos = result - 1;
                     termLength = term.Length;
                 }
-                else if ((result >= 0) && (result + term.Length + 1 < startPos) && (result > foundPos))
+                else if ((result >= 0) && (result + term.Length + 1 < endPos) && (result > foundPos))
                 {
                     foundPos = result - 1;
                     termLength = term.Length;
@@ -513,15 +525,20 @@ namespace ICSharpCode.AvalonEdit.Editing
             }
 			//myTimer.Stop();
 			//Debug.Print("Find Previous Took " + myTimer.ElapsedMilliseconds);
-			result = foundPos + termLength;
-	        if (entireLength > result)
-	        {
-		        // check if the next char is a semicolon
-		        if (textView.Document.GetCharAt(result + 1) == ';')
-			        result += 1;
-	        }
 
-	        return result;
+	        if (foundOnce)
+	        {
+		        result = foundPos + termLength;
+		        if (entireLength > result)
+		        {
+			        // check if the next char is a semicolon
+			        if (textView.Document.GetCharAt(result + 1) == ';')
+				        result += 1;
+		        }
+			}
+
+
+			return result;
 		}
 
         static bool SearchForward(TextView textView, TextLocation caretLocation, bool enableVirtualSpace, ref double xPos, out TextViewPosition tvp)
