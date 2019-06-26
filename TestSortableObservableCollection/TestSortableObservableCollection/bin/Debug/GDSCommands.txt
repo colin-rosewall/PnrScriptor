@@ -45,7 +45,7 @@ ss1B2</CommandLines><Guid>b973f082-ffe8-4a2a-b773-3ed7df75d49d</Guid></Node>
 ss1U2</CommandLines><Guid>7d844436-f578-43e6-a493-d91b17daa62d</Guid></Node>
 <Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="42" ParentID="4"><Description>1 AD SYD SIN QF</Description><CommandLines>AN23NOVSYDSIN/AQF
 SS1Y1</CommandLines><Guid>a6889a51-2c32-47b1-ab42-9116f9fdd1ca</Guid></Node>
-<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="43" ParentID="4"><Description>2 Seats CPT DXB RZH DXB CPT EK Q and Y class</Description><CommandLines>AN07JUNCPTDXB/AEK
+<Node Type="TestSortableObservableCollection.ViewModels.GDSCommandViewModel" Level="3" UniqueID="43" ParentID="4"><Description>2 Seats CPT DXB ZRH DXB CPT EK Q and Y class</Description><CommandLines>AN07JUNCPTDXB/AEK
 SS2Q1
 AN08JUNDXBZRH/AEK
 SS2Q1
